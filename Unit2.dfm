@@ -962,10 +962,10 @@ object about: Tabout
       object Version: TLabel
         Left = 8
         Top = 32
-        Width = 40
-        Height = 13
+        Width = 50
+        Height = 52
         Hint = 'A jelenlegi '#233'v'
-        Caption = 'X - 2004'
+        Caption = 'Halloween'#13#10'3.2.0.11'#13#10#13#10'2004'
         Transparent = True
         IsControl = True
       end
@@ -980,15 +980,25 @@ object about: Tabout
         IsControl = True
       end
       object Label1: TLabel
-        Left = 80
+        Left = 64
         Top = 88
-        Width = 129
+        Width = 160
         Height = 39
+        AutoSize = False
+        BiDiMode = bdLeftToRight
         Caption = 
           'This program is freeware.'#13#10'If you like it, please donate!'#13#10'http:' +
           '//shutdown.sf.net/'
         Color = 8947967
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentBiDiMode = False
         ParentColor = False
+        ParentFont = False
+        OnMouseDown = Label1MouseDown
       end
     end
     object OKButton: TButton

@@ -17,6 +17,8 @@ type
     bsT2: TbsPolyglotTranslator;
     bsM2: TbsPolyglotManager;
     Label1: TLabel;
+    procedure Label1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
   public
@@ -29,6 +31,12 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure Tabout.Label1MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  ProgramIcon.Visible:=not ProgramIcon.Visible;
+end;
 
 end.
 

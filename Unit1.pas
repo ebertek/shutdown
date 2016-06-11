@@ -149,7 +149,6 @@ type
     GB_Other: TGroupBox;
     RxDice1: TRxDice;
     langCB: TComboBox;
-    Button1: TButton;
     Save4_2: TBitBtn;
     ServerSocket1: TServerSocket;
     Memo1: TMemo;
@@ -162,6 +161,8 @@ type
     CD1: TLMDSpinEdit;
     CD2: TLMDSpinEdit;
     CD3: TLMDSpinEdit;
+    Button1: TBitBtn;
+    Label1: TLabel;
     function TurnScreenSaverOn: boolean;
     function GetUserFromWindows: string;
     procedure DoDownload;
@@ -470,6 +471,11 @@ begin
   EnMax;
 end;
 
+function WhatAmI(Sender: TObject): string;
+begin
+  try Result:=(Sender as TButton).Caption; except end;
+end;
+
 procedure TShutdown.DoLog(Sender: string);
 var
   f: TextFile;
@@ -491,6 +497,7 @@ end;
 
 procedure TShutdown.DoExec;
 begin
+//Before-shutdown settings begin
   DoLog('\DoExec/');
   if beshutCB.Checked=True then begin
     Start.Wait:=True;
@@ -544,6 +551,7 @@ begin
   Valasztas.Enabled:=False;
   Application.Minimize;
   TrayIcon.HideMainForm;
+  TrayIcon.Hint:='Shutdown Monster';
   Hide;
   N15percmlva1.Enabled:=False;
   N30percmlva1.Enabled:=False;
@@ -732,7 +740,7 @@ begin
   INI.WriteString('AutoAlarm', 'Path', wavE.Text);
   INI.WriteInteger('AutoAlarm', 'Loop', wavSE.Value);
   INI.WriteBool('AutoAlarm', 'Voice', annCB.Checked);
-  INI.WriteInteger('AutoAlarm', 'VoicePack', ann_CB.ItemIndex);
+  INI.WriteString('AutoAlarm', 'VoicePack', ann_CB.Text);
 end;
 
 procedure TShutdown.WaveOpen;
@@ -748,7 +756,7 @@ begin
     until (FindNext(sr)<>0);
     FindClose(sr);
   end;
-  ann_CB.ItemIndex:=INI.ReadInteger('AutoAlarm', 'VoicePack', 0);
+  ann_CB.Text:=INI.ReadString('AutoAlarm', 'VoicePack', '');
 end;
 
 procedure TShutdown.Set1Save;
@@ -928,7 +936,6 @@ begin
       if GetUserFromWindows = INI.ReadString('UserSpecific', 'User', '') then begin
         if FromTime.DateTime<ToTime.DateTime then begin
           if ToTime.DateTime>=Now then begin
-//            DoExec;
             Start.Execute;
           end;
         end;
@@ -989,12 +996,11 @@ begin
   Set2Save;
   T3i:=Timer1.Interval;
   Timer3.Enabled:=True;
-  TrayIcon.Hint:=FloatToStr(T3i/60000)+' '+lini.ReadString(bsm.CurrentLang, 'Minrem', 'minutes left');
+  TrayIcon.Hint:=IntToStr(Round(T3i/60000))+' '+lini.ReadString(bsm.CurrentLang, 'Minrem', 'minutes left');
 end;
 
 procedure TShutdown.Timer1Timer(Sender: TObject);
 begin
-//  DoExec;
   Start.Execute;
 end;
 
@@ -1006,9 +1012,10 @@ begin
   if Calendar.Date=Date then begin
     if TimeToStr(Idopont.Time)<TimeToStr(Now) then
       ShowMessage(lini.ReadString(bsM.CurrentLang, 'BDate', 'The given date/time is before today, please correct it!'));
+  end else begin
+    Set1Auto;
+    Set1Save;
   end;
-  Set1Auto;
-  Set1Save;
 end;
 
 procedure TShutdown.Timer2Timer(Sender: TObject);
@@ -1134,7 +1141,6 @@ begin
   end else begin
     parentalcontrol.Visible:=False;
     parentalcontrolClick(Self);
-//    auto2.Checked:=False;
   end;
 end;
 
@@ -1195,7 +1201,6 @@ end;
 procedure TShutdown.PingTimerTimer(Sender: TObject);
 begin
   if FileExists(eleres.Text) = False then
-//    DoExec;
     Start.Execute;
 end;
 
@@ -1212,7 +1217,7 @@ end;
 
 procedure TShutdown.PowerOffClick(Sender: TObject);
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
   if force.Checked=True then
     MyExitWindows(EWX_POWEROFF or EWX_FORCE)
   else
@@ -1221,7 +1226,7 @@ end;
 
 procedure TShutdown.ReBootClick(Sender: TObject);
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
   if force.Checked=True then
     MyExitWindows(EWX_REBOOT or EWX_FORCE)
   else
@@ -1230,7 +1235,7 @@ end;
 
 procedure TShutdown.LogOffClick(Sender: TObject);
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
   if force.Checked=True then
     MyExitWindows(EWX_LOGOFF or EWX_FORCE)
   else
@@ -1239,7 +1244,7 @@ end;
 
 procedure TShutdown.ShutDownClick(Sender: TObject);
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
   if force.Checked=True then
     MyExitWindows(EWX_SHUTDOWN or EWX_FORCE)
   else
@@ -1248,9 +1253,9 @@ end;
 
 procedure TShutdown.HibernateClick(Sender: TObject);
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
   SetSuspendState(True,force.Checked,wake_CB.Checked);
-//  ShellExecute(Handle, 'open', 'rundll32.exe', PChar ('Powrprof.dll,SetSuspendState'), nil, SW_SHOWNORMAL);
+  ShellExecute(Handle, 'open', 'rundll32.exe', PChar ('Powrprof.dll,SetSuspendState'), nil, SW_SHOWNORMAL);
 end;
 
 procedure TShutdown.HotKeyPOffChange(Sender: TObject);
@@ -1295,7 +1300,7 @@ end;
 
 procedure TShutdown.LockWSClick(Sender: TObject);
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
   WinExec('rundll32.exe user32.dll,LockWorkStation', SW_SHOWNORMAL);
 end;
 
@@ -1309,7 +1314,7 @@ procedure TShutdown.SDMenuClick(Sender: TObject);
 var
   shell: Variant;
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
   shell := CreateOleObject('Shell.Application');
   shell.ShutdownWindows;
 end;
@@ -1322,7 +1327,7 @@ end;
 
 procedure TShutdown.SSOnClick(Sender: TObject);
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
   TurnScreenSaverOn;
 end;
 
@@ -1377,13 +1382,12 @@ end;
 procedure TShutdown.StartAfterStart(Sender: TObject);
 begin
   DoExec;
-//  Start.Execute;
 end;
 
 procedure TShutdown.BitBtn1Click(Sender: TObject);
 var I: integer;
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
   for I := 1 to wavSE.Value do
     PlaySound(PChar(wavE.Text), 0, SND_NODEFAULT);
 end;
@@ -1430,32 +1434,31 @@ end;
 
 procedure TShutdown.SpeedButton1Click(Sender: TObject);
 begin
-//  DoExec;
   Start.Execute;
 end;
 
 procedure TShutdown.ejectClick(Sender: TObject);
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
   mcisendstring('Set cdaudio door open wait',nil,0,handle);
 end;
 
 procedure TShutdown.closeClick(Sender: TObject);
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
  mcisendstring('Set cdaudio door closed wait',nil,0,handle);
 end;
 
 procedure TShutdown.recbinClick(Sender: TObject);
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
  SHEmptyRecycleBin(self.handle,'',
      SHERB_NOCONFIRMATION) ;
 end;
 
 procedure TShutdown.clipbClick(Sender: TObject);
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
   Clipboard.Clear;
 end;
 
@@ -1510,13 +1513,13 @@ end;
 
 procedure TShutdown.mon0Click(Sender: TObject);
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
   SendMessage(Application.Handle, WM_SYSCOMMAND, SC_MONITORPOWER, 2);
 end;
 
 procedure TShutdown.mon1Click(Sender: TObject);
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
   SendMessage(Application.Handle, WM_SYSCOMMAND, SC_MONITORPOWER, - 1);
 end;
 
@@ -1586,7 +1589,7 @@ var
   hCacheDir: LongWord;
   dwEntrySize: LongWord;
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
   dwEntrySize := 0;
   FindFirstUrlCacheEntry(nil, TInternetCacheEntryInfo(nil^), dwEntrySize);
   GetMem(lpEntryInfo, dwEntrySize);
@@ -1650,6 +1653,7 @@ procedure TShutdown.ServerSocket1ClientRead(Sender: TObject;
 var
   parancs: integer;
   recv, cmd: string;
+  ParancsDo: TObject;
 begin
   recv:=socket.ReceiveText;
   cmd:=StringReplace(Trim(recv), ' ', #13#10, [rfReplaceAll]);
@@ -1657,28 +1661,32 @@ begin
   parancs := StrToIntDef(cmd, 99);
   Memo1.Lines.Add(cmd);
 //GOMBNYOMÁS BEGIN
-  case parancs of
-     0: begin socket.SendText(IntToStr(parancs) + ' done'); PowerOff.Click; Memo1.Clear; end;
-     1: begin ShutDown.Click; Memo1.Clear; end;
-     2: begin ReBoot.Click; Memo1.Clear; end;
-     3: begin LogOff.Click; Memo1.Clear; end;
-     4: begin Suspend.Click; Memo1.Clear; end;
-     5: begin Hibernate.Click; Memo1.Clear; end;
-     6: begin LockWS.Click; Memo1.Clear; end;
-     7: begin SSOn.Click; Memo1.Clear; end;
-     8: begin BitBtn1.Click; Memo1.Clear; end;
-     9: begin eject.Click; Memo1.Clear; end;
-    10: begin close.Click; Memo1.Clear; end;
-    11: begin recbin.Click; Memo1.Clear; end;
-    12: begin clipb.Click; Memo1.Clear; end;
-    13: begin mon0.Click; Memo1.Clear; end;
-    14: begin mon1.Click; Memo1.Clear; end;
-    15: begin BitBtn2.Click; Memo1.Clear; end;
-    16: begin SDMenu.Click; Memo1.Clear; end;
-    17: begin SpeedButton1.Click; Memo1.Clear; end;
-    99:
+  if parancs <> 99 then begin
+    ParancsDo:=Save4_2;
+    case parancs of
+       0: ParancsDo:=PowerOff;
+       1: ParancsDo:=ShutDown;
+       2: ParancsDo:=ReBoot;
+       3: ParancsDo:=LogOff;
+       4: ParancsDo:=Suspend;
+       5: ParancsDo:=Hibernate;
+       6: ParancsDo:=LockWS;
+       7: ParancsDo:=SSOn;
+       8: ParancsDo:=BitBtn1;
+       9: ParancsDo:=eject;
+      10: ParancsDo:=close;
+      11: ParancsDo:=recbin;
+      12: ParancsDo:=clipb;
+      13: ParancsDo:=mon0;
+      14: ParancsDo:=mon1;
+      15: ParancsDo:=BitBtn2;
+      16: ParancsDo:=SDMenu;
+      17: ParancsDo:=SpeedButton1;
+    end;
+    try (ParancsDo as TButton).Click; except end;
+    socket.SendText(WhatAmI(ParancsDo) + ' ' + lini.ReadString(bsM.CurrentLang, 'Done', 'done'));
+    Memo1.Clear;
   end;
-  if parancs <> 99 then socket.SendText(IntToStr(parancs) + ' done');
 //GOMBNYOMÁS END
   if pos('START_1',Memo1.Lines.Text)>0 then Active1:=True;
   if pos('START_2',Memo1.Lines.Text)>0 then Active2:=True;
@@ -1691,7 +1699,7 @@ begin
     Memo1.Clear;
     Memo2.Clear;
     Active1:=False;
-    socket.SendText('Settings written');
+    socket.SendText(lini.ReadString(bsM.CurrentLang, 'Set_Done', 'Settings done'));
   end else
   if pos('STOP_2',Memo2.Lines.Text)>0 then begin
     CD1.Value:=StrToInt(Memo2.Lines[1]);
@@ -1701,7 +1709,7 @@ begin
     Memo1.Clear;
     Memo2.Clear;
     Active2:=False;
-    socket.SendText('Settings written');
+    socket.SendText(lini.ReadString(bsM.CurrentLang, 'Set_Done', 'Settings done'));
   end else
   if pos('STOP_3',Memo2.Lines.Text)>0 then begin
     eleres.Text:=Memo2.Lines[1];
@@ -1710,11 +1718,11 @@ begin
     Memo1.Clear;
     Memo2.Clear;
     Active3:=False;
-    socket.SendText('Settings written');
+    socket.SendText(lini.ReadString(bsM.CurrentLang, 'Set_Done', 'Settings done'));
   end;
   if pos('CANCEL',Memo1.Lines.Text)>0 then begin
     Mgsem1.Click;
-    socket.SendText('Cancelled');
+    socket.SendText(lini.ReadString(bsM.CurrentLang, 'Set_Canc', 'Cancelled'));
   end;
 end;
 
@@ -1726,7 +1734,7 @@ end;
 
 procedure TShutdown.SuspendClick(Sender: TObject);
 begin
-  DoLog((Sender as TButton).Caption);
+  DoLog(WhatAmI(Sender));
   SetSuspendState(False,force.Checked,wake_CB.Checked);
 end;
 

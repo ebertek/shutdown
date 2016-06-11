@@ -21,7 +21,6 @@ type
     suiForm1: TsuiForm;
     Valasztas: TPageControl;
     Kapcs: TTabSheet;
-    Connect: TButton;
     IP_Edit: TEdit;
     langCB: TComboBox;
     Time: TTabSheet;
@@ -62,12 +61,13 @@ type
     eject: TBitBtn;
     RxClock2: TRxClock;
     RxClock1: TRxClock;
-    Disconnect: TButton;
     Save4: TBitBtn;
     Suspend: TBitBtn;
     CD1: TLMDSpinEdit;
     CD2: TLMDSpinEdit;
     CD3: TLMDSpinEdit;
+    Disconnect: TBitBtn;
+    Connect: TBitBtn;
     procedure ComSave;
     procedure ComOpen;
     procedure Set1Save;
