@@ -63,8 +63,9 @@ uses
   LMDCustomBrowseEdit, LMDCustomFileEdit, LMDFileOpenEdit, LMDCustomMaskEdit,
   LMDCustomExtSpinEdit, LMDSpinEdit, ScktComp, IdBaseComponent, IdComponent,
   IdUDPBase, IdUDPClient, IdSNTP, ParamOpener, Mask, Graphics,
-  LMDWndProcComponent, LMDTrayIcon, SMLLangRes, SMLFormLangRes, RXClock,
-  RXDice, Placemnt, ToolEdit, SMLMenuLangRes, SMLMsgLangRes, AppEvnts, SUIForm;
+  LMDWndProcComponent, SMLLangRes, SMLFormLangRes, RXClock,
+  RXDice, Placemnt, ToolEdit, SMLMenuLangRes, SMLMsgLangRes, AppEvnts, SUIForm,
+  RXShell;
 
 type                                  //MY VERY-FIRST THREAD!! :)
  TUpdateThread = class(TThread)
@@ -90,7 +91,6 @@ type
     N120percmlva1: TMenuItem;
     Most1: TMenuItem;
     Mgsem1: TMenuItem;
-    OnStart: TTimer;
     jraindts1: TMenuItem;
     Kijelentkezs1: TMenuItem;
     Timer3: TTimer;
@@ -117,7 +117,6 @@ type
     ParamOpener1: TParamOpener;
     ServerSocket1: TServerSocket;
     GHSus: TLMDGlobalHotKey;
-    TrayIcon: TLMDTrayIcon;
     sml: TsmlFormLangRes;
     fp: TFormPlacement;
     IdSNTP1: TIdSNTP;
@@ -251,10 +250,12 @@ type
     CPUOff: TThreadedTimer;
     CPUCheck: TThreadedTimer;
     Update_L: TLabel;
-    clearCB: TCheckBox;
     updateCB: TCheckBox;
+    TrayIcon: TRxTrayIcon;
+    clearCB: TCheckBox;
+    procedure TrayIconClick(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure FormDestroy(Sender: TObject);
-    procedure TrayIconClick(Sender: TObject);
     procedure Update_LClick(Sender: TObject);
     procedure volfade_TTimer(Sender: TObject);
     procedure HookTimerTimer(Sender: TObject);
@@ -276,6 +277,7 @@ type
     procedure DoLog(Sender: string);
     procedure DoClear;
     procedure DoExec;
+    procedure DoStart;
     procedure Atomic_Clock;
     procedure AutoToReg;
     procedure DelReg;
@@ -313,7 +315,6 @@ type
     procedure N60percmlva1Click(Sender: TObject);
     procedure N120percmlva1Click(Sender: TObject);
     procedure Mgsem1Click(Sender: TObject);
-    procedure OnStartTimer(Sender: TObject);
     procedure autoClick(Sender: TObject);
     procedure parentalcontrolClick(Sender: TObject);
     procedure aftertimeClick(Sender: TObject);
@@ -325,7 +326,6 @@ type
     procedure Save3Click(Sender: TObject);
     procedure PingTimerTimer(Sender: TObject);
     procedure logoClick(Sender: TObject);
-    procedure TrayIconMinimizeToTray(Sender: TObject);
     procedure PowerOffClick(Sender: TObject);
     procedure ReBootClick(Sender: TObject);
     procedure LogOffClick(Sender: TObject);
@@ -395,7 +395,6 @@ type
     procedure ctifhkKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure Button1Click(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure atom_doClick(Sender: TObject);
     procedure atom_addButtonClick(Sender: TObject);
     procedure Delet1Click(Sender: TObject);
@@ -444,7 +443,7 @@ function SHEmptyRecycleBin
 
 implementation
 
-uses Unit2, Unit3;
+uses Unit2, Unit3, Unit5;
 
 {$R *.dfm}
 var JHook: THandle;
@@ -704,16 +703,6 @@ begin
 
   DoLog('\DoExec/');
 
-  if beshutCB.Checked then begin
-    Start.Wait:=True;
-    Start.Command:=beshutE.Filename;
-    Start.StartOption:=soSW_SHOWNORMAL;
-  end else begin
-    Start.Wait:=False;
-    Start.Command:='.';
-    Start.StartOption:=soSW_HIDE;
-  end;
-
   if volfade_CB.Enabled then begin
     notready:=True;
     CheckVol;
@@ -732,6 +721,29 @@ begin
 //Before-Shutdown settings end
 
   DoSD;
+
+end;
+
+procedure TShutdown.DoStart;
+begin
+  LangCB.Text:=StringReplace(SML.LangFileName, '.sml', '', [rfReplaceAll]);
+  langCB.Text:=lini.ReadString('Settings', 'Language', 'English');
+  langCBChange(self);
+
+  SplashForm.Label1.Caption:=lini.ReadString
+    (langCB.Text, 'SF_Pos', 'Restoring position');
+  SplashForm.Update;
+  fp.IniFileName:=ExtractFilePath(Application.EXEName) + 'Settings.ini';
+
+  SplashForm.Label1.Caption:=lini.ReadString
+    (langCB.Text, 'SF_Data', 'Loading data');
+  SplashForm.Update;
+  NapCheck;
+
+  SplashForm.Label1.Caption:=lini.ReadString
+    (langCB.Text, 'SF_Param', 'Checking parameters');
+  SplashForm.Update;
+  ParamOpener1.ParamOpen;
 end;
 
 procedure TShutdown.Atomic_Clock;
@@ -802,7 +814,7 @@ begin
   Set2.Enabled:=False;
   Set3.Enabled:=False;
   Set4.Enabled:=False;
-  Application.Minimize;
+  ShowWindow(Shutdown.Handle, SW_HIDE);
   N15percmlva1.Enabled:=False;
   N30percmlva1.Enabled:=False;
   N60percmlva1.Enabled:=False;
@@ -816,7 +828,7 @@ begin
   Set2.Enabled:=True;
   Set3.Enabled:=True;
   Set4.Enabled:=True;
-  Application.Restore;
+  ShowWindow(Shutdown.Handle, SW_SHOW);
   N15percmlva1.Enabled:=True;
   N30percmlva1.Enabled:=True;
   N60percmlva1.Enabled:=True;
@@ -870,6 +882,15 @@ begin
   Start.StartTime.Minute:=MinA;
   Start.StartTime.Second:=SecA;
   Start.AutoStart:=True;
+  if beshutCB.Checked then begin
+    Start.Wait:=True;
+    Start.Command:=beshutE.Filename;
+    Start.StartOption:=soSW_SHOWNORMAL;
+  end else begin
+    Start.Wait:=False;
+    Start.Command:='.';
+    Start.StartOption:=soSW_HIDE;
+  end;
   DeMin;
 end;
 
@@ -879,6 +900,15 @@ begin
   Timer1.Enabled:=True;
   Most.MaxValue:=CD1.Value*3600+CD2.Value*60+CD3.Value;
   Timer2.Enabled:=True;
+  if beshutCB.Checked then begin
+    Start.Wait:=True;
+    Start.Command:=beshutE.Filename;
+    Start.StartOption:=soSW_SHOWNORMAL;
+  end else begin
+    Start.Wait:=False;
+    Start.Command:='.';
+    Start.StartOption:=soSW_HIDE;
+  end;
   DeMin;
 end;
 
@@ -886,6 +916,15 @@ procedure TShutdown.Set3Auto;
 begin
   PingTimer.Interval:=PingTime.Value*60000;
   PingTimer.Enabled:=True;
+  if beshutCB.Checked then begin
+    Start.Wait:=True;
+    Start.Command:=beshutE.Filename;
+    Start.StartOption:=soSW_SHOWNORMAL;
+  end else begin
+    Start.Wait:=False;
+    Start.Command:='.';
+    Start.StartOption:=soSW_HIDE;
+  end;
   DeMin;
 end;
 
@@ -893,6 +932,15 @@ procedure TShutdown.Set4Auto;
 begin
   CPUCheck.Enabled:=True;
   HookNow:=True;
+  if beshutCB.Checked then begin
+    Start.Wait:=True;
+    Start.Command:=beshutE.Filename;
+    Start.StartOption:=soSW_SHOWNORMAL;
+  end else begin
+    Start.Wait:=False;
+    Start.Command:='.';
+    Start.StartOption:=soSW_HIDE;
+  end;
   DeMin;
 end;
 
@@ -920,8 +968,6 @@ end;
 
 procedure TShutdown.ComOpen;
 begin
-  langCB.Text:=lini.ReadString('Settings', 'Language', 'English');
-  langCBChange(self);
   beshutCB.Checked:=INI.ReadBool('BeforeShutdown', 'Enabled', False);
   beshutE.Filename:=INI.ReadString('BeforeShutdown', 'Path', '');
   minimCB.Checked:=INI.ReadBool('Settings', 'Minimize', False);
@@ -1074,7 +1120,7 @@ begin
     if INI.ReadBool('ParentalControl', 'Enabled', False) then begin
       parentalcontrol.Visible:=True;
       parentalcontrol.Checked:=True;
-      TrayIcon.Active:=False;
+      TrayIcon.Enabled:=False;
       FullHide;
     end;
     if aftertime.Checked then begin
@@ -1115,7 +1161,7 @@ begin
   if INI.ReadBool('ParentalControl', 'Enabled', False) then begin
     parentalcontrol.Visible:=True;
     parentalcontrol.Checked:=True;
-    TrayIcon.Active:=False;
+    TrayIcon.Enabled:=False;
     FullHide;
   end;
   HotKeySave;
@@ -1149,7 +1195,7 @@ begin
   if INI.ReadBool('ParentalControl', 'Enabled', False) then begin
     parentalcontrol.Visible:=True;
     parentalcontrol.Checked:=True;
-    TrayIcon.Active:=False;
+    TrayIcon.Enabled:=False;
     FullHide;
   end;
   HotKeySave;
@@ -1186,7 +1232,7 @@ begin
   if INI.ReadBool('ParentalControl', 'Enabled', False) then begin
     parentalcontrol.Visible:=True;
     parentalcontrol.Checked:=True;
-    TrayIcon.Active:=False;
+    TrayIcon.Enabled:=False;
     FullHide;
   end;
   HotKeySave;
@@ -1260,7 +1306,7 @@ begin
   end;
 
   if INI.ReadBool('Settings', 'Minimize', False) then begin
-    Application.Minimize;
+    ShowWindow(Shutdown.Handle, SW_HIDE);
   end;
 
 //User-specific thing begin
@@ -1291,7 +1337,7 @@ begin
     if INI.ReadBool('ParentalControl', 'Enabled', False) then begin
       parentalcontrol.Visible:=True;
       parentalcontrol.Checked:=True;
-      TrayIcon.Active:=False;
+      TrayIcon.Enabled:=False;
       FullHide;
       DurvaCheck;
     end;
@@ -1303,7 +1349,7 @@ begin
     if INI.ReadBool('ParentalControl', 'Enabled', False) then begin
       parentalcontrol.Visible:=True;
       parentalcontrol.Checked:=True;
-      TrayIcon.Active:=False;
+      TrayIcon.Enabled:=False;
       FullHide;
     end;
   end;
@@ -1314,7 +1360,7 @@ begin
     if INI.ReadBool('ParentalControl', 'Enabled', False) then begin
       parentalcontrol.Visible:=True;
       parentalcontrol.Checked:=True;
-      TrayIcon.Active:=False;
+      TrayIcon.Enabled:=False;
       FullHide;
     end;
   end;
@@ -1325,7 +1371,7 @@ begin
     if INI.ReadBool('ParentalControl', 'Enabled', False) then begin
       parentalcontrol.Visible:=True;
       parentalcontrol.Checked:=True;
-      TrayIcon.Active:=False;
+      TrayIcon.Enabled:=False;
       FullHide;
     end;
   end;
@@ -1422,6 +1468,7 @@ end;
 
 procedure TShutdown.Timer2Timer(Sender: TObject);
 begin
+  countd := Tcountd.Create(Application);
   Most.UserValue:=Most.UserValue+1;
   if annCB.Checked then begin
     case Most.MaxValue-Most.UserValue of
@@ -1475,7 +1522,7 @@ begin
            countd.countd_label.Caption:='1';
            PlaySound(PChar(ExtractFilePath(Application.ExeName)+
              'Sounds\'+ann_CB.Text+'\One.wav'), 0, SND_PURGE);
-           countd.Hide;
+           countd.Release;
            countd.countd_label.Caption:='10';
          end;
     end;
@@ -1489,7 +1536,7 @@ end;
 
 procedure TShutdown.TrayIconDblClick(Sender: TObject);
 begin
-  Application.Restore;
+  ShowWindow(Shutdown.Handle, SW_SHOW);
   Show;
 end;
 
@@ -1532,16 +1579,6 @@ begin
   Timer1.Enabled:=False;
   Timer2.Enabled:=False;
   Most.UserValue:=0;
-end;
-
-procedure TShutdown.OnStartTimer(Sender: TObject);
-begin
-  OnStart.Enabled:=False;
-  fp.IniFileName:=ExtractFilePath(Application.EXEName) + 'Settings.ini';
-  NapCheck;
-  ParamOpener1.ParamOpen;
-  LangCB.Text:=StringReplace(SML.LangFileName, '.sml', '', [rfReplaceAll]);
-  TrayIcon.Active:=True;
 end;
 
 procedure TShutdown.autoClick(Sender: TObject);
@@ -1659,12 +1696,9 @@ end;
 
 procedure TShutdown.logoClick(Sender: TObject);
 begin
+  about := Tabout.Create(Application);
   about.ShowModal;
-end;
-
-procedure TShutdown.TrayIconMinimizeToTray(Sender: TObject);
-begin
-  Application.Minimize;
+  about.Release;
 end;
 
 procedure TShutdown.PowerOffClick(Sender: TObject);
@@ -1791,6 +1825,15 @@ begin
     until (FindNext(sr)<>0);
     FindClose(sr);
   end;
+
+  try
+    ShowWindow(Application.Handle, SW_HIDE);
+    SetWindowLong(Application.Handle, GWL_EXSTYLE,
+      GetWindowLong(Application.Handle, GWL_EXSTYLE)
+        or WS_EX_TOOLWINDOW );
+    ShowWindow(Application.Handle, SW_SHOW);
+  except end;
+
 end;
 
 procedure TShutdown.SSOnClick(Sender: TObject);
@@ -2038,11 +2081,6 @@ begin
   UpThread:=TUpdateThread.Create(True);
   UpThread.Priority:=tpLower;
   UpThread.Resume;
-end;
-
-procedure TShutdown.FormShow(Sender: TObject);
-begin
-//All the stuffs are in the OnStart Timer !
 end;
 
 procedure TAtomThread.Execute;
@@ -2380,17 +2418,18 @@ begin
   ShellExecute(handle,'open','http://shutdown.sf.net/',nil,nil,SW_SHOWNORMAL);
 end;
 
-procedure TShutdown.TrayIconClick(Sender: TObject);
-begin
-  Application.BringToFront;
-end;
-
 procedure TShutdown.FormDestroy(Sender: TObject);
 begin
   try
     lini.Free;
     INI.Free;
   except end;
+end;
+
+procedure TShutdown.TrayIconClick(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  Application.BringToFront;
 end;
 
 end.

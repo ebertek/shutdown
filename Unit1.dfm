@@ -5,7 +5,7 @@ object Shutdown: TShutdown
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsDialog
   Caption = 'Shutdown Monster'
-  ClientHeight = 465
+  ClientHeight = 477
   ClientWidth = 672
   Color = clBtnFace
   TransparentColorValue = clFuchsia
@@ -24,14 +24,13 @@ object Shutdown: TShutdown
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object suiForm1: TsuiForm
     Left = 0
     Top = 0
     Width = 672
-    Height = 465
+    Height = 477
     TitleBarCustom = False
     UIStyle = DeepBlue
     UIStyleAutoUpdateSub = False
@@ -1019,7 +1018,7 @@ object Shutdown: TShutdown
       Left = 0
       Top = 29
       Width = 672
-      Height = 436
+      Height = 448
       Hint = 'V'#225'lassz ki egy f'#252'let!'
       ActivePage = Time
       Align = alClient
@@ -1364,7 +1363,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 38565.505308333330000000
+          Date = 38565.854949722220000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1381,7 +1380,7 @@ object Shutdown: TShutdown
         end
         object RxClock1: TRxClock
           Left = 0
-          Top = 367
+          Top = 379
           Width = 664
           Height = 41
           Align = alBottom
@@ -1393,7 +1392,7 @@ object Shutdown: TShutdown
         ImageIndex = 7
         object Most: TLMDProgressFill
           Left = 0
-          Top = 392
+          Top = 404
           Width = 664
           Height = 16
           Hint = 'Itt mutatja, hogy a megadott id'#337'nek h'#225'ny %-a telt le'
@@ -1507,7 +1506,7 @@ object Shutdown: TShutdown
         end
         object RxClock2: TRxClock
           Left = 0
-          Top = 351
+          Top = 363
           Width = 664
           Height = 41
           Align = alBottom
@@ -1862,7 +1861,7 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett parancs'
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 1
             Text = 'Kikapcsol'#225's'
             Items.Strings = (
@@ -1941,7 +1940,7 @@ object Shutdown: TShutdown
           Left = 392
           Top = 184
           Width = 265
-          Height = 209
+          Height = 225
           Caption = 'Kikapcsol'#225's el'#337'tt v'#233'grehajtand'#243
           TabOrder = 4
           object beshutCB: TCheckBox
@@ -1973,54 +1972,54 @@ object Shutdown: TShutdown
           end
           object logCB: TCheckBox
             Left = 8
-            Top = 88
+            Top = 96
             Width = 249
             Height = 17
             Hint = 'Feljegyzi, hogy ki, mikor '#233's hogyan kapcsolta ki a sz'#225'm'#237't'#243'g'#233'pet'
             Caption = 'Loggol'#225's'
-            TabOrder = 3
+            TabOrder = 2
             OnClick = beshutCBClick
           end
           object annCB: TCheckBox
             Left = 8
-            Top = 112
+            Top = 128
             Width = 249
             Height = 17
             Hint = 
               'Vizu'#225'lis '#233's akusztikus visszasz'#225'ml'#225'l'#225's a kikapcsol'#225's el'#337'tt 9 m'#225's' +
               'odperccel'
             Caption = 'Visszasz'#225'ml'#225'l'#225's kikapcsol'#225's el'#337'tt'
-            TabOrder = 4
+            TabOrder = 3
             OnClick = annCBClick
           end
           object ann_CB: TComboBox
             Left = 8
-            Top = 128
+            Top = 144
             Width = 145
             Height = 21
             Style = csDropDownList
-            ItemHeight = 0
-            TabOrder = 5
+            ItemHeight = 13
+            TabOrder = 4
           end
           object volfade_CB: TCheckBox
             Left = 8
-            Top = 160
+            Top = 176
             Width = 249
             Height = 17
             Hint = 'A hanger'#337' lass'#250' leh'#250'z'#225'sa kikapcsol'#225's el'#337'tt'
             Caption = 'Hanger'#337' lehalk'#237't'#225'sa kikapcsol'#225's el'#337'tt'
-            TabOrder = 6
+            TabOrder = 5
             OnClick = beshutCBClick
           end
           object volfade_E: TLMDSpinEdit
             Left = 8
-            Top = 176
+            Top = 192
             Width = 100
             Height = 21
             Hint = 'A lehalk'#237't'#225's sebess'#233'ge'
             Bevel.Mode = bmWindows
             Caret.BlinkRate = 530
-            TabOrder = 7
+            TabOrder = 6
             AutoSelect = True
             CustomButtons = <>
             Step = 128.000000000000000000
@@ -2035,7 +2034,7 @@ object Shutdown: TShutdown
             Width = 249
             Height = 17
             Caption = 'Ideiglenes t'#225'rol'#243'k '#252'r'#237't'#233'se'
-            TabOrder = 2
+            TabOrder = 7
             OnClick = beshutCBClick
           end
         end
@@ -2043,16 +2042,16 @@ object Shutdown: TShutdown
           Left = 8
           Top = 184
           Width = 265
-          Height = 209
+          Height = 225
           Caption = 'Egy'#233'b'
           TabOrder = 3
           object Update_L: TLabel
             Left = 8
-            Top = 80
+            Top = 72
             Width = 116
             Height = 13
             Hint = 'A program honlapj'#225'nak megjelen'#237't'#233'se'
-            Caption = 'Shutdown Monster 4.0.2'
+            Caption = 'Shutdown Monster 4.0.3'
             OnClick = Update_LClick
           end
           object langCB: TComboBox
@@ -2060,13 +2059,13 @@ object Shutdown: TShutdown
             Top = 16
             Width = 145
             Height = 21
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 0
             OnChange = langCBChange
           end
           object Save4_2: TBitBtn
-            Left = 216
-            Top = 48
+            Left = 208
+            Top = 40
             Width = 24
             Height = 24
             Hint = 'Egy'#233'b be'#225'll'#237't'#225'sok ment'#233'se'
@@ -2089,7 +2088,7 @@ object Shutdown: TShutdown
           end
           object server_CB: TCheckBox
             Left = 8
-            Top = 120
+            Top = 128
             Width = 249
             Height = 17
             Hint = 
@@ -2101,7 +2100,7 @@ object Shutdown: TShutdown
           end
           object Button1: TBitBtn
             Left = 8
-            Top = 48
+            Top = 40
             Width = 145
             Height = 25
             Hint = #218'j verzi'#243' keres'#233'se'
@@ -2138,7 +2137,7 @@ object Shutdown: TShutdown
           end
           object RxDice1: TRxDice
             Left = 8
-            Top = 136
+            Top = 152
             Width = 66
             Height = 66
             Rotate = False
@@ -2148,7 +2147,7 @@ object Shutdown: TShutdown
           end
           object updateCB: TCheckBox
             Left = 8
-            Top = 96
+            Top = 104
             Width = 249
             Height = 17
             Caption = 'Friss'#237't'#233'sek automatikus keres'#233'se'
@@ -2163,16 +2162,18 @@ object Shutdown: TShutdown
           TabStop = False
           ReadOnly = True
           TabOrder = 5
+          Visible = False
           WordWrap = False
         end
         object Memo2: TMemo
           Left = 281
           Top = 184
           Width = 103
-          Height = 209
+          Height = 225
           TabStop = False
           ReadOnly = True
           TabOrder = 6
+          Visible = False
         end
       end
       object Veszhelyzet: TTabSheet
@@ -2721,12 +2722,6 @@ object Shutdown: TShutdown
       end
     end
   end
-  object OnStart: TTimer
-    Interval = 1
-    OnTimer = OnStartTimer
-    Left = 544
-    Top = 472
-  end
   object ParamOpener1: TParamOpener
     OnParamOpen = ParamOpener1ParamOpen
     Left = 216
@@ -2968,9 +2963,77 @@ object Shutdown: TShutdown
     Left = 248
     Top = 568
   end
-  object TrayIcon: TLMDTrayIcon
-    Active = False
-    Hint = 'Shutdown Monster'
+  object fp: TFormPlacement
+    IniFileName = 'Settings.ini'
+    IniSection = 'Placement'
+    Left = 248
+    Top = 536
+  end
+  object IdSNTP1: TIdSNTP
+    Port = 123
+    ReceiveTimeout = 7000
+    Left = 280
+    Top = 568
+  end
+  object ApplicationEvents1: TApplicationEvents
+    OnMessage = ApplicationEvents1Message
+    Left = 152
+    Top = 504
+  end
+  object HookTimer: TTimer
+    Enabled = False
+    OnTimer = HookTimerTimer
+    Left = 184
+    Top = 504
+  end
+  object volfade_T: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = volfade_TTimer
+    Left = 624
+    Top = 72
+  end
+  object Timer1: TThreadedTimer
+    Interval = 6000
+    OnTimer = Timer1Timer
+    ThreadPriority = tpHigher
+    Left = 176
+    Top = 232
+  end
+  object PingTimer: TThreadedTimer
+    OnTimer = PingTimerTimer
+    ThreadPriority = tpHigher
+    Left = 216
+    Top = 232
+  end
+  object SureTimer: TThreadedTimer
+    Interval = 120000
+    OnTimer = SureTimerTimer
+    ThreadPriority = tpHighest
+    Left = 256
+    Top = 232
+  end
+  object CPU: TThreadedTimer
+    Enabled = True
+    OnTimer = CPUTimer
+    ThreadPriority = tpHigher
+    Left = 296
+    Top = 232
+  end
+  object CPUOff: TThreadedTimer
+    Interval = 1800000
+    OnTimer = CPUOffTimer
+    ThreadPriority = tpHigher
+    Left = 336
+    Top = 232
+  end
+  object CPUCheck: TThreadedTimer
+    OnTimer = CPUCheckTimer
+    ThreadPriority = tpHigher
+    Left = 376
+    Top = 232
+  end
+  object TrayIcon: TRxTrayIcon
     Icon.Data = {
       000001000500100D000001001800CC02000056000000201B000001001800B40A
       0000220300003028000001001800E8170000D60D00003030000001000800A80E
@@ -3693,81 +3756,11 @@ object Shutdown: TShutdown
       0001C07F0000FFC00001E07F0000FFFE0001FC7F0000FFFFFF03FFFF0000FFFF
       FF83FFFF0000FFFFFFE3FFFF0000FFFFFFFFFFFF0000FFFFFFFFFFFF0000FFFF
       FFFFFFFF0000FFFFFFFFFFFF0000}
-    PopupMenu = SysTrayMenu
     Interval = 1000
+    PopupMenu = SysTrayMenu
     OnClick = TrayIconClick
     OnDblClick = TrayIconDblClick
-    Left = 312
-    Top = 504
-  end
-  object fp: TFormPlacement
-    IniFileName = 'Settings.ini'
-    IniSection = 'Placement'
-    Left = 248
-    Top = 536
-  end
-  object IdSNTP1: TIdSNTP
-    Port = 123
-    ReceiveTimeout = 7000
-    Left = 280
-    Top = 568
-  end
-  object ApplicationEvents1: TApplicationEvents
-    OnMessage = ApplicationEvents1Message
-    Left = 152
-    Top = 504
-  end
-  object HookTimer: TTimer
-    Enabled = False
-    OnTimer = HookTimerTimer
-    Left = 184
-    Top = 504
-  end
-  object volfade_T: TTimer
-    Enabled = False
-    Interval = 100
-    OnTimer = volfade_TTimer
-    Left = 624
-    Top = 72
-  end
-  object Timer1: TThreadedTimer
-    Interval = 6000
-    OnTimer = Timer1Timer
-    ThreadPriority = tpHigher
-    Left = 176
-    Top = 232
-  end
-  object PingTimer: TThreadedTimer
-    OnTimer = PingTimerTimer
-    ThreadPriority = tpHigher
-    Left = 216
-    Top = 232
-  end
-  object SureTimer: TThreadedTimer
-    Interval = 120000
-    OnTimer = SureTimerTimer
-    ThreadPriority = tpHighest
-    Left = 256
-    Top = 232
-  end
-  object CPU: TThreadedTimer
-    Enabled = True
-    OnTimer = CPUTimer
-    ThreadPriority = tpHigher
-    Left = 296
-    Top = 232
-  end
-  object CPUOff: TThreadedTimer
-    Interval = 1800000
-    OnTimer = CPUOffTimer
-    ThreadPriority = tpHigher
-    Left = 336
-    Top = 232
-  end
-  object CPUCheck: TThreadedTimer
-    OnTimer = CPUCheckTimer
-    ThreadPriority = tpHigher
-    Left = 376
-    Top = 232
+    Left = 144
+    Top = 264
   end
 end

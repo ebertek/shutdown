@@ -577,18 +577,20 @@ object about: Tabout
         Width = 260
         Height = 104
         Caption = 
-          'The New Generation - Ocean -'#13#10'4.0.2'#13#10'Made by ebiSoft'#13#10#13#10'New vers' +
+          'The New Generation - Ocean -'#13#10'4.0.3'#13#10'Made by ebiSoft'#13#10#13#10'New vers' +
           'ions and source code is available at'#13#10'http://sourceforge.net/pro' +
           'jects/shutdown/'#13#10'If you like Shutdown Monster, please donate!'#13#10'D' +
           'onation is available through SourceForge, via PayPal.'
         Transparent = False
         IsControl = True
       end
-      object SpeedButton1: TSpeedButton
+      object BitBtn1: TBitBtn
         Left = 128
         Top = 136
         Width = 23
         Height = 22
+        ModalResult = 1
+        TabOrder = 0
         Glyph.Data = {
           36050000424D3605000000000000360400002800000010000000100000000100
           08000000000000010000000000000000000000010000000100004A004A006200
@@ -632,7 +634,6 @@ object about: Tabout
           C9CEE1EFF0F0F1F5FAFE15F2D8DFEAE9DBC9C5E7F0F1F3F4FB1515F2E1D2DFE9
           E9DBD8E9EDEFF0F4FB151515F2DFD0DAE1E5E6E6E6E9F0FC1515151515F2F2DA
           D3D8DBDDE1EDED1515151515151515EEF2F2F2F2F11515151515}
-        OnClick = SpeedButton1Click
       end
     end
   end

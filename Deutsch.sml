@@ -210,3 +210,4 @@ atom_add_Hint=Server zugeben
 Update_L_Caption=There are no new updates available!
 Update_L_Hint=Homepage des Programs besuchen
 clearCB_Caption=Temporäre Dateien löschen
+updateCB_Caption=Automatisch nach Updates suchen

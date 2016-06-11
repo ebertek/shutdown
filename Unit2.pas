@@ -11,7 +11,7 @@ type
     Panel1: TPanel;
     ProductName: TLabel;
     Version: TLabel;
-    SpeedButton1: TSpeedButton;
+    BitBtn1: TBitBtn;
     procedure SpeedButton1Click(Sender: TObject);
   private
     { Private declarations }
