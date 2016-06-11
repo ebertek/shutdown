@@ -211,3 +211,4 @@ Update_L_Caption=There are no new updates available!
 Update_L_Hint=Homepage des Programs besuchen
 clearCB_Caption=Temporäre Dateien löschen
 updateCB_Caption=Automatisch nach Updates suchen
+hideCB_Caption=Beim Start ausblenden

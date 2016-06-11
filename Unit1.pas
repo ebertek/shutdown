@@ -7,7 +7,14 @@
 Check http://shutdown.sf.net for more information.
 
 This is the full version of Shutdown Monster.
-You must not use this software for illegal things!
+Bundled with .beats - its source code is available on demand.
+
+Shutdown Monster is not and does not contain any spyware, adware or malware.
+.beats is bundled in most releases; it's quite useful, source code is available
+on demand, and is not a malware.
+
+The source code is c.a. 37 pages long; you can copy and redistribute it under
+the terms of the GNU General Public License.
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,7 +44,7 @@ Trials of it are available at http://www.sunisoft.com
 Indy9 and LMD SE are free, and come with Delphi9.
 If you don't have the companion CD, you can get LMD at:
 http://www.lmd.de/download/
-You need LMD-Tools SE 7.01 Delphi 9 Win32.
+You need LMD-Tools SE 7.x Delphi 9 Win32.
 
 If you need the source code and don't want to install these components then
 I may make you it 3rd-party-component-free (Shutdown Monster 'Sky').
@@ -65,7 +72,7 @@ uses
   IdUDPBase, IdUDPClient, IdSNTP, ParamOpener, Mask, Graphics,
   LMDWndProcComponent, SMLLangRes, SMLFormLangRes, RXClock,
   RXDice, Placemnt, ToolEdit, SMLMenuLangRes, SMLMsgLangRes, AppEvnts, SUIForm,
-  RXShell;
+  RXShell, cmpMidiMixer;
 
 type                                  //MY VERY-FIRST THREAD!! :)
  TUpdateThread = class(TThread)
@@ -167,9 +174,6 @@ type
     AltOptions: TTabSheet;
     GB_Design: TGroupBox;
     auto: TCheckBox;
-    parentalcontrol: TCheckBox;
-    aftertime: TCheckBox;
-    spintime: TLMDSpinEdit;
     auto2: TCheckBox;
     minimCB: TCheckBox;
     ontopCB: TCheckBox;
@@ -253,31 +257,40 @@ type
     updateCB: TCheckBox;
     TrayIcon: TRxTrayIcon;
     clearCB: TCheckBox;
+    confCB: TComboBox;
+    MidiMixer1: TMidiMixer;
+    hideCB: TCheckBox;
+    procedure langCBSelect(Sender: TObject);
+    procedure confCBKeyPress(Sender: TObject; var Key: Char);
+    procedure confCBSelect(Sender: TObject);
     procedure TrayIconClick(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FormDestroy(Sender: TObject);
     procedure Update_LClick(Sender: TObject);
     procedure volfade_TTimer(Sender: TObject);
     procedure HookTimerTimer(Sender: TObject);
-    procedure BitBtn3Click(Sender: TObject);
     procedure ApplicationEvents1Message(var Msg: tagMSG; var Handled: Boolean);
     procedure Save4Click(Sender: TObject);
     procedure Set4Click(Sender: TObject);
     procedure CPUOffTimer(Sender: TObject);
     procedure CPUCheckTimer(Sender: TObject);
     procedure CPUTimer(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
     procedure SureTimerTimer(Sender: TObject);
     function TurnScreenSaverOn: boolean;
     function GetUserFromWindows: string;
     procedure CheckVol;
     function HexToInt(HexStr: String): Integer;
+    procedure DoOpen;
     procedure DoDownload;
     procedure DoSD;
     procedure DoLog(Sender: string);
+    procedure ClearCommonD;
+    procedure ClearRun;
     procedure DoClear;
     procedure DoExec;
     procedure DoStart;
+    procedure DoHook;
+    procedure KillHook;
     procedure Atomic_Clock;
     procedure AutoToReg;
     procedure DelReg;
@@ -300,8 +313,6 @@ type
     procedure Set2Save;
     procedure Set3Save;
     procedure Set4Save;
-    procedure ForceCheck;
-    procedure DurvaCheck;
     procedure Piszka;
     procedure NapCheck;
     procedure Set2Click(Sender: TObject);
@@ -316,12 +327,9 @@ type
     procedure N120percmlva1Click(Sender: TObject);
     procedure Mgsem1Click(Sender: TObject);
     procedure autoClick(Sender: TObject);
-    procedure parentalcontrolClick(Sender: TObject);
-    procedure aftertimeClick(Sender: TObject);
     procedure Save1Click(Sender: TObject);
     procedure Save2Click(Sender: TObject);
     procedure Timer3Timer(Sender: TObject);
-    procedure forceClick(Sender: TObject);
     procedure Set3Click(Sender: TObject);
     procedure Save3Click(Sender: TObject);
     procedure PingTimerTimer(Sender: TObject);
@@ -359,9 +367,7 @@ type
       Shift: TShiftState);
     procedure StartAfterStart(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
-    procedure langCBChange(Sender: TObject);
     procedure auto2Click(Sender: TObject);
-    procedure beshutCBClick(Sender: TObject);
     procedure HotKeyAAChange(Sender: TObject);
     procedure GHAAKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -416,18 +422,19 @@ type
   public
     UpThread: TUpdateThread;
     AtomThread: TAtomThread;
+    Procedure WMSysCommand(Var Msg : TMessage); Message WM_SYSCOMMAND;
   end;
 
 var
-  Vol: DWord;
-  rvol,lvol: word;
+  Vol: DWord; //for vol fading
+  rvol,lvol: word; //for vol fading
   Shutdown: TShutdown;
-  shutted,notready: boolean;
-  HookNow: boolean;
-  usage: Integer; //CPUUsage-hez kell
-  T3i: Extended;  //interval, ebbol kivonunk, kell a systray-hez
-  cmd, recv: string;
-  Active1, Active2, Active3: boolean;
+  shutted,notready: boolean; //for vol fading
+  HookNow: boolean; //for the hook (CPUUsage)
+  usage: Integer; //needed for CPUUsage
+  T3i: Extended;  //interval, substraction from this, needed for systray
+  cmd, recv: string; //for Client-Server stuff
+  Active1, Active2, Active3: boolean; //for CS
   _SetSuspendState: function
   (Hibernate, ForceCritical, DisableWakeEvent: BOOL): BOOL
   stdcall = nil;
@@ -510,7 +517,80 @@ begin
     Result := nil;
 end;
 
-function TShutdown.TurnScreenSaverOn: boolean;  //wlock-bol raktam be
+procedure MinimizeToTray;
+var  hwndTray:      HWND;
+     rcWindow:      TRect;
+     rcTray:        TRect;
+begin
+
+  // Check passed window handle
+  if IsWindow(Application.Handle) then
+  begin
+     // Get tray Application.Handle
+     hwndTray:=FindWindowEx(FindWindow('Shell_TrayWnd', nil), 0, 'TrayNotifyWnd', nil);
+     // Check tray Application.Handle
+     if (hwndTray = 0) then
+        // Failure
+     else
+     begin
+        // Get window rect and tray rect
+        GetWindowRect(Application.Handle, rcWindow);
+        GetWindowRect(hwndTray, rcTray);
+        // Perform the animation
+        DrawAnimatedRects(Application.Handle, IDANI_CAPTION, rcWindow, rcTray);
+        // Hide the window
+        ShowWindow(Application.Handle, SW_HIDE);
+        Shutdown.Visible:=False;
+     end;
+  end
+  else
+     // Failure
+
+end;
+
+procedure RestoreFromTray;
+var  hwndTray:      HWND;
+     rcWindow:      TRect;
+     rcTray:        TRect;
+begin
+
+  // Check passed window handle
+  if IsWindow(Application.Handle) then
+  begin
+     // Get tray Application.Handle
+     hwndTray:=FindWindowEx(FindWindow('Shell_TrayWnd', nil), 0, 'TrayNotifyWnd', nil);
+     // Check tray Application.Handle
+     if (hwndTray = 0) then
+        // Failure
+     else
+     begin
+        // Get window rect and tray rect
+        GetWindowRect(Application.Handle, rcWindow);
+        GetWindowRect(hwndTray, rcTray);
+        // Perform the animation
+        DrawAnimatedRects(Application.Handle, IDANI_CAPTION, rcTray, rcWindow);
+        // Show the window
+        ShowWindow(Application.Handle, SW_SHOW);
+        Shutdown.Visible:=True;
+     end;
+  end
+  else
+     // Failure
+
+end;
+
+Procedure TShutdown.WMSysCommand(Var Msg : TMessage);
+begin
+  Inherited;
+  Case Msg.WParam Of
+    SC_MINIMIZE : MinimizeToTray;
+    SC_MAXIMIZE : RestoreFromTray;
+    SC_RESTORE  : RestoreFromTray;
+  end;
+end;
+
+function TShutdown.TurnScreenSaverOn: boolean;
+//copied it from wlock, with author's permission
 var b : bool;
 begin
   result := false;
@@ -539,6 +619,7 @@ function SHEmptyRecycleBin; external
   'SHELL32.DLL' name 'SHEmptyRecycleBinA';
 
 function JournalProc(Code, wParam: Integer; var EventStrut: TEventMsg): Integer;
+//hook stuff for CPU usage
 stdcall;
 begin
   {this is the JournalRecordProc}
@@ -561,16 +642,12 @@ begin
   end;
 end;
 
-procedure TShutdown.CheckVol;
-var
-  MyWaveOutCaps: TWaveOutCaps;
+procedure TShutdown.CheckVol;  //gets current volume
 begin
-  if WaveOutGetDevCaps(
-    WAVE_MAPPER,
-    @MyWaveOutCaps,
-    sizeof(MyWaveOutCaps))=MMSYSERR_NOERROR then
-  begin
-    try WaveOutGetVolume(WAVE_MAPPER, @Vol); except end;
+  if not MidiMixer1.Active then MidiMixer1.Active:=True;
+  with MidiMixer1 do begin
+    lvol := ControlValue [mtAudioVolume, mcLeft];
+    rvol := ControlValue [mtAudioVolume, mcRight];
   end;
 end;
 
@@ -579,7 +656,20 @@ begin
   result := StrToInt('$' + HexStr);
 end;
 
-procedure TShutdown.DoDownload;
+procedure TShutdown.DoOpen;  //this loads everything
+begin
+  INI.Free;
+  INI := TINIFile.Create(ExtractFilePath(Application.EXEName)
+    + confCB.Text+'.ini');
+  fp.IniFileName:=ExtractFilePath(Application.EXEName) + confCB.Text+'.ini';
+  NapCheck;
+  UserOpen;
+  WaveOpen;
+  ComOpen;
+  HotKeyOpen;
+end;
+
+procedure TShutdown.DoDownload;  //checks for updates
 var
 s1, s2: TStringList;
 ss1, ss2: string;
@@ -613,7 +703,7 @@ lini.ReadString(langCB.Text, 'Update3', 'Get it from http://shutdown.sf.net/'));
   UpThread.Free;
 end;
 
-procedure TShutdown.DoSD; //kikapcsolja a gepet
+procedure TShutdown.DoSD;  //kikapcsolja a gepet
 begin
   if not notready then begin
     case defcommand.ItemIndex of
@@ -634,11 +724,11 @@ begin
       13: begin mon0.Click; end;
       14: begin mon1.Click; end;
       15: begin BitBtn2.Click; end;
-      16: begin end; //show a message
-      17: begin end; //do nothing
+      16: begin end;  //show a message **not yet implemented**
+      17: begin end;  //do nothing **not yet implemented**
     end;
   end;
-  SureTimer.Enabled:=True;
+  if shutted then SureTimer.Enabled:=True;
   EnMax;
 end;
 
@@ -670,9 +760,62 @@ begin
   end;
 end;
 
+procedure TShutdown.ClearCommonD;
+var
+  Reg: TRegistry;
+begin
+  Reg := TRegistry.Create;
+  try
+    Reg.RootKey := HKEY_CURRENT_USER;
+    if Reg.OpenKey
+('\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedMRU'
+  ,false) then begin
+        Reg.DeleteKey
+('\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\LastVisitedMRU');
+
+    if Reg.OpenKey
+('\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSaveMRU'
+  ,false) then
+        Reg.DeleteKey
+('\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSaveMRU');
+    end;
+  finally
+    Reg.Free;
+  end;
+end;
+
+procedure TShutdown.ClearRun;
+var
+  Reg: TRegistry;
+  i: integer;
+  sl: TStringList;
+  slb: boolean;
+label failure;
+begin
+  Reg := TRegistry.Create;
+  try sl := TStringList.Create; finally slb:=True; end;
+  if slb then begin
+    try
+      Reg.RootKey := HKEY_CURRENT_USER;
+      if Reg.OpenKey
+('\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU'
+  ,false) then begin
+        Reg.GetValueNames(sl);
+        for i:=0 to sl.Count-1 do
+          Reg.DeleteValue(sl.Strings[I]);
+        Reg.DeleteKey('MRUList');
+      end;
+    finally
+      Reg.Free;
+    end;
+  end;
+  try sl.Free except end;
+end;
+
 procedure TShutdown.DoClear;
 begin
   if clearCB.Checked then begin
+
 //Clear the recycle bin
 recbin.Click;
 
@@ -694,6 +837,12 @@ BitBtn2.Click;
 //Clear recent document list
 
 
+//Clear common dialogs's MRU-entries
+ClearCommonD;
+
+//Clear run dialog's MRU-entries
+ClearRun;
+
   end;
 end;
 
@@ -703,7 +852,7 @@ begin
 
   DoLog('\DoExec/');
 
-  if volfade_CB.Enabled then begin
+  if volfade_CB.Checked then begin
     notready:=True;
     CheckVol;
     rvol:=HexToInt(copy(IntToHex(Vol,8),1,4));  //high-order része a dword-nek
@@ -726,9 +875,10 @@ end;
 
 procedure TShutdown.DoStart;
 begin
-  LangCB.Text:=StringReplace(SML.LangFileName, '.sml', '', [rfReplaceAll]);
+
+  langCB.Text:=StringReplace(SML.LangFileName, '.sml', '', [rfReplaceAll]);
   langCB.Text:=lini.ReadString('Settings', 'Language', 'English');
-  langCBChange(self);
+  langCBSelect(self);
 
   SplashForm.Label1.Caption:=lini.ReadString
     (langCB.Text, 'SF_Pos', 'Restoring position');
@@ -739,11 +889,41 @@ begin
     (langCB.Text, 'SF_Data', 'Loading data');
   SplashForm.Update;
   NapCheck;
+  UserOpen;
+  WaveOpen;
+
+  SplashForm.Label1.Caption:=lini.ReadString
+    (langCB.Text, 'SF_Com', 'Loading shared data');
+  SplashForm.Update;
+  ComOpen;
+
+  SplashForm.Label1.Caption:=lini.ReadString
+    (langCB.Text, 'SF_HK', 'Loading hotkeys');
+  SplashForm.Update;
+  HotKeyOpen;
 
   SplashForm.Label1.Caption:=lini.ReadString
     (langCB.Text, 'SF_Param', 'Checking parameters');
   SplashForm.Update;
   ParamOpener1.ParamOpen;
+
+end;
+
+procedure TShutdown.DoHook;
+begin
+  if FHookStarted then
+    Exit;
+  JHook := SetWindowsHookEx(WH_JOURNALRECORD, @JournalProc, hInstance, 0);
+  {SetWindowsHookEx starts the Hook}
+  if JHook > 0 then
+    FHookStarted := True;
+end;
+
+procedure TShutdown.KillHook;
+begin
+  FHookStarted := False;
+  UnhookWindowsHookEx(JHook);
+  JHook := 0;
 end;
 
 procedure TShutdown.Atomic_Clock;
@@ -772,7 +952,7 @@ begin
   AtomThread.Free;
 end;
 
-procedure TShutdown.AutoToReg;  //beirja a regbe
+procedure TShutdown.AutoToReg;  //adds to reg
 var
   Reg: TRegistry;
 begin
@@ -790,7 +970,7 @@ begin
   end;
 end;
 
-procedure TShutdown.DelReg;  //kiszedi a regbol
+procedure TShutdown.DelReg;  //removes from reg
 var
   Reg: TRegistry;
 begin
@@ -808,27 +988,26 @@ begin
   end;
 end;
 
-procedure TShutdown.DeMin;  //deaktival
+procedure TShutdown.DeMin;  //deactivate
 begin
   Set1.Enabled:=False;
   Set2.Enabled:=False;
   Set3.Enabled:=False;
   Set4.Enabled:=False;
-  ShowWindow(Shutdown.Handle, SW_HIDE);
   N15percmlva1.Enabled:=False;
   N30percmlva1.Enabled:=False;
   N60percmlva1.Enabled:=False;
   N120percmlva1.Enabled:=False;
   Mgsem1.Enabled:=True;
+  MinimizeToTray;
 end;
 
-procedure TShutdown.EnMax;  //aktival
+procedure TShutdown.EnMax;  //activate
 begin
   Set1.Enabled:=True;
   Set2.Enabled:=True;
   Set3.Enabled:=True;
   Set4.Enabled:=True;
-  ShowWindow(Shutdown.Handle, SW_SHOW);
   N15percmlva1.Enabled:=True;
   N30percmlva1.Enabled:=True;
   N60percmlva1.Enabled:=True;
@@ -838,8 +1017,9 @@ begin
   Timer2.Enabled:=False;
   Timer3.Enabled:=False;
   Start.AutoStart:=False;
+  if FHookStarted then KillHook;
   Most.UserValue:=0;
-  Show;
+  RestoreFromTray;
 end;
 
 procedure TShutdown.FullHide;
@@ -932,6 +1112,7 @@ procedure TShutdown.Set4Auto;
 begin
   CPUCheck.Enabled:=True;
   HookNow:=True;
+//  if Hook_CB.Checked then DoHook;
   if beshutCB.Checked then begin
     Start.Wait:=True;
     Start.Command:=beshutE.Filename;
@@ -946,19 +1127,21 @@ end;
 
 procedure TShutdown.ComSave;
 begin
-if defcommand.ItemIndex<>-1 then
-  INI.WriteInteger('Command', 'Default', defcommand.ItemIndex)
-else begin
-  defcommand.ItemIndex:=0;
-  INI.WriteInteger('Command', 'Default', defcommand.ItemIndex);
-end;
-  lini.WriteString('Settings', 'Language', langCB.Text);
+  INI.WriteBool('Settings', 'Force', force.Checked);
+  INI.WriteBool('Settings', 'NoWakeEvents', wake_CB.Checked);
+  lini.WriteString('Settings', 'INI', confCB.Text+'.ini');
+  if defcommand.ItemIndex<>-1 then
+    INI.WriteInteger('Command', 'Default', defcommand.ItemIndex) else begin
+    defcommand.ItemIndex:=0;
+    INI.WriteInteger('Command', 'Default', defcommand.ItemIndex)
+    end;
   INI.WriteBool('Settings', 'Logging', logCB.Checked);
   INI.WriteBool('Settings', 'Clear', clearCB.Checked);
   INI.WriteBool('Settings', 'Sync', atom_CB.Checked);
   INI.WriteBool('BeforeShutdown', 'Enabled', beshutCB.Checked);
   INI.WriteString('BeforeShutdown', 'Path', beshutE.Filename);
   INI.WriteBool('Settings', 'Minimize', minimCB.Checked);
+  INI.WriteBool('Settings', 'Hide', hideCB.Checked);
   INI.WriteBool('Settings', 'StayOnTop', ontopCB.Checked);
   INI.WriteBool('Settings', 'Server', server_CB.Checked);
   INI.WriteBool('Settings', 'C4U', updateCB.Checked);
@@ -967,14 +1150,20 @@ end;
 end;
 
 procedure TShutdown.ComOpen;
+var values: TChannelValues;
 begin
+  confCB.Text:=lini.ReadString('Settings', 'INI', 'Settings.ini');
+  confCB.Text:=StringReplace(confCB.Text, '.ini', '', [rfReplaceAll]);
+  force.Checked:=INI.ReadBool('Settings', 'Force', False);
+  wake_CB.Checked:=INI.ReadBool('Settings', 'NoWakeEvents', False);
   beshutCB.Checked:=INI.ReadBool('BeforeShutdown', 'Enabled', False);
   beshutE.Filename:=INI.ReadString('BeforeShutdown', 'Path', '');
   minimCB.Checked:=INI.ReadBool('Settings', 'Minimize', False);
+  hideCB.Checked:=INI.ReadBool('Settings', 'Hide', False);
   PingTime.Value:=INI.ReadInteger('AutoPingShutdown', 'Minute', 10);
   CPU_SE.Value:=INI.ReadInteger('AutoCPUShutdown', 'Usage', 5);
   CPUMin_SE.Value:=INI.ReadInteger('AutoCPUShutdown', 'Minute', 30);
-  Hook_CB.Checked:=INI.ReadBool('AutoCPUShutdown', 'Input', True);
+//  Hook_CB.Checked:=INI.ReadBool('AutoCPUShutdown', 'Input', True);
   ontopCB.Checked:=INI.ReadBool('Settings', 'StayOnTop', False);
   defcommand.ItemIndex:=INI.ReadInteger('Command', 'Default', 0);
   if defcommand.ItemIndex=-1 then defcommand.ItemIndex:=0;
@@ -987,8 +1176,14 @@ begin
   volfade_E.Value:=INI.ReadInteger('Volume', 'FadeDur', 256);
   rvol:=INI.ReadInteger('Volume', 'Right', 65535);
   lvol:=INI.ReadInteger('Volume', 'Left', 65535);
-  if (INI.ReadBool('Volume', 'WasFaded', False)) and (auto2.Checked) and (volfade_CB.Checked) then begin
-    try WaveOutSetVolume(WAVE_MAPPER, MakeLong(rvol,lvol)); except end;
+  if (INI.ReadBool('Volume', 'WasFaded', False)) and (auto2.Checked)
+    and (volfade_CB.Checked) then begin
+    if not MidiMixer1.Active then MidiMixer1.Active:=True;
+    with MidiMixer1 do begin
+      values [mcLeft] := lvol;
+      values [mcRight] := rvol;
+      ControlValues [mtAudioVolume] := values;
+    end;
     INI.WriteBool('Volume', 'WasFaded', False);
   end;
 end;
@@ -1034,7 +1229,7 @@ end;
 
 procedure TShutdown.HotKeyOpen;
 begin
-//THotKey-ekbe
+//to THotKey
   HotKeyPOff.HotKey:=INI.ReadInteger('Hotkeys', 'POff', 0);
   HotKeySD.HotKey:=INI.ReadInteger('Hotkeys', 'SD', 0);
   HotKeyReB.HotKey:=INI.ReadInteger('Hotkeys', 'ReB', 0);
@@ -1051,7 +1246,7 @@ begin
   hkmon0.HotKey:=INI.ReadInteger('Hotkeys', 'mon0', 0);
   hkmon1.HotKey:=INI.ReadInteger('Hotkeys', 'mon1', 0);
   hkctif.HotKey:=INI.ReadInteger('Hotkeys', 'ctif', 0);
-//TLMDGlobalHotKey-ekbe
+//to TLMDGlobalHotKey
   GHPO.HotKey:=HotKeyPOff.HotKey;
   GHSD.HotKey:=HotKeySD.HotKey;
   GHRB.HotKey:=HotKeyReB.HotKey;
@@ -1068,7 +1263,7 @@ begin
   mon0hk.HotKey:=hkmon0.HotKey;
   mon1hk.HotKey:=hkmon1.HotKey;
   ctifhk.HotKey:=hkctif.HotKey;
-end;                                   
+end;
 
 procedure TShutdown.WaveSave;
 begin
@@ -1111,24 +1306,6 @@ begin
   end;
   Idopont.Date:=Calendar.Date;
   INI.WriteDateTime('AutoShutdown', 'Time', Idopont.DateTime);
-  if force.Checked then
-    INI.WriteBool('Settings', 'Force', True);
-  if wake_CB.Checked then
-    INI.WriteBool('Settings', 'NoWakeEvents', True);
-  if parentalcontrol.Checked then
-      INI.WriteBool('ParentalControl', 'Enabled', True);
-    if INI.ReadBool('ParentalControl', 'Enabled', False) then begin
-      parentalcontrol.Visible:=True;
-      parentalcontrol.Checked:=True;
-      TrayIcon.Enabled:=False;
-      FullHide;
-    end;
-    if aftertime.Checked then begin
-      INI.WriteBool('ParentalControl', 'Hard', True);
-      DurvaCheck;
-      if aftertime.Checked then
-        INI.WriteInteger('ParentalControl', 'HardTime', spintime.Value);
-    end;
   HotKeySave;
   ComSave;
   UserSave;
@@ -1149,21 +1326,9 @@ begin
     INI.WriteBool('AutoCPUShutdown', 'Enabled', False);
     INI.WriteBool('AutoStart', 'Enabled', True);
   end;
-  INI.WriteTime('AutoCountShutdown', 'Hour', CD1.Value);
-  INI.WriteTime('AutoCountShutdown', 'Minute', CD2.Value);
-  INI.WriteTime('AutoCountShutdown', 'Second', CD3.Value);
-  if force.Checked then
-    INI.WriteBool('Settings', 'Force', True);
-  if wake_CB.Checked then
-    INI.WriteBool('Settings', 'NoWakeEvents', True);
-  if parentalcontrol.Checked then
-    INI.WriteBool('ParentalControl', 'Enabled', True);
-  if INI.ReadBool('ParentalControl', 'Enabled', False) then begin
-    parentalcontrol.Visible:=True;
-    parentalcontrol.Checked:=True;
-    TrayIcon.Enabled:=False;
-    FullHide;
-  end;
+  INI.WriteInteger('AutoCountShutdown', 'Hour', CD1.Value);
+  INI.WriteInteger('AutoCountShutdown', 'Minute', CD2.Value);
+  INI.WriteInteger('AutoCountShutdown', 'Second', CD3.Value);
   HotKeySave;
   ComSave;
   UserSave;
@@ -1186,18 +1351,6 @@ begin
   end;
   INI.WriteInteger('AutoPingShutdown', 'Minute', PingTime.Value);
   INI.WriteString('AutoPingShutdown', 'Path', eleres.Text);
-  if force.Checked then
-    INI.WriteBool('Settings', 'Force', True);
-  if wake_CB.Checked then
-    INI.WriteBool('Settings', 'NoWakeEvents', True);
-  if parentalcontrol.Checked then
-    INI.WriteBool('ParentalControl', 'Enabled', True);
-  if INI.ReadBool('ParentalControl', 'Enabled', False) then begin
-    parentalcontrol.Visible:=True;
-    parentalcontrol.Checked:=True;
-    TrayIcon.Enabled:=False;
-    FullHide;
-  end;
   HotKeySave;
   ComSave;
   UserSave;
@@ -1221,57 +1374,12 @@ begin
 
   INI.WriteInteger('AutoCPUShutdown', 'Usage', CPU_SE.Value);
   INI.WriteInteger('AutoCPUShutdown', 'Minute', CPUMin_SE.Value);
-  INI.WriteBool('AutoCPUShutdown', 'Input', Hook_CB.Checked);
+//  INI.WriteBool('AutoCPUShutdown', 'Input', Hook_CB.Checked);
 
-  if force.Checked then
-    INI.WriteBool('Settings', 'Force', True);
-  if wake_CB.Checked then
-    INI.WriteBool('Settings', 'NoWakeEvents', True);
-  if parentalcontrol.Checked then
-    INI.WriteBool('ParentalControl', 'Enabled', True);
-  if INI.ReadBool('ParentalControl', 'Enabled', False) then begin
-    parentalcontrol.Visible:=True;
-    parentalcontrol.Checked:=True;
-    TrayIcon.Enabled:=False;
-    FullHide;
-  end;
   HotKeySave;
   ComSave;
   UserSave;
   WaveSave;
-end;
-
-procedure TShutdown.ForceCheck;
-begin
-  if INI.ReadBool('Settings', 'Force', True) = False then begin
-    force.Checked:=False;
-    Start.Parameters:='-s -t 00';
-  end;
-  if INI.ReadBool('Settings', 'NoWakeEvents', False) then
-    wake_CB.Checked:=True;  
-end;
-
-procedure TShutdown.DurvaCheck;
-var
-  HourDC, MinDC, SecDC, MSecDC: Word;
-begin
-  if INI.ReadBool('ParentalControl', 'Hard', False) then begin
-    aftertime.Visible:=True;
-    aftertime.Checked:=True;
-    spintime.Value:=INI.ReadInteger('ParentalControl', 'HardTime', 10);
-    DecodeTime(Idopont.Time, HourDC, MinDC, SecDC, MSecDC);
-    if HourDC < HourOfTheDay(Now) then begin
-      Sleep(spintime.Value*1000);
-      PowerOff.Click;
-    end else begin
-      if HourDC = HourOfTheDay(Now) then begin
-        if MinDC < MinuteOfTheHour(Now) then begin
-          Sleep(spintime.Value*1000);
-          PowerOff.Click;
-        end;
-      end;
-    end;
-  end;
 end;
 
 procedure TShutdown.Piszka;
@@ -1285,28 +1393,16 @@ end;
 procedure TShutdown.NapCheck;
 var aus,aucs,aups,aucpus: boolean;
 begin
-  ForceCheck;
-  ComOpen;
-  HotKeyOpen;
-  UserOpen;
-  WaveOpen;
   aus:=INI.ReadBool('AutoShutdown', 'Enabled', False);
   aucs:=INI.ReadBool('AutoCountShutdown', 'Enabled', False);
   aups:=INI.ReadBool('AutoPingShutdown', 'Enabled', False);
   aucpus:=INI.ReadBool('AutoCPUShutdown', 'Enabled', False);
-  if aus and aucs or aups or aucpus then Piszka;
-  if aucs and aus or aups or aucpus then Piszka;
-  if aups and aucs or aus or aucpus then Piszka;
-  if aucpus and aucs or aups or aus then Piszka;
+  if aus xor aucs xor aups xor aucpus then else Piszka;
 
   if INI.ReadBool('AutoStart', 'Enabled', False) then begin
     auto2.Checked:=True;
     auto2Click(self);
     AutoToReg;
-  end;
-
-  if INI.ReadBool('Settings', 'Minimize', False) then begin
-    ShowWindow(Shutdown.Handle, SW_HIDE);
   end;
 
 //User-specific thing begin
@@ -1334,46 +1430,21 @@ begin
     auto.Checked:=True;
     Set1Auto;
     AutoToReg;
-    if INI.ReadBool('ParentalControl', 'Enabled', False) then begin
-      parentalcontrol.Visible:=True;
-      parentalcontrol.Checked:=True;
-      TrayIcon.Enabled:=False;
-      FullHide;
-      DurvaCheck;
-    end;
   end;
   if INI.ReadBool('AutoCountShutdown', 'Enabled', False) then begin
     auto.Checked:=True;
     Set2Auto;
     AutoToReg;
-    if INI.ReadBool('ParentalControl', 'Enabled', False) then begin
-      parentalcontrol.Visible:=True;
-      parentalcontrol.Checked:=True;
-      TrayIcon.Enabled:=False;
-      FullHide;
-    end;
   end;
   if INI.ReadBool('AutoPingShutdown', 'Enabled', False) then begin
     auto.Checked:=True;
     Set3Auto;
     AutoToReg;
-    if INI.ReadBool('ParentalControl', 'Enabled', False) then begin
-      parentalcontrol.Visible:=True;
-      parentalcontrol.Checked:=True;
-      TrayIcon.Enabled:=False;
-      FullHide;
-    end;
   end;
   if INI.ReadBool('AutoCPUShutdown', 'Enabled', False) then begin
     auto.Checked:=True;
     Set4Auto;
     AutoToReg;
-    if INI.ReadBool('ParentalControl', 'Enabled', False) then begin
-      parentalcontrol.Visible:=True;
-      parentalcontrol.Checked:=True;
-      TrayIcon.Enabled:=False;
-      FullHide;
-    end;
   end;
   atom_servers.Items.LoadFromFile(ExtractFilePath(Application.EXEName) +
     'atom.txt');
@@ -1381,6 +1452,10 @@ begin
     atom_do.Click;
   if ontopCB.Checked then
     ontopCBClick(self);
+  if minimCB.Checked then
+    MinimizeToTray;
+  if hideCB.Checked then
+    FullHide;
   if server_CB.Checked then
     ServerSocket1.Active := True;
   if updateCB.Checked then
@@ -1536,8 +1611,7 @@ end;
 
 procedure TShutdown.TrayIconDblClick(Sender: TObject);
 begin
-  ShowWindow(Shutdown.Handle, SW_SHOW);
-  Show;
+  RestoreFromTray;
 end;
 
 procedure TShutdown.N15percmlva1Click(Sender: TObject);
@@ -1583,35 +1657,7 @@ end;
 
 procedure TShutdown.autoClick(Sender: TObject);
 begin
-  if auto.Checked then begin
-    parentalcontrol.Visible:=True;
-    auto2.Checked:=True;
-    parentalcontrolClick(self);
-  end else begin
-    parentalcontrol.Visible:=False;
-    parentalcontrolClick(Self);
-  end;
-end;
-
-procedure TShutdown.parentalcontrolClick(Sender: TObject);
-begin
-  if parentalcontrol.Visible=True then begin
-    if parentalcontrol.Checked then
-      aftertime.Visible:=True else
-        aftertime.Visible:=False;
-  end else
-    aftertime.Visible:=False;
-  aftertimeClick(Self);
-end;
-
-procedure TShutdown.aftertimeClick(Sender: TObject);
-begin
-  if aftertime.Visible=True then begin
-    if aftertime.Checked then
-      spintime.Visible:=True else
-        spintime.Visible:=False;
-  end else
-    spintime.Visible:=False;
+  auto2.Checked:=auto.Checked;
 end;
 
 procedure TShutdown.Save1Click(Sender: TObject);
@@ -1665,11 +1711,6 @@ begin
   end;
   //PERC
 
-end;
-
-procedure TShutdown.forceClick(Sender: TObject);
-begin
-  ForceCheck;
 end;
 
 procedure TShutdown.Set3Click(Sender: TObject);
@@ -1813,8 +1854,10 @@ end;
 procedure TShutdown.FormCreate(Sender: TObject);
 var sr: TSearchRec;
 begin
-  INI := TINIFile.Create(ExtractFilePath(Application.EXEName)+'Settings.ini');
-  lini:= TINIFile.Create(ExtractFilePath(Application.EXEName)+'Languages.ini');
+  lini := TINIFile.Create(ExtractFilePath(Application.EXEName)+'Languages.ini');
+  INI := TINIFile.Create(ExtractFilePath(Application.EXEName)
+    + lini.ReadString('Settings', 'INI', 'Settings.ini'));
+
   if (FindFirst(ExtractFilePath(Application.EXEName)+'*.sml', faAnyFile, sr)=0)
   then begin
     repeat
@@ -1826,13 +1869,17 @@ begin
     FindClose(sr);
   end;
 
-  try
-    ShowWindow(Application.Handle, SW_HIDE);
-    SetWindowLong(Application.Handle, GWL_EXSTYLE,
-      GetWindowLong(Application.Handle, GWL_EXSTYLE)
-        or WS_EX_TOOLWINDOW );
-    ShowWindow(Application.Handle, SW_SHOW);
-  except end;
+  if (FindFirst(ExtractFilePath(Application.EXEName)+'*.ini', faAnyFile, sr)=0)
+  then begin
+    repeat
+      if (sr.Name <> '.') and (sr.Name <> '..')
+        and (sr.Name <> 'Languages.ini') then begin
+        sr.Name:=StringReplace(sr.Name, '.ini', '', [rfReplaceAll]);
+        confCB.Items.Add(sr.Name);
+      end;
+    until (FindNext(sr)<>0);
+    FindClose(sr);
+  end;
 
 end;
 
@@ -1903,21 +1950,6 @@ begin
     PlaySound(PChar(wavE.Text), 0, SND_NODEFAULT);
 end;
 
-procedure TShutdown.langCBChange(Sender: TObject);
-var i: integer;
-begin
-  i:=langCB.ItemIndex;  //to make it not forget the default command
-  sml.LangFileName := langCB.Text+'.sml';  //Captions, Hints
-  sml2.LangFileName := langCB.Text+'.sml'; //SysTray menu
-  sml3.LangFileName := langCB.Text+'.sml'; //Atomic clock menu
-  langCB.ItemIndex:=i; //same as prev one
-
-  PingTime.Suffix:=' '+lini.ReadString(langCB.Text, 'Mins', 'minutes');
-  spintime.Suffix:=' '+lini.ReadString(langCB.Text, 'Secs', 'seconds');
-
-  ComSave;
-end;
-
 procedure TShutdown.auto2Click(Sender: TObject);
 begin
   if auto2.Checked=False then begin
@@ -1928,11 +1960,6 @@ begin
     AutoToReg;
     UserSpecific.Enabled:=True;
   end;
-end;
-
-procedure TShutdown.beshutCBClick(Sender: TObject);
-begin
-  ComSave;
 end;
 
 procedure TShutdown.HotKeyAAChange(Sender: TObject);
@@ -1949,7 +1976,7 @@ end;
 procedure TShutdown.SpeedButton1Click(Sender: TObject);
 begin
   force.Checked:=shutted;
-  Start.Execute;
+  DoExec;
 end;
 
 procedure TShutdown.ejectClick(Sender: TObject);
@@ -2277,7 +2304,6 @@ end;
 procedure TShutdown.server_CBClick(Sender: TObject);
 begin
   ServerSocket1.Active:=server_CB.Checked;
-  ComSave;
 end;
 
 procedure TShutdown.SuspendClick(Sender: TObject);
@@ -2305,12 +2331,7 @@ end;
 
 procedure TShutdown.SureTimerTimer(Sender: TObject);
 begin
-  if shutted then SpeedButton1.Click else SureTimer.Enabled:=False;
-end;
-
-procedure TShutdown.Button2Click(Sender: TObject);
-begin
-  FullHide;
+  SpeedButton1.Click;
 end;
 
 procedure TShutdown.CPUTimer(Sender: TObject);
@@ -2328,11 +2349,10 @@ procedure TShutdown.CPUCheckTimer(Sender: TObject);
 begin
   if usage<CPU_SE.Value then begin
     CPUOff.Interval:=CPUMin_SE.Value*60000;
-    if Hook_CB.Checked then begin
-      HookTimer.Interval:=CPUOff.Interval;
-      BitBtn3Click(self);
-      HookTimer.Enabled:=True;
-    end;
+//    if Hook_CB.Checked then begin
+//      HookTimer.Interval:=CPUOff.Interval;
+//      HookTimer.Enabled:=True;
+//    end;
     CPUOff.Enabled:=True
   end else
     CPUOff.Enabled:=False;
@@ -2340,10 +2360,10 @@ end;
 
 procedure TShutdown.CPUOffTimer(Sender: TObject);
 begin
-  if (Hook_CB.Checked) and (HookNow) then
-    DoExec
-  else
-  if not (Hook_CB.Checked) then
+//  if (Hook_CB.Checked) and (HookNow) then
+//    DoExec
+//  else
+//  if not (Hook_CB.Checked) then
     DoExec;
   CPUOff.Enabled:=False;
 end;
@@ -2354,7 +2374,7 @@ begin
   Set4Save;
   TrayIcon.Hint:=defcommand.Text+', '
     +lini.ReadString(langCB.Text, 'SysTray4_1', 'if CPU usage stays below')
-    +IntToStr(CPU_SE.Value)+'%'
+    +' '+IntToStr(CPU_SE.Value)+'%'
     +lini.ReadString(langCB.Text, 'SysTray4_2', '');
 end;
 
@@ -2371,19 +2391,6 @@ Handled := False;
     JHook := SetWindowsHookEx(WH_JOURNALRECORD, @JournalProc, 0, 0);
 end;
 
-procedure TShutdown.BitBtn3Click(Sender: TObject);  //this starts the hook
-begin
- if FHookStarted then
-    Exit;
-  JHook := SetWindowsHookEx(WH_JOURNALRECORD, @JournalProc, hInstance, 0);
-  Timer1.Enabled:=True;
-  {SetWindowsHookEx starts the Hook}
-  if JHook > 0 then
-    FHookStarted := True
-  else
-    Exit;
-end;
-
 procedure TShutdown.HookTimerTimer(Sender: TObject);
 begin
   HookNow:=True;
@@ -2391,8 +2398,11 @@ begin
 end;
 
 procedure TShutdown.volfade_TTimer(Sender: TObject);
+var
+  values : TChannelValues;
 label next;
 begin
+  CheckVol;
   if (rvol>volfade_E.Value) and (lvol>volfade_E.Value) then begin
     rvol:=rvol-volfade_E.Value;  //high-order: jobb csati
     lvol:=lvol-volfade_E.Value;  //low-order: bal csati
@@ -2406,11 +2416,18 @@ begin
       goto Next;
     end else lvol:=0;
     notready:=False;
+    MidiMixer1.Active:=False;
     DoSD;
     Timer1.Enabled:=False;
     Next:
   end;
-  try WaveOutSetVolume(WAVE_MAPPER, MakeLong(rvol,lvol)); except end;
+  if not MidiMixer1.Active then MidiMixer1.Active:=True;
+  with MidiMixer1 do
+  begin
+    values [mcLeft] := lvol;
+    values [mcRight] := rvol;
+    ControlValues [mtAudioVolume] := values;
+  end;
 end;
 
 procedure TShutdown.Update_LClick(Sender: TObject);
@@ -2430,6 +2447,42 @@ procedure TShutdown.TrayIconClick(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   Application.BringToFront;
+end;
+
+procedure TShutdown.confCBSelect(Sender: TObject);
+var
+  f: TextFile;
+  fi: string;
+begin
+  AssignFile(f, ExtractFilePath(Application.EXEName) + confCB.Text+'.ini');
+  fi:=ExtractFilePath(Application.EXEName) + confCB.Text+'.ini';
+  if not FileExists(fi) then begin
+    ReWrite(f);
+    CloseFile(f);
+  end;
+  lini.WriteString('Settings', 'INI', confCB.Text+'.ini');
+  DoOpen;
+end;
+
+procedure TShutdown.confCBKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key=#13 then begin
+    confCBSelect(self);
+  end;
+end;
+
+procedure TShutdown.langCBSelect(Sender: TObject);
+var i: integer;
+begin
+  i:=defcommand.ItemIndex;  //to make it not forget the default command
+  sml.LangFileName := langCB.Text+'.sml';  //Captions, Hints
+  sml2.LangFileName := langCB.Text+'.sml'; //SysTray menu
+  sml3.LangFileName := langCB.Text+'.sml'; //Atomic clock menu
+  defcommand.ItemIndex:=i; //same as prev one
+
+  PingTime.Suffix:=' '+lini.ReadString(langCB.Text, 'Mins', 'minutes');
+
+  lini.WriteString('Settings', 'Language', langCB.Text);
 end;
 
 end.
