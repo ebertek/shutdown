@@ -5,7 +5,7 @@ interface
 uses
 //First two lines added manually by ebertek
   WinInet, IniFiles, Windows, SysUtils, Registry, DateUtils, Dialogs, ShellApi,
-  ActnList, Messages, ComObj, mmsystem, clipbrd, ExtActns, PSInterface,
+  ActnList, Messages, ComObj, mmsystem, clipbrd, ExtActns,
   Forms, XPMan, Menus, CoolTrayIcon, ExtCtrls, StdCtrls, Controls, Grids, ComCtrls, Buttons, Classes,
   LMDCustomComponent, LMDStarter, LMDControl, LMDBaseControl, LMDBaseGraphicControl, LMDGraphicControl, LMDBaseMeter, LMDCustomProgressFill, LMDProgressFill, LMDGlobalHotKey, LMDCustomControl, LMDCustomPanel, LMDCustomBevelPanel, LMDBaseEdit, LMDCustomEdit, LMDCustomBrowseEdit, LMDCustomFileEdit, LMDFileOpenEdit, LMDCustomMaskEdit, LMDCustomExtSpinEdit, LMDSpinEdit,
   RXDice, RXClock, Placemnt,
@@ -13,11 +13,7 @@ uses
   ParamOpener, bsPolyglotUn, Mask, ToolEdit, Graphics, SUIForm;
 
 type
-  ELoadLibraryFailed = class(Exception);
-  ENoPSInterface = class(Exception);
-  ENullObject = class(Exception);
-
-  TShutdown = class(TForm, IHost)
+  TShutdown = class(TForm)
     Timer1: TTimer;
     Timer2: TTimer;
     SysTrayMenu: TPopupMenu;
@@ -36,8 +32,6 @@ type
     Timer3: TTimer;
     PingTimer: TTimer;
     Start: TLMDStarter;
-    Lellts1: TMenuItem;
-    hibernls1: TMenuItem;
     Munkallomszrolsa1: TMenuItem;
     GHRB: TLMDGlobalHotKey;
     GHH: TLMDGlobalHotKey;
@@ -51,7 +45,6 @@ type
     bsM: TbsPolyglotManager;
     GHAA: TLMDGlobalHotKey;
     fp: TFormPlacement;
-    Ments1: TMenuItem;
     suiForm1: TsuiForm;
     Valasztas: TPageControl;
     Time: TTabSheet;
@@ -123,8 +116,6 @@ type
     BitBtn2: TBitBtn;
     hkctif: THotKey;
     ctifhk: TLMDGlobalHotKey;
-    TabSheet1: TTabSheet;
-    ListBox1: TListBox;
     TabSheet2: TTabSheet;
     atom_servers: TListBox;
     IdSNTP1: TIdSNTP;
@@ -165,6 +156,10 @@ type
     Memo1: TMemo;
     Memo2: TMemo;
     server_CB: TCheckBox;
+    Suspend: TBitBtn;
+    HotKeySus: THotKey;
+    GHSus: TLMDGlobalHotKey;
+    wake_CB: TCheckBox;
     function TurnScreenSaverOn: boolean;
     function GetUserFromWindows: string;
     procedure DoDownload;
@@ -257,7 +252,6 @@ type
     procedure HotKeyAAChange(Sender: TObject);
     procedure GHAAKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure Ments1Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure ejectClick(Sender: TObject);
     procedure closeClick(Sender: TObject);
@@ -288,8 +282,6 @@ type
     procedure ctifhkKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure Button1Click(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
-    procedure ListBox1DblClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure atom_doClick(Sender: TObject);
     procedure atom_addButtonClick(Sender: TObject);
@@ -301,26 +293,13 @@ type
     procedure ServerSocket1ClientRead(Sender: TObject;
       Socket: TCustomWinSocket);
     procedure server_CBClick(Sender: TObject);
+    procedure SuspendClick(Sender: TObject);
+    procedure GHSusKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure HotKeySusChange(Sender: TObject);
   private
     INI, lini: TINIFile;
-    FPlugins: TList;
   public
-    procedure LoadPlugins;
-    procedure FlushPlugins;
-    function GetApplication: TApplication;
-    procedure RegisterAction(AAction: TAction);
-    procedure UnregisterAction(AAction: TAction);
-    function GetInterface(IID: TGUID; out Obj): Boolean;
-  end;
-
-  TPlugin = class
-    LibHandle: Cardinal;
-    LibFileName: string;
-    PluginInterface: IPlugin;
-    PluginLoad: TPluginLoadProc;
-    PluginUnload: TPluginUnloadProc;
-    procedure LoadPlugin(FileName: string);
-    procedure UnloadPlugin;
   end;
 
 var
@@ -328,7 +307,10 @@ var
   T3i: Extended;  //interval, ebbol kivonunk, kell a systray-hez
   cmd, recv: string;
   Active1, Active2, Active3: boolean;
+  _SetSuspendState: function (Hibernate, ForceCritical, DisableWakeEvent: BOOL): BOOL
+  stdcall = nil;
 
+    function LinkAPI(const module, functionname: string): Pointer; forward;
 function SHEmptyRecycleBin
    (Wnd:HWnd; LPCTSTR:PChar;
    DWORD:Word):Integer; stdcall;
@@ -343,124 +325,6 @@ implementation
 uses Unit2, Unit3;
 
 {$R *.dfm}
-
-//plugin
-procedure TPlugin.LoadPlugin(FileName: string);
-begin
-  // elõször is kell a dll handle
-  LibFileName := FileName;
-  LibHandle := LoadLibrary(PChar(FileName));
-  if LibHandle < 32 then // nem sikerült betölteni a dll-t
-    raise ELoadLibraryFailed.CreateFmt('Could not load %s', [ExtractFileName(FileName)]);
-  PluginLoad := GetProcAddress(LibHandle, PLUGINLOAD_ENTRY_POINT);
-  if not Assigned(PluginLoad) then // nem exportálta a kötelezõ függvényt
-    raise ENoPSInterface.CreateFmt('%s does not export %s', [ExtractFileName(FileName), PLUGINLOAD_ENTRY_POINT]);
-  PluginUnload := GetProcAddress(LibHandle, PLUGINUNLOAD_ENTRY_POINT);
-  PluginInterface := PluginLoad; // plugin objektum létrehozása, hibakezelés
-  if not Assigned(PluginInterface) then
-    raise ENullObject.CreateFmt('No interface returned from %s', [ExtractFileName(FileName)]);
-end;
-
-procedure TPlugin.UnloadPlugin;
-begin
-  // referenciaszámlálás van!
-  PluginInterface := nil;
-  // opcionális takarító eljárás
-  if Assigned(PluginUnload) then PluginUnload;
-  try
-    FreeLibrary(LibHandle);
-  except
-    raise Exception.CreateFmt('Could not unload %s. Handle: %s', [ExtractFileName(LibFileName), IntToHex(LibHandle, 8)]);
-  end;
-end;
-
-function TShutdown.GetApplication: TApplication;
-begin
-  Result := Application;
-end;
-
-{
-  GetInterface metódus: megpróbál keresni egy, a megadott interface-t támogató
-  plugin objektumot.
-}
-
-function TShutdown.GetInterface(IID: TGUID; out Obj): Boolean;
-var
-  I: Integer;
-  Plugin: IPlugin;
-begin
-  Result := True;
-  for I := 0 to FPlugins.Count - 1 do
-  begin
-    Plugin := TPlugin(FPlugins[I]).PluginInterface;
-    if Supports(Plugin, IID, Obj) then
-      Exit;
-  end;
-  Result := False;
-end;
-
-procedure TShutdown.RegisterAction(AAction: TAction);
-begin
-  ListBox1.Items.AddObject(AAction.Caption, AAction);
-end;
-
-procedure TShutdown.UnregisterAction(AAction: TAction);
-begin
-  if ListBox1.Items.IndexOfObject(AAction) > -1 then
-    ListBox1.Items.Delete(ListBox1.Items.IndexOfObject(AAction));
-end;
-
-procedure TShutdown.LoadPlugins;
-var
-  Plugin: TPlugin;
-  I: Integer;
-  SR: TSearchRec;
-begin
-  I := FindFirst(ExtractFilePath(Application.ExeName)+'*.dll', faAnyFile, SR);
-  while I = 0 do
-  begin
-    Plugin := TPlugin.Create;
-    try
-      Plugin.LoadPlugin(SR.Name);
-      Plugin.PluginInterface.InitPlugin(Self);
-      FPlugins.Add(Plugin);
-    except
-      on E: ELoadLibraryFailed do
-      begin
-        Plugin.Free;
-      end;
-      on E: ENoPSInterface do
-      begin
-        Plugin.Free;
-      end;
-      on E: ENullObject do
-      begin
-        Plugin.Free;
-        raise;
-      end;
-    end;
-    I := FindNext(SR);
-  end;
-  FindClose(SR);
-end;
-
-procedure TShutdown.FlushPlugins;
-var
-  I: Integer;
-  Plugin: TPlugin;
-begin
-  ListBox1.Clear;
-  for I := 0 to FPlugins.Count - 1 do
-  begin
-    Plugin := FPlugins[I];
-    Plugin.UnloadPlugin;
-    Plugin.Free;
-    FPlugins[I] := nil;
-  end;
-  FPlugins.Clear;
-end;
-
-//plugin vege
 
 function MyExitWindows(RebootParam: Longword): Boolean;  //ez a kikapcsolos cucc
 var
@@ -499,6 +363,31 @@ begin
   Result := ExitWindowsEx(RebootParam, 0);
 end;
 
+function SetSuspendState(Hibernate, ForceCritical,
+  DisableWakeEvent: Boolean): Boolean;
+begin
+  if not Assigned(_SetSuspendState) then
+    @_SetSuspendState := LinkAPI('POWRPROF.dll', 'SetSuspendState');
+  if Assigned(_SetSuspendState) then
+    Result := _SetSuspendState(Hibernate, ForceCritical,
+      DisableWakeEvent)
+  else
+    Result := False;
+end;
+
+function LinkAPI(const module, functionname: string): Pointer;
+var
+  hLib: HMODULE;
+begin
+  hLib := GetModulehandle(PChar(module));
+  if hLib = 0 then
+    hLib := LoadLibrary(PChar(module));
+  if hLib <> 0 then
+    Result := getProcAddress(hLib, PChar(functionname))
+  else
+    Result := nil;
+end;
+
 function TShutdown.TurnScreenSaverOn: boolean;  //wlock-bol raktam be, ss-t indit
 var b : bool;
 begin
@@ -530,6 +419,7 @@ function SHEmptyRecycleBin; external
 procedure TShutdown.DoDownload;
 var
 s1, s2: TStringList;
+ss1, ss2: string;
 begin
   with TDownloadURL.Create(self) do
     try
@@ -543,8 +433,10 @@ begin
   s2 := TStringList.Create;
   s1.LoadFromFile(ExtractFilePath(Application.EXEName)+'current.txt');
   s2.LoadFromFile(ExtractFilePath(Application.EXEName)+'update.txt');
-  if s1.Text <> s2.Text then
-    ShowMessage(lini.ReadString(bsM.CurrentLang, 'Update1', 'Version 3.2.0.')+s2.Text+' '+lini.ReadString(bsM.CurrentLang, 'Update2', 'is available!')+#13#10+lini.ReadString(bsM.CurrentLang, 'Update3', 'Get it from http://www.mosolyorszag.hu/david/prog/'));
+  ss1:=s1.Text;
+  ss2:=s2.Text;
+  if CompareText(ss2,ss1) > 0 then
+    ShowMessage(s2.Text+' '+lini.ReadString(bsM.CurrentLang, 'Update2', 'is available!')+#13#10+lini.ReadString(bsM.CurrentLang, 'Update3', 'Get it from http://shutdown.sf.net/'));
   s1.Free;
   s2.Free;
 end;
@@ -556,17 +448,18 @@ begin
      1: ShutDown.Click;
      2: ReBoot.Click;
      3: LogOff.Click;
-     4: Hibernate.Click;
-     5: LockWS.Click;
-     6: SSOn.Click;
-     7: BitBtn1.Click;
-     8: eject.Click;
-     9: close.Click;
-    10: recbin.Click;
-    11: clipb.Click;
-    12: mon0.Click;
-    13: mon1.Click;
-    14: BitBtn2.Click;
+     4: Suspend.Click;
+     5: Hibernate.Click;
+     6: LockWS.Click;
+     7: SSOn.Click;
+     8: BitBtn1.Click;
+     9: eject.Click;
+    10: close.Click;
+    11: recbin.Click;
+    12: clipb.Click;
+    13: mon0.Click;
+    14: mon1.Click;
+    15: BitBtn2.Click;
   end;
   EnMax;
 end;
@@ -676,7 +569,7 @@ ComSave, ComOpen -> alapertelmezett parancsot es nyelvet menti/betolti
 UserSave, UserOpen -> felhasznalo-specifikus cuccokat menti/betolti
 HotKeySave, HotKeyOpen -> gyorsbilleket menti/betolti
 WaveSave, WaveOpen -> hangbeallitasokat menti/betolti
-ForceCheck -> ellenorzi, hogy be van-e kapcsolva a kenyszerites
+ForceCheck -> ellenorzi, hogy be van-e kapcsolva a kenyszerites es a wake events
 DurvaCheck -> ellenorzi, hogy a hatterben kell-e futnia
 Piszka -> ellenorzi, hogy nincs-e tul sok autoshutdown bekapcsolva
 NapCheck -> minden inditaskor, betolti az adatokat
@@ -771,6 +664,7 @@ begin
   INI.WriteInteger('Hotkeys', 'SD', HotKeySD.HotKey);
   INI.WriteInteger('Hotkeys', 'ReB', HotKeyReB.HotKey);
   INI.WriteInteger('Hotkeys', 'LO', HotKeyLO.HotKey);
+  INI.WriteInteger('Hotkeys', 'Sus', HotKeySus.HotKey);
   INI.WriteInteger('Hotkeys', 'Hib', HotKeyHib.HotKey);
   INI.WriteInteger('Hotkeys', 'LWS', HotKeyLWS.HotKey);
   INI.WriteInteger('Hotkeys', 'SS', HotKeySS.HotKey);
@@ -791,6 +685,7 @@ begin
   HotKeySD.HotKey:=INI.ReadInteger('Hotkeys', 'SD', 0);
   HotKeyReB.HotKey:=INI.ReadInteger('Hotkeys', 'ReB', 0);
   HotKeyLO.HotKey:=INI.ReadInteger('Hotkeys', 'LO', 0);
+  HotKeySus.HotKey:=INI.ReadInteger('Hotkeys', 'Sus', 0);
   HotKeyHib.HotKey:=INI.ReadInteger('Hotkeys', 'Hib', 0);
   HotKeyLWS.HotKey:=INI.ReadInteger('Hotkeys', 'LWS', 0);
   HotKeySS.HotKey:=INI.ReadInteger('Hotkeys', 'SS', 0);
@@ -807,6 +702,7 @@ begin
   GHSD.HotKey:=HotKeySD.HotKey;
   GHRB.HotKey:=HotKeyReB.HotKey;
   GHLO.HotKey:=HotKeyLO.HotKey;
+  GHSus.HotKey:=HotKeySus.HotKey;
   GHH.HotKey:=HotKeyHib.HotKey;
   GHLWS.HotKey:=HotKeyLWS.HotKey;
   GHSS.HotKey:=HotKeySS.HotKey;
@@ -861,6 +757,8 @@ begin
   INI.WriteDateTime('AutoShutdown', 'Time', Idopont.DateTime);
   if force.Checked=True then
     INI.WriteBool('AutoShutdown', 'Force', True);
+  if wake_CB.Checked=True then
+    INI.WriteBool('AutoShutdown', 'NoWakeEvents', True);
   if parentalcontrol.Checked=True then
       INI.WriteBool('ParentalControl', 'Enabled', True);
     if INI.ReadBool('ParentalControl', 'Enabled', False) = True then begin
@@ -896,13 +794,15 @@ begin
   INI.WriteTime('AutoCountShutdown', 'Time', Idozito.Time);
   if force.Checked=True then
     INI.WriteBool('AutoShutdown', 'Force', True);
-    if parentalcontrol.Checked=True then
-      INI.WriteBool('ParentalControl', 'Enabled', True);
-    if INI.ReadBool('ParentalControl', 'Enabled', False) = True then begin
-      parentalcontrol.Visible:=True;
-      parentalcontrol.Checked:=True;
-      TrayIcon.Enabled:=False;
-    end;
+  if wake_CB.Checked=True then
+    INI.WriteBool('AutoShutdown', 'NoWakeEvents', True);
+  if parentalcontrol.Checked=True then
+    INI.WriteBool('ParentalControl', 'Enabled', True);
+  if INI.ReadBool('ParentalControl', 'Enabled', False) = True then begin
+    parentalcontrol.Visible:=True;
+    parentalcontrol.Checked:=True;
+    TrayIcon.Enabled:=False;
+  end;
   HotKeySave;
   ComSave;
   UserSave;
@@ -926,13 +826,15 @@ begin
   INI.WriteString('AutoPingShutdown', 'Path', eleres.Text);
   if force.Checked=True then
     INI.WriteBool('AutoShutdown', 'Force', True);
-    if parentalcontrol.Checked=True then
-      INI.WriteBool('ParentalControl', 'Enabled', True);
-    if INI.ReadBool('ParentalControl', 'Enabled', False) = True then begin
-      parentalcontrol.Visible:=True;
-      parentalcontrol.Checked:=True;
-      TrayIcon.Enabled:=False;
-    end;
+  if wake_CB.Checked=True then
+    INI.WriteBool('AutoShutdown', 'NoWakeEvents', True);
+  if parentalcontrol.Checked=True then
+    INI.WriteBool('ParentalControl', 'Enabled', True);
+  if INI.ReadBool('ParentalControl', 'Enabled', False) = True then begin
+    parentalcontrol.Visible:=True;
+    parentalcontrol.Checked:=True;
+    TrayIcon.Enabled:=False;
+  end;
   HotKeySave;
   ComSave;
   UserSave;
@@ -945,6 +847,8 @@ begin
     force.Checked:=False;
     Start.Parameters:='-s -t 00';
   end;
+  if INI.ReadBool('AutoShutdown', 'NoWakeEvents', False) then
+    wake_CB.Checked:=True;  
 end;
 
 procedure TShutdown.DurvaCheck;
@@ -1207,7 +1111,7 @@ begin
   if auto.Checked=True then begin
     parentalcontrol.Visible:=True;
     auto2.Checked:=True;
-    parentalcontrolClick(Self);
+    parentalcontrolClick(self);
   end else begin
     parentalcontrol.Visible:=False;
     parentalcontrolClick(Self);
@@ -1321,7 +1225,8 @@ end;
 
 procedure TShutdown.HibernateClick(Sender: TObject);
 begin
-  ShellExecute(Handle, 'open', 'rundll32.exe', PChar ('Powrprof.dll,SetSuspendState'), nil, SW_SHOWNORMAL);
+  SetSuspendState(True,force.Checked,wake_CB.Checked);
+//  ShellExecute(Handle, 'open', 'rundll32.exe', PChar ('Powrprof.dll,SetSuspendState'), nil, SW_SHOWNORMAL);
 end;
 
 procedure TShutdown.HotKeyPOffChange(Sender: TObject);
@@ -1332,7 +1237,6 @@ end;
 
 procedure TShutdown.HotKeySDChange(Sender: TObject);
 begin
-  Lellts1.ShortCut:=HotKeySD.HotKey;
   GHSD.HotKey:=HotKeySD.HotKey;
 end;
 
@@ -1350,7 +1254,6 @@ end;
 
 procedure TShutdown.HotKeyHibChange(Sender: TObject);
 begin
-  hibernls1.ShortCut:=HotKeyHib.HotKey;
   GHH.HotKey:=HotKeyHib.HotKey;
 end;
 
@@ -1389,8 +1292,6 @@ procedure TShutdown.FormCreate(Sender: TObject);
 begin
   INI := TINIFile.Create(ExtractFilePath(Application.EXEName) + 'Shutdown.ini');
   lini:= TINIFile.Create(ExtractFilePath(Application.ExeName) + bsM.LangsDir + 'Settings.ini');
-  FPlugins := TList.Create;
-  LoadPlugins;
 end;
 
 procedure TShutdown.SSOnClick(Sender: TObject);
@@ -1407,7 +1308,7 @@ end;
 procedure TShutdown.GHSSKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  Kpernyvd1.Click;
+  SSOn.Click;
 end;
 
 procedure TShutdown.GHPOKeyDown(Sender: TObject; var Key: Word;
@@ -1419,31 +1320,31 @@ end;
 procedure TShutdown.GHSDKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  Lellts1.Click;
+  ShutDown.Click;
 end;
 
 procedure TShutdown.GHRBKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  jraindts1.Click;
+  ReBoot.Click;
 end;
 
 procedure TShutdown.GHLWSKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  munkallomszrolsa1.Click;
+  LockWS.Click;
 end;
 
 procedure TShutdown.GHHKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  hibernls1.Click;
+  Hibernate.Click;
 end;
 
 procedure TShutdown.GHLOKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  kijelentkezs1.Click;
+  LogOff.Click;
 end;
 
 procedure TShutdown.StartAfterStart(Sender: TObject);
@@ -1496,13 +1397,6 @@ procedure TShutdown.GHAAKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   BitBtn1.Click;
-end;
-
-procedure TShutdown.Ments1Click(Sender: TObject);
-begin
-  Set1Save;
-  Set2Save;
-  Set3Save;
 end;
 
 procedure TShutdown.SpeedButton1Click(Sender: TObject);
@@ -1629,17 +1523,6 @@ begin
   DoDownload;
 end;
 
-procedure TShutdown.FormDestroy(Sender: TObject);
-begin
-  FlushPlugins;
-  FPlugins.Free;
-end;
-
-procedure TShutdown.ListBox1DblClick(Sender: TObject);
-begin
-  TAction(ListBox1.Items.Objects[ListBox1.ItemIndex]).Execute;
-end;
-
 procedure TShutdown.FormShow(Sender: TObject);
 begin
 //All the stuffs are in the OnStart Timer !
@@ -1695,6 +1578,7 @@ begin
   if FinalParam='shutdown' then begin ShutDown.Click; Application.Terminate; end else
   if FinalParam='restart' then begin ReBoot.Click; Application.Terminate; end else
   if FinalParam='logoff' then begin LogOff.Click; Application.Terminate; end else
+  if FinalParam='standby' then begin Suspend.Click; Application.Terminate; end else
   if FinalParam='hibernate' then begin Hibernate.Click; Application.Terminate; end else
   if FinalParam='lock' then begin LockWS.Click; Application.Terminate; end else
   if FinalParam='screensaver' then begin SSOn.Click; Application.Terminate; end else
@@ -1738,19 +1622,20 @@ begin
      1: begin ShutDown.Click; Memo1.Clear; end;
      2: begin ReBoot.Click; Memo1.Clear; end;
      3: begin LogOff.Click; Memo1.Clear; end;
-     4: begin Hibernate.Click; Memo1.Clear; end;
-     5: begin LockWS.Click; Memo1.Clear; end;
-     6: begin SSOn.Click; Memo1.Clear; end;
-     7: begin BitBtn1.Click; Memo1.Clear; end;
-     8: begin eject.Click; Memo1.Clear; end;
-     9: begin close.Click; Memo1.Clear; end;
-    10: begin recbin.Click; Memo1.Clear; end;
-    11: begin clipb.Click; Memo1.Clear; end;
-    12: begin mon0.Click; Memo1.Clear; end;
-    13: begin mon1.Click; Memo1.Clear; end;
-    14: begin BitBtn2.Click; Memo1.Clear; end;
-    15: begin SDMenu.Click; Memo1.Clear; end;
-    16: begin SpeedButton1.Click; Memo1.Clear; end;
+     4: begin Suspend.Click; Memo1.Clear; end;
+     5: begin Hibernate.Click; Memo1.Clear; end;
+     6: begin LockWS.Click; Memo1.Clear; end;
+     7: begin SSOn.Click; Memo1.Clear; end;
+     8: begin BitBtn1.Click; Memo1.Clear; end;
+     9: begin eject.Click; Memo1.Clear; end;
+    10: begin close.Click; Memo1.Clear; end;
+    11: begin recbin.Click; Memo1.Clear; end;
+    12: begin clipb.Click; Memo1.Clear; end;
+    13: begin mon0.Click; Memo1.Clear; end;
+    14: begin mon1.Click; Memo1.Clear; end;
+    15: begin BitBtn2.Click; Memo1.Clear; end;
+    16: begin SDMenu.Click; Memo1.Clear; end;
+    17: begin SpeedButton1.Click; Memo1.Clear; end;
     99:
   end;
   if pos('START_1',Memo1.Lines.Text)>0 then Active1:=True;
@@ -1787,6 +1672,22 @@ end;
 procedure TShutdown.server_CBClick(Sender: TObject);
 begin
   ServerSocket1.Active:=server_CB.Checked;
+end;
+
+procedure TShutdown.SuspendClick(Sender: TObject);
+begin
+  SetSuspendState(False,force.Checked,wake_CB.Checked);
+end;
+
+procedure TShutdown.GHSusKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  Suspend.Click;
+end;
+
+procedure TShutdown.HotKeySusChange(Sender: TObject);
+begin
+  GHSus.HotKey:=HotKeySus.HotKey;
 end;
 
 end.

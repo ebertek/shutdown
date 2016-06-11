@@ -22,7 +22,6 @@ object Shutdown: TShutdown
   ShowHint = True
   OnClose = FormClose
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -1386,7 +1385,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 32946.802209201380000000
+          Date = 32946.856723993060000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1609,7 +1608,7 @@ object Shutdown: TShutdown
           Left = 8
           Top = 8
           Width = 249
-          Height = 145
+          Height = 153
           Caption = 'Design'
           TabOrder = 0
           object auto: TCheckBox
@@ -1701,7 +1700,7 @@ object Shutdown: TShutdown
           Left = 376
           Top = 8
           Width = 265
-          Height = 65
+          Height = 81
           Caption = 'Shutdown'
           TabOrder = 1
           object force: TCheckBox
@@ -1732,6 +1731,7 @@ object Shutdown: TShutdown
               'Le'#225'll'#237't'#225's'
               #218'jraind'#237't'#225's'
               'Kijelentkez'#233's'
+              'K'#233'szenl'#233't'
               'Hibern'#225'l'#225's'
               'Munka'#225'llom'#225's lez'#225'r'#225'sa'
               'K'#233'perny'#337'k'#237'm'#233'l'#337
@@ -1744,10 +1744,19 @@ object Shutdown: TShutdown
               'Monitor be'
               'Ideiglenesen t'#225'rolt f'#225'jlok t'#246'rl'#233'se')
           end
+          object wake_CB: TCheckBox
+            Left = 8
+            Top = 56
+            Width = 249
+            Height = 17
+            Caption = 'Disable wake events'
+            TabOrder = 2
+            OnClick = forceClick
+          end
         end
         object GB_Alarm: TGroupBox
           Left = 376
-          Top = 80
+          Top = 88
           Width = 265
           Height = 73
           Caption = 'Alarm'
@@ -1788,7 +1797,7 @@ object Shutdown: TShutdown
         end
         object GB_Before: TGroupBox
           Left = 376
-          Top = 160
+          Top = 168
           Width = 265
           Height = 129
           Caption = 'Do before shutdown'
@@ -1844,13 +1853,13 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Style = csDropDownList
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 4
           end
         end
         object GB_Other: TGroupBox
           Left = 8
-          Top = 160
+          Top = 168
           Width = 249
           Height = 129
           Caption = 'Other settings'
@@ -1873,7 +1882,7 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett nyelv'
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 0
             Text = 'Magyar'
             OnChange = langCBChange
@@ -1924,7 +1933,7 @@ object Shutdown: TShutdown
           Left = 265
           Top = 8
           Width = 103
-          Height = 145
+          Height = 153
           TabStop = False
           ReadOnly = True
           TabOrder = 5
@@ -1932,7 +1941,7 @@ object Shutdown: TShutdown
         end
         object Memo2: TMemo
           Left = 265
-          Top = 160
+          Top = 168
           Width = 103
           Height = 129
           TabStop = False
@@ -1948,7 +1957,7 @@ object Shutdown: TShutdown
         ImageIndex = 2
         object SpeedButton1: TSpeedButton
           Left = 0
-          Top = 272
+          Top = 288
           Width = 23
           Height = 22
           Hint = 'V'#233'grehajt'#225's'
@@ -2010,7 +2019,7 @@ object Shutdown: TShutdown
         end
         object Hibernate: TBitBtn
           Left = 0
-          Top = 128
+          Top = 160
           Width = 177
           Height = 25
           Hint = 'Lefagyassza a sz'#225'm'#237't'#243'g'#233'pet'
@@ -2060,7 +2069,7 @@ object Shutdown: TShutdown
         end
         object HotKeyHib: THotKey
           Left = 185
-          Top = 128
+          Top = 160
           Width = 121
           Height = 19
           Hint = 'Hibern'#225'l'#225's'
@@ -2070,7 +2079,7 @@ object Shutdown: TShutdown
         end
         object Save4: TBitBtn
           Left = 153
-          Top = 272
+          Top = 288
           Width = 24
           Height = 24
           Hint = 'Gyorsbillenty'#369'k ment'#233'se'
@@ -2093,7 +2102,7 @@ object Shutdown: TShutdown
         end
         object LockWS: TBitBtn
           Left = 0
-          Top = 160
+          Top = 192
           Width = 177
           Height = 25
           Hint = 'Lez'#225'rja a munka'#225'llom'#225'st'
@@ -2103,7 +2112,7 @@ object Shutdown: TShutdown
         end
         object HotKeyLWS: THotKey
           Left = 185
-          Top = 160
+          Top = 192
           Width = 121
           Height = 19
           Hint = 'Munka'#225'llom'#225's z'#225'rol'#225'sa'
@@ -2123,7 +2132,7 @@ object Shutdown: TShutdown
         end
         object SSOn: TBitBtn
           Left = 0
-          Top = 192
+          Top = 224
           Width = 177
           Height = 25
           Hint = 'Elind'#237'tja a k'#233'perny'#337'k'#237'm'#233'l'#337't'
@@ -2133,7 +2142,7 @@ object Shutdown: TShutdown
         end
         object HotKeySS: THotKey
           Left = 185
-          Top = 192
+          Top = 224
           Width = 121
           Height = 19
           Hint = 'K'#233'perny'#337'k'#237'm'#233'l'#337' ind'#237't'#225'sa'
@@ -2143,7 +2152,7 @@ object Shutdown: TShutdown
         end
         object BitBtn1: TBitBtn
           Left = 0
-          Top = 224
+          Top = 256
           Width = 177
           Height = 25
           Hint = 'Hang lej'#225'tsz'#225'sa'
@@ -2153,7 +2162,7 @@ object Shutdown: TShutdown
         end
         object HotKeyAA: THotKey
           Left = 185
-          Top = 224
+          Top = 256
           Width = 121
           Height = 19
           Hint = 'Riaszt'#225's'
@@ -2301,6 +2310,26 @@ object Shutdown: TShutdown
           TabOrder = 31
           OnChange = hkctifChange
         end
+        object Suspend: TBitBtn
+          Left = 0
+          Top = 128
+          Width = 177
+          Height = 25
+          Hint = 'K'#233'szenl'#233't'
+          Caption = 'Standby'
+          TabOrder = 32
+          OnClick = SuspendClick
+        end
+        object HotKeySus: THotKey
+          Left = 185
+          Top = 128
+          Width = 121
+          Height = 19
+          Hint = 'Hibern'#225'l'#225's'
+          HotKey = 32768
+          TabOrder = 33
+          OnChange = HotKeySusChange
+        end
       end
       object UserSpecific: TTabSheet
         Hint = 
@@ -2346,14 +2375,14 @@ object Shutdown: TShutdown
         Caption = 'Atomic clock'
         ImageIndex = 7
         object atom_label: TLabel
-          Left = 32
-          Top = 8
+          Left = 16
+          Top = 16
           Width = 169
           Height = 13
           Caption = 'The system time is not synchronized'
         end
         object atom_servers: TListBox
-          Left = 32
+          Left = 16
           Top = 32
           Width = 169
           Height = 65
@@ -2366,7 +2395,7 @@ object Shutdown: TShutdown
           TabOrder = 0
         end
         object atom_do: TBitBtn
-          Left = 32
+          Left = 16
           Top = 136
           Width = 169
           Height = 25
@@ -2376,7 +2405,7 @@ object Shutdown: TShutdown
           OnClick = atom_doClick
         end
         object atom_add: TComboEdit
-          Left = 32
+          Left = 16
           Top = 96
           Width = 169
           Height = 21
@@ -2401,26 +2430,12 @@ object Shutdown: TShutdown
           OnButtonClick = atom_addButtonClick
         end
         object atom_CB: TCheckBox
-          Left = 32
+          Left = 16
           Top = 168
           Width = 169
           Height = 17
           Caption = 'Check on program start'
           TabOrder = 3
-        end
-      end
-      object TabSheet1: TTabSheet
-        Caption = 'Plugin'
-        ImageIndex = 6
-        object ListBox1: TListBox
-          Left = 0
-          Top = 0
-          Width = 646
-          Height = 317
-          Align = alClient
-          ItemHeight = 13
-          TabOrder = 0
-          OnDblClick = ListBox1DblClick
         end
       end
     end
@@ -2508,10 +2523,6 @@ object Shutdown: TShutdown
         OnClick = PowerOffClick
       end
     end
-    object Lellts1: TMenuItem
-      Caption = '&Le'#225'll'#237't'#225's'
-      OnClick = ShutDownClick
-    end
     object jraindts1: TMenuItem
       Caption = '&'#218'jraind'#237't'#225's'
       OnClick = ReBootClick
@@ -2520,10 +2531,6 @@ object Shutdown: TShutdown
       Caption = 'K&ijelentkez'#233's'
       OnClick = LogOffClick
     end
-    object hibernls1: TMenuItem
-      Caption = '&Hibern'#225'l'#225's'
-      OnClick = HibernateClick
-    end
     object Munkallomszrolsa1: TMenuItem
       Caption = 'Munka'#225'llom'#225's &z'#225'rol'#225'sa'
       OnClick = LockWSClick
@@ -2531,10 +2538,6 @@ object Shutdown: TShutdown
     object Kpernyvd1: TMenuItem
       Caption = 'K'#233'perny'#337'&v'#233'd'#337
       OnClick = SSOnClick
-    end
-    object Ments1: TMenuItem
-      Caption = 'Ment'#233's'
-      OnClick = Ments1Click
     end
     object Mgsem1: TMenuItem
       Caption = '&M'#233'gsem'
@@ -2708,5 +2711,11 @@ object Shutdown: TShutdown
     OnClientRead = ServerSocket1ClientRead
     Left = 413
     Top = 264
+  end
+  object GHSus: TLMDGlobalHotKey
+    HotKey = 0
+    OnKeyDown = GHSusKeyDown
+    Left = 384
+    Top = 440
   end
 end

@@ -871,7 +871,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 32946.805507268520000000
+          Date = 32946.831925092600000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1117,7 +1117,7 @@ object Shutdown: TShutdown
         ImageIndex = 3
         object SpeedButton1: TSpeedButton
           Left = 0
-          Top = 272
+          Top = 288
           Width = 23
           Height = 22
           Hint = 'V'#233'grehajt'#225's'
@@ -1179,7 +1179,7 @@ object Shutdown: TShutdown
         end
         object Hibernate: TBitBtn
           Left = 0
-          Top = 128
+          Top = 160
           Width = 177
           Height = 25
           Hint = 'Lefagyassza a sz'#225'm'#237't'#243'g'#233'pet'
@@ -1189,7 +1189,7 @@ object Shutdown: TShutdown
         end
         object LockWS: TBitBtn
           Left = 0
-          Top = 160
+          Top = 192
           Width = 177
           Height = 25
           Hint = 'Lez'#225'rja a munka'#225'llom'#225'st'
@@ -1199,7 +1199,7 @@ object Shutdown: TShutdown
         end
         object SSOn: TBitBtn
           Left = 0
-          Top = 192
+          Top = 224
           Width = 177
           Height = 25
           Hint = 'Elind'#237'tja a k'#233'perny'#337'k'#237'm'#233'l'#337't'
@@ -1209,7 +1209,7 @@ object Shutdown: TShutdown
         end
         object BitBtn1: TBitBtn
           Left = 0
-          Top = 224
+          Top = 256
           Width = 177
           Height = 25
           Hint = 'Hang lej'#225'tsz'#225'sa'
@@ -1300,7 +1300,7 @@ object Shutdown: TShutdown
         end
         object Save4: TBitBtn
           Left = 153
-          Top = 272
+          Top = 288
           Width = 24
           Height = 24
           Hint = 'Gyorsbillenty'#369'k ment'#233'se'
@@ -1320,6 +1320,15 @@ object Shutdown: TShutdown
             00037F7F333333337F7F000FFFFFFFFF07037F7F33333333777F000FFFFFFFFF
             0003737FFFFFFFFF7F7330099999999900333777777777777733}
           NumGlyphs = 2
+        end
+        object Suspend: TBitBtn
+          Left = 0
+          Top = 128
+          Width = 177
+          Height = 25
+          Hint = 'K'#233'szenl'#233't'
+          Caption = 'Standby'
+          TabOrder = 17
         end
       end
       object Kapcs: TTabSheet
@@ -1380,7 +1389,6 @@ object Shutdown: TShutdown
   end
   object bsM: TbsPolyglotManager
     LangsDir = '.\Languages\'
-    CurrentLang = 'Deutsch'
     TranslateResourceStrings = True
     CurrentLangChanging = bsMCurrentLangChanging
     Left = 432

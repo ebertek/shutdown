@@ -65,6 +65,7 @@ type
     RxClock1: TRxClock;
     Disconnect: TButton;
     Save4: TBitBtn;
+    Suspend: TBitBtn;
     procedure ComSave;
     procedure ComOpen;
     procedure Set1Save;
@@ -196,67 +197,67 @@ end;
 
 procedure TShutdown.HibernateClick(Sender: TObject);
 begin
-  Client.Socket.SendText(IntToStr(4)+' ');
+  Client.Socket.SendText(IntToStr(5)+' ');
 end;
 
 procedure TShutdown.LockWSClick(Sender: TObject);
 begin
-  Client.Socket.SendText(IntToStr(5)+' ');
+  Client.Socket.SendText(IntToStr(6)+' ');
 end;
 
 procedure TShutdown.SSOnClick(Sender: TObject);
 begin
-  Client.Socket.SendText(IntToStr(6)+' ');
+  Client.Socket.SendText(IntToStr(7)+' ');
 end;
 
 procedure TShutdown.BitBtn1Click(Sender: TObject);
 begin
-  Client.Socket.SendText(IntToStr(7)+' ');
+  Client.Socket.SendText(IntToStr(8)+' ');
 end;
 
 procedure TShutdown.ejectClick(Sender: TObject);
 begin
-  Client.Socket.SendText(IntToStr(8)+' ');
+  Client.Socket.SendText(IntToStr(9)+' ');
 end;
 
 procedure TShutdown.closeClick(Sender: TObject);
 begin
-  Client.Socket.SendText(IntToStr(9)+' ');
+  Client.Socket.SendText(IntToStr(10)+' ');
 end;
 
 procedure TShutdown.recbinClick(Sender: TObject);
 begin
-  Client.Socket.SendText(IntToStr(10)+' ');
+  Client.Socket.SendText(IntToStr(11)+' ');
 end;
 
 procedure TShutdown.clipbClick(Sender: TObject);
 begin
-  Client.Socket.SendText(IntToStr(11)+' ');
+  Client.Socket.SendText(IntToStr(12)+' ');
 end;
 
 procedure TShutdown.mon0Click(Sender: TObject);
 begin
-  Client.Socket.SendText(IntToStr(12)+' ');
+  Client.Socket.SendText(IntToStr(13)+' ');
 end;
 
 procedure TShutdown.mon1Click(Sender: TObject);
 begin
-  Client.Socket.SendText(IntToStr(13)+' ');
+  Client.Socket.SendText(IntToStr(14)+' ');
 end;
 
 procedure TShutdown.BitBtn2Click(Sender: TObject);
 begin
-  Client.Socket.SendText(IntToStr(14)+' ');
+  Client.Socket.SendText(IntToStr(15)+' ');
 end;
 
 procedure TShutdown.SDMenuClick(Sender: TObject);
 begin
-  Client.Socket.SendText(IntToStr(15)+' ');
+  Client.Socket.SendText(IntToStr(16)+' ');
 end;
 
 procedure TShutdown.SpeedButton1Click(Sender: TObject);
 begin
-  Client.Socket.SendText(IntToStr(16)+' ');
+  Client.Socket.SendText(IntToStr(17)+' ');
 end;
 
 procedure TShutdown.Set1Click(Sender: TObject);
