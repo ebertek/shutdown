@@ -20,6 +20,7 @@ object Shutdown: TShutdown
   Position = poMainFormCenter
   Scaled = False
   ShowHint = True
+  OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
@@ -1381,11 +1382,11 @@ object Shutdown: TShutdown
         object Calendar: TMonthCalendar
           Left = 8
           Top = 8
-          Width = 201
+          Width = 169
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 32946.671548032400000000
+          Date = 32946.885579421290000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1909,6 +1910,16 @@ object Shutdown: TShutdown
               0003737FFFFFFFFF7F7330099999999900333777777777777733}
             NumGlyphs = 2
           end
+        end
+        object Memo1: TMemo
+          Left = 264
+          Top = 8
+          Width = 105
+          Height = 281
+          TabStop = False
+          ReadOnly = True
+          TabOrder = 5
+          Visible = False
         end
       end
       object Veszhelyzet: TTabSheet
@@ -2665,7 +2676,7 @@ object Shutdown: TShutdown
     Top = 384
   end
   object atom_menu: TPopupMenu
-    Left = 445
+    Left = 448
     Top = 264
     object Delet1: TMenuItem
       Caption = 'Delete'
@@ -2676,5 +2687,13 @@ object Shutdown: TShutdown
     OnParamOpen = ParamOpener1ParamOpen
     Left = 168
     Top = 488
+  end
+  object ServerSocket1: TServerSocket
+    Active = True
+    Port = 381
+    ServerType = stNonBlocking
+    OnClientRead = ServerSocket1ClientRead
+    Left = 413
+    Top = 264
   end
 end

@@ -10,7 +10,8 @@ uses
   LMDCustomComponent, LMDStarter,  LMDControl, LMDBaseControl, LMDBaseGraphicControl, LMDGraphicControl, LMDBaseMeter, LMDCustomProgressFill, LMDProgressFill, LMDGlobalHotKey, LMDCustomControl, LMDCustomPanel, LMDCustomBevelPanel, LMDBaseEdit, LMDCustomEdit, LMDCustomBrowseEdit, LMDCustomFileEdit, LMDFileOpenEdit, LMDCustomMaskEdit, LMDCustomExtSpinEdit, LMDSpinEdit,
   RXDice, RXClock,
   bsPolyglotUn, Placemnt, SUIForm, CDOpener, Mask, ToolEdit, ParamOpener,
-  IdBaseComponent, IdComponent, IdUDPBase, IdUDPClient, IdSNTP, Graphics;
+  IdBaseComponent, IdComponent, IdUDPBase, IdUDPClient, IdSNTP, Graphics,
+  ScktComp;
 
 type
   ELoadLibraryFailed = class(Exception);
@@ -162,6 +163,8 @@ type
     langCB: TComboBox;
     Button1: TButton;
     Save4_2: TBitBtn;
+    ServerSocket1: TServerSocket;
+    Memo1: TMemo;
     function TurnScreenSaverOn: boolean;
     function GetUserFromWindows: string;
     procedure DoDownload;
@@ -294,6 +297,9 @@ type
     procedure BitBtn2Click(Sender: TObject);
     procedure ParamOpener1ParamOpen(Sender: TObject);
     procedure ontopCBClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure ServerSocket1ClientRead(Sender: TObject;
+      Socket: TCustomWinSocket);
   private
     INI, lini: TINIFile;
     FPlugins: TList;
@@ -319,6 +325,7 @@ type
 var
   Shutdown: TShutdown;
   T3i: Extended;  //interval, ebbol kivonunk, kell a systray-hez
+  cmd, recv: string;
 
 function SHEmptyRecycleBin
    (Wnd:HWnd; LPCTSTR:PChar;
@@ -1703,6 +1710,61 @@ begin
     FormStyle := fsStayOnTop
   else
     FormStyle := fsNormal;
+end;
+
+procedure TShutdown.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  ServerSocket1.Active:=False;
+end;
+
+procedure TShutdown.ServerSocket1ClientRead(Sender: TObject;
+  Socket: TCustomWinSocket);
+var
+  parancs: integer;
+  recv, cmd: string;
+begin
+  recv:=socket.ReceiveText;
+  cmd:=StringReplace(Trim(recv), ' ', #13#10, [rfReplaceAll]);
+  cmd:=StringReplace(cmd, 'RS', ' ', [rfReplaceAll]);
+  parancs := StrToIntDef(cmd, 99);
+  Memo1.Lines.Add(cmd);
+  case parancs of
+     0: begin PowerOff.Click; Memo1.Clear; end;
+     1: begin ShutDown.Click; Memo1.Clear; end;
+     2: begin ReBoot.Click; Memo1.Clear; end;
+     3: begin LogOff.Click; Memo1.Clear; end;
+     4: begin Hibernate.Click; Memo1.Clear; end;
+     5: begin LockWS.Click; Memo1.Clear; end;
+     6: begin SSOn.Click; Memo1.Clear; end;
+     7: begin BitBtn1.Click; Memo1.Clear; end;
+     8: begin eject.Click; Memo1.Clear; end;
+     9: begin close.Click; Memo1.Clear; end;
+    10: begin recbin.Click; Memo1.Clear; end;
+    11: begin clipb.Click; Memo1.Clear; end;
+    12: begin mon0.Click; Memo1.Clear; end;
+    13: begin mon1.Click; Memo1.Clear; end;
+    14: begin BitBtn2.Click; Memo1.Clear; end;
+    15: begin SDMenu.Click; Memo1.Clear; end;
+    16: begin SpeedButton1.Click; Memo1.Clear; end;
+    99:
+  end;
+  if pos('STOP_1',Memo1.Lines.Text)>0 then begin
+    Calendar.Date:=StrToDate(Memo1.Lines[1]);
+    Idopont.Time:=StrToTime(Memo1.Lines[2]);
+    Set1.Click;
+    Memo1.Clear;
+  end else
+  if pos('STOP_2',Memo1.Lines.Text)>0 then begin
+    Idozito.Time:=StrToTime(Memo1.Lines[1]);
+    Set2.Click;
+    Memo1.Clear;
+  end else
+  if pos('STOP_3',Memo1.Lines.Text)>0 then begin
+    eleres.Text:=Memo1.Lines[1];
+    PingTime.Value:=StrToInt(Memo1.Lines[2]);
+    Set3.Click;
+    Memo1.Clear;
+  end;
 end;
 
 end.
