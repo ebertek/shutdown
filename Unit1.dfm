@@ -1363,7 +1363,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 38565.872120219910000000
+          Date = 38565.928876226850000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1861,7 +1861,7 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett parancs'
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 1
             Text = 'Kikapcsol'#225's'
             Items.Strings = (
@@ -1972,13 +1972,13 @@ object Shutdown: TShutdown
           end
           object logCB: TCheckBox
             Left = 8
-            Top = 64
+            Top = 72
             Width = 249
             Height = 17
             Hint = 'Feljegyzi, hogy ki, mikor '#233's hogyan kapcsolta ki a sz'#225'm'#237't'#243'g'#233'pet'
             Caption = 'Loggol'#225's'
-            TabOrder = 2
-            OnClick = logCBClick
+            TabOrder = 3
+            OnClick = beshutCBClick
           end
           object annCB: TCheckBox
             Left = 8
@@ -1989,7 +1989,7 @@ object Shutdown: TShutdown
               'Vizu'#225'lis '#233's akusztikus visszasz'#225'ml'#225'l'#225's a kikapcsol'#225's el'#337'tt 9 m'#225's' +
               'odperccel'
             Caption = 'Visszasz'#225'ml'#225'l'#225's kikapcsol'#225's el'#337'tt'
-            TabOrder = 3
+            TabOrder = 4
             OnClick = annCBClick
           end
           object ann_CB: TComboBox
@@ -2001,8 +2001,8 @@ object Shutdown: TShutdown
               'Itt v'#225'laszthatod ki, hogy melyik hangcsomagot haszn'#225'lja a progra' +
               'm a visszasz'#225'ml'#225'l'#225'shoz'
             Style = csDropDownList
-            ItemHeight = 13
-            TabOrder = 4
+            ItemHeight = 0
+            TabOrder = 5
           end
           object volfade_CB: TCheckBox
             Left = 8
@@ -2011,8 +2011,8 @@ object Shutdown: TShutdown
             Height = 17
             Hint = 'A hanger'#337' lass'#250' leh'#250'z'#225'sa kikapcsol'#225's el'#337'tt'
             Caption = 'Hanger'#337' lehalk'#237't'#225'sa kikapcsol'#225's el'#337'tt'
-            TabOrder = 5
-            OnClick = volfade_CBClick
+            TabOrder = 6
+            OnClick = beshutCBClick
           end
           object volfade_E: TLMDSpinEdit
             Left = 8
@@ -2022,7 +2022,7 @@ object Shutdown: TShutdown
             Hint = 'A lehalk'#237't'#225's sebess'#233'ge'
             Bevel.Mode = bmWindows
             Caret.BlinkRate = 530
-            TabOrder = 6
+            TabOrder = 7
             AutoSelect = True
             CustomButtons = <>
             Step = 128.000000000000000000
@@ -2030,6 +2030,15 @@ object Shutdown: TShutdown
             MaxValue = 2147483647
             Value = 256
             DateTime = 0.000000000000000000
+          end
+          object clearCB: TCheckBox
+            Left = 8
+            Top = 56
+            Width = 249
+            Height = 17
+            Caption = 'Ideiglenes t'#225'rol'#243'k '#252'r'#237't'#233'se'
+            TabOrder = 2
+            OnClick = beshutCBClick
           end
         end
         object GB_Other: TGroupBox
@@ -2054,7 +2063,7 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett nyelv'
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 0
             OnChange = langCBChange
           end
@@ -2651,7 +2660,7 @@ object Shutdown: TShutdown
           Height = 17
           Caption = 'Ellen'#337'rz'#233's programind'#237't'#225'skor'
           TabOrder = 2
-          OnClick = atom_CBClick
+          OnClick = beshutCBClick
         end
         object atom_add: TComboEdit
           Left = 16
@@ -3680,8 +3689,9 @@ object Shutdown: TShutdown
       0001C07F0000FFC00001E07F0000FFFE0001FC7F0000FFFFFF03FFFF0000FFFF
       FF83FFFF0000FFFFFFE3FFFF0000FFFFFFFFFFFF0000FFFFFFFFFFFF0000FFFF
       FFFFFFFF0000FFFFFFFFFFFF0000}
-    ShowMinimizedIcon = True
     PopupMenu = SysTrayMenu
+    Interval = 1000
+    OnClick = TrayIconClick
     OnDblClick = TrayIconDblClick
     Left = 312
     Top = 504
