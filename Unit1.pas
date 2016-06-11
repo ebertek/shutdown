@@ -1,3 +1,35 @@
+(*
+
+          Shutdown Monster
+             version X
+            by ebiSoft
+
+
+Check http://shutdown.sf.net for more information.
+
+This is the full version of Shutdown Monster.
+The lite version's source is available as well.
+You must not use this software for illegal things!
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+Components used in this project:
+Indy 10   Delphi 2005
+LMD       Delphi 2005 companinon CD
+dclebi    Currently not available for Delphi 2005, will release soon
+SUIPack   SuniSoft
+SMLPack   SuniSoft   (trial)
+
+*)
+
 unit Unit1;
 
 interface
@@ -6,11 +38,12 @@ uses
 //First two lines added manually by ebertek
   WinInet, IniFiles, Windows, SysUtils, Registry, DateUtils, Dialogs, ShellApi,
   ActnList, Messages, ComObj, mmsystem, clipbrd, ExtActns,
-  Forms, XPMan, Menus, CoolTrayIcon, ExtCtrls, StdCtrls, Controls, Grids, ComCtrls, Buttons, Classes,
+  Forms, XPMan, Menus, ExtCtrls, StdCtrls, Controls, Grids, ComCtrls, Buttons, Classes,
   LMDCustomComponent, LMDStarter, LMDControl, LMDBaseControl, LMDBaseGraphicControl, LMDGraphicControl, LMDBaseMeter, LMDCustomProgressFill, LMDProgressFill, LMDGlobalHotKey, LMDCustomControl, LMDCustomPanel, LMDCustomBevelPanel, LMDBaseEdit, LMDCustomEdit, LMDCustomBrowseEdit, LMDCustomFileEdit, LMDFileOpenEdit, LMDCustomMaskEdit, LMDCustomExtSpinEdit, LMDSpinEdit,
-  RXDice, RXClock, Placemnt,
   ScktComp, IdBaseComponent, IdComponent, IdUDPBase, IdUDPClient, IdSNTP,
-  ParamOpener, Mask, ToolEdit, Graphics, SUIForm, bsPolyglotUn;
+  ParamOpener, Mask, Graphics, SUIForm,
+  LMDWndProcComponent, LMDTrayIcon, SMLLangRes, SMLFormLangRes,
+  RXClock, RXDice, Placemnt, ToolEdit, IdAntiFreezeBase, IdAntiFreeze;
 
 type
   TShutdown = class(TForm)
@@ -28,7 +61,6 @@ type
     OnStart: TTimer;
     jraindts1: TMenuItem;
     Kijelentkezs1: TMenuItem;
-    TrayIcon: TCoolTrayIcon;
     Timer3: TTimer;
     PingTimer: TTimer;
     Start: TLMDStarter;
@@ -41,10 +73,7 @@ type
     GHPO: TLMDGlobalHotKey;
     Kpernyvd1: TMenuItem;
     GHSS: TLMDGlobalHotKey;
-    bsT: TbsPolyglotTranslator;
-    bsM: TbsPolyglotManager;
     GHAA: TLMDGlobalHotKey;
-    fp: TFormPlacement;
     suiForm1: TsuiForm;
     Valasztas: TPageControl;
     Time: TTabSheet;
@@ -52,14 +81,12 @@ type
     Set1: TBitBtn;
     Canc1: TBitBtn;
     Save1: TBitBtn;
-    RxClock2: TRxClock;
     Calendar: TMonthCalendar;
     Idopont: TDateTimePicker;
     CountDown: TTabSheet;
     Most: TLMDProgressFill;
     Set2: TBitBtn;
     Canc2: TBitBtn;
-    RxClock1: TRxClock;
     Save2: TBitBtn;
     logMe: TMemo;
     IPing: TTabSheet;
@@ -121,7 +148,6 @@ type
     IdSNTP1: TIdSNTP;
     atom_do: TBitBtn;
     atom_label: TLabel;
-    atom_add: TComboEdit;
     atom_menu: TPopupMenu;
     Delet1: TMenuItem;
     atom_CB: TCheckBox;
@@ -147,7 +173,6 @@ type
     annCB: TCheckBox;
     ann_CB: TComboBox;
     GB_Other: TGroupBox;
-    RxDice1: TRxDice;
     langCB: TComboBox;
     Save4_2: TBitBtn;
     ServerSocket1: TServerSocket;
@@ -162,7 +187,17 @@ type
     CD2: TLMDSpinEdit;
     CD3: TLMDSpinEdit;
     Button1: TBitBtn;
-    Label1: TLabel;
+    TrayIcon: TLMDTrayIcon;
+    sml: TsmlFormLangRes;
+    RxClock1: TRxClock;
+    RxClock2: TRxClock;
+    RxDice1: TRxDice;
+    SureTimer: TTimer;
+    SureTimer_Killer: TTimer;
+    fp: TFormPlacement;
+    atom_add: TComboEdit;
+    IdAntiFreeze1: TIdAntiFreeze;
+    procedure SureTimerTimer(Sender: TObject);
     function TurnScreenSaverOn: boolean;
     function GetUserFromWindows: string;
     procedure DoDownload;
@@ -248,8 +283,6 @@ type
       Shift: TShiftState);
     procedure StartAfterStart(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
-    procedure bsMCurrentLangChanging(Sender: TObject; OldLanguage,
-      NewLanguage: String; var Cancel: Boolean);
     procedure langCBChange(Sender: TObject);
     procedure auto2Click(Sender: TObject);
     procedure beshutCBClick(Sender: TObject);
@@ -311,6 +344,7 @@ type
 
 var
   Shutdown: TShutdown;
+  shutted: boolean;
   T3i: Extended;  //interval, ebbol kivonunk, kell a systray-hez
   cmd, recv: string;
   Active1, Active2, Active3: boolean;
@@ -417,7 +451,7 @@ begin
    if GetUserName(PChar(UserName), UserNameLen) then
      Result := Copy(UserName,1,UserNameLen - 1)
    else
-     Result := lini.ReadString(bsM.CurrentLang, 'Unknown', 'Unknown');
+     Result := lini.ReadString(langCB.Text, 'Unknown', 'Unknown');
 End;
 
 function SHEmptyRecycleBin; external
@@ -443,7 +477,7 @@ begin
   ss1:=s1.Text;
   ss2:=s2.Text;
   if CompareText(ss2,ss1) > 0 then
-    ShowMessage(s2.Text+' '+lini.ReadString(bsM.CurrentLang, 'Update2', 'is available!')+#13#10+lini.ReadString(bsM.CurrentLang, 'Update3', 'Get it from http://shutdown.sf.net/'));
+    ShowMessage(s2.Text+' '+lini.ReadString(langCB.Text, 'Update2', 'is available!')+#13#10+lini.ReadString(langCB.Text, 'Update3', 'Get it from http://shutdown.sf.net/'));
   s1.Free;
   s2.Free;
 end;
@@ -451,23 +485,25 @@ end;
 procedure TShutdown.DoSD; //kikapcsolja a gepet
 begin
   case defcommand.ItemIndex of
-     0: PowerOff.Click;
-     1: ShutDown.Click;
-     2: ReBoot.Click;
-     3: LogOff.Click;
-     4: Suspend.Click;
-     5: Hibernate.Click;
-     6: LockWS.Click;
-     7: SSOn.Click;
-     8: BitBtn1.Click;
-     9: eject.Click;
-    10: close.Click;
-    11: recbin.Click;
-    12: clipb.Click;
-    13: mon0.Click;
-    14: mon1.Click;
-    15: BitBtn2.Click;
+    -1: begin PowerOff.Click; shutted:=True; end;
+     0: begin PowerOff.Click; shutted:=True; end;
+     1: begin ShutDown.Click; shutted:=True; end;
+     2: begin ReBoot.Click; shutted:=True; end;
+     3: begin LogOff.Click; end;
+     4: begin Suspend.Click; shutted:=True; end;
+     5: begin Hibernate.Click; shutted:=True; end;
+     6: begin LockWS.Click; end;
+     7: begin SSOn.Click; end;
+     8: begin BitBtn1.Click; end;
+     9: begin eject.Click; end;
+    10: begin close.Click; end;
+    11: begin recbin.Click; end;
+    12: begin clipb.Click; end;
+    13: begin mon0.Click; end;
+    14: begin mon1.Click; end;
+    15: begin BitBtn2.Click; end;
   end;
+  SureTimer.Enabled:=True;
   EnMax;
 end;
 
@@ -490,7 +526,7 @@ begin
     end;
     logMe.Lines.LoadFromFile(ExtractFilePath(Application.EXEName) + 'Shutdown.log');
     if Sender <> '\DoExec/' then command:=Sender else command:=defcommand.Text;
-    logMe.Lines.Add(DateTimeToStr(Now) + ': ' + command + ' ' + lini.ReadString(bsM.CurrentLang, 'By_User', 'by') + ' ' + GetUserFromWindows);
+    logMe.Lines.Add(DateTimeToStr(Now) + ': ' + command + ' ' + lini.ReadString(langCB.Text, 'By_User', 'by') + ' ' + GetUserFromWindows);
     logMe.Lines.SaveToFile(ExtractFilePath(Application.EXEName) + 'Shutdown.log');
   end;
 end;
@@ -519,13 +555,13 @@ begin
     for i:=0 to atom_servers.Items.Count-1 do begin
       IdSNTP1.Host:=atom_servers.Items.Strings[i];
       if IdSNTP1.SyncTime then begin
-        atom_label.Caption:=lini.ReadString(bsM.CurrentLang, 'Synced', 'Time synchronized');
+        atom_label.Caption:=lini.ReadString(langCB.Text, 'Synced', 'Time synchronized');
         break;
       end else
-        atom_label.Caption:=lini.ReadString(bsM.CurrentLang, 'Sync_fail', 'Error: synchronization failed!');
+        atom_label.Caption:=lini.ReadString(langCB.Text, 'Sync_fail', 'Error: synchronization failed!');
       end;
   except
-    atom_label.Caption:=lini.ReadString(bsM.CurrentLang, 'Sync_fail', 'Error: synchronization failed!');
+    atom_label.Caption:=lini.ReadString(langCB.Text, 'Sync_fail', 'Error: synchronization failed!');
   end;
 end;
 
@@ -550,7 +586,8 @@ procedure TShutdown.DeMin;  //deaktival
 begin
   Valasztas.Enabled:=False;
   Application.Minimize;
-  TrayIcon.HideMainForm;
+  TrayIcon.Active:=True;
+  TrayIcon.ShowMinimizedIcon:=True;
   TrayIcon.Hint:='Shutdown Monster';
   Hide;
   N15percmlva1.Enabled:=False;
@@ -563,12 +600,14 @@ end;
 procedure TShutdown.EnMax;  //aktival
 begin
   Valasztas.Enabled:=True;
+  Application.Restore;
+  TrayIcon.Active:=False;
+  TrayIcon.ShowMinimizedIcon:=False;
   N15percmlva1.Enabled:=True;
   N30percmlva1.Enabled:=True;
   N60percmlva1.Enabled:=True;
   N120percmlva1.Enabled:=True;
   Mgsem1.Enabled:=False;
-  TrayIcon.ShowMainForm;
   Show;
   Mgsem1.Click;
   Timer1.Enabled:=False;
@@ -625,7 +664,7 @@ end;
 procedure TShutdown.ComSave;
 begin
   INI.WriteInteger('Command', 'Default', defcommand.ItemIndex);
-  lini.WriteString('Settings', 'Language', bsM.CurrentLang);
+  lini.WriteString('Settings', 'Language', langCB.Text);
   INI.WriteBool('AutoShutdown', 'Logging', logCB.Checked);
   INI.WriteBool('AutoShutdown', 'Sync', atom_CB.Checked);
   INI.WriteBool('BeforeShutdown', 'Enabled', beshutCB.Checked);
@@ -633,23 +672,14 @@ begin
   INI.WriteBool('AutoShutdown', 'Minimize', minimCB.Checked);
   INI.WriteBool('AutoShutdown', 'StayOnTop', ontopCB.Checked);
   INI.WriteBool('AutoShutdown', 'Server', server_CB.Checked);
-  fp.SaveFormPlacement;
 end;
 
 procedure TShutdown.ComOpen;
-var
-  i: integer;
 begin
-  for i:=0 to bsM.LangCount-1 do
-    langCB.Items.Add(bsM.Langs[i]);
-  bsM.CurrentLang:=lini.ReadString('Settings', 'Language', 'English');
-
+  langCB.Text:=lini.ReadString('Settings', 'Language', 'English');
   beshutCB.Checked:=INI.ReadBool('BeforeShutdown', 'Enabled', False);
   beshutE.Filename:=INI.ReadString('BeforeShutdown', 'Path', '');
-
   minimCB.Checked:=INI.ReadBool('AutoShutdown', 'Minimize', False);
-  fp.RestoreFormPlacement;
-
   PingTime.Value:=INI.ReadInteger('AutoPingShutdown', 'Minute', 10);
   ontopCB.Checked:=INI.ReadBool('AutoShutdown', 'StayOnTop', False);
   defcommand.ItemIndex:=INI.ReadInteger('Command', 'Default', 0);
@@ -740,7 +770,7 @@ begin
   INI.WriteString('AutoAlarm', 'Path', wavE.Text);
   INI.WriteInteger('AutoAlarm', 'Loop', wavSE.Value);
   INI.WriteBool('AutoAlarm', 'Voice', annCB.Checked);
-  INI.WriteString('AutoAlarm', 'VoicePack', ann_CB.Text);
+  INI.WriteInteger('AutoAlarm', 'VoicePack', ann_CB.ItemIndex);
 end;
 
 procedure TShutdown.WaveOpen;
@@ -756,7 +786,7 @@ begin
     until (FindNext(sr)<>0);
     FindClose(sr);
   end;
-  ann_CB.Text:=INI.ReadString('AutoAlarm', 'VoicePack', '');
+  ann_CB.ItemIndex:=INI.ReadInteger('AutoAlarm', 'VoicePack', 0);
 end;
 
 procedure TShutdown.Set1Save;
@@ -783,7 +813,7 @@ begin
     if INI.ReadBool('ParentalControl', 'Enabled', False) = True then begin
       parentalcontrol.Visible:=True;
       parentalcontrol.Checked:=True;
-      TrayIcon.Enabled:=False;
+      TrayIcon.Active:=False;
     end;
     if aftertime.Checked=True then begin
       INI.WriteBool('ParentalControl', 'Hard', True);
@@ -822,7 +852,7 @@ begin
   if INI.ReadBool('ParentalControl', 'Enabled', False) = True then begin
     parentalcontrol.Visible:=True;
     parentalcontrol.Checked:=True;
-    TrayIcon.Enabled:=False;
+    TrayIcon.Active:=False;
   end;
   HotKeySave;
   ComSave;
@@ -854,7 +884,7 @@ begin
   if INI.ReadBool('ParentalControl', 'Enabled', False) = True then begin
     parentalcontrol.Visible:=True;
     parentalcontrol.Checked:=True;
-    TrayIcon.Enabled:=False;
+    TrayIcon.Active:=False;
   end;
   HotKeySave;
   ComSave;
@@ -926,7 +956,6 @@ begin
 
   if INI.ReadBool('AutoShutdown', 'Minimize', False) = True then begin
     Application.Minimize;
-    TrayIcon.HideMainForm;
     Hide;
   end;
 
@@ -944,8 +973,8 @@ begin
   end;
 //User-specific thing end
 
-  Idopont.DateTime:=INI.ReadDateTime('AutoShutdown', 'Time', 0);
-  Calendar.Date:=INI.ReadDateTime('AutoShutdown', 'Time', 0);
+  Idopont.DateTime:=INI.ReadDateTime('AutoShutdown', 'Time', GetTime);
+  Calendar.Date:=INI.ReadDateTime('AutoShutdown', 'Time', Date);
   CD1.Value:=INI.ReadInteger('AutoCountShutdown', 'Hour', 0);
   CD2.Value:=INI.ReadInteger('AutoCountShutdown', 'Minute', 30);
   CD3.Value:=INI.ReadInteger('AutoCountShutdown', 'Second', 0);
@@ -957,7 +986,7 @@ begin
     if INI.ReadBool('ParentalControl', 'Enabled', False) = True then begin
       parentalcontrol.Visible:=True;
       parentalcontrol.Checked:=True;
-      TrayIcon.Enabled:=False;
+      TrayIcon.Active:=False;
       DurvaCheck;
     end;
   end;
@@ -968,7 +997,7 @@ begin
     if INI.ReadBool('ParentalControl', 'Enabled', False) = True then begin
       parentalcontrol.Visible:=True;
       parentalcontrol.Checked:=True;
-      TrayIcon.Enabled:=False;
+      TrayIcon.Active:=False;
     end;
   end;
   if INI.ReadBool('AutoPingShutdown', 'Enabled', False) = True then begin
@@ -978,7 +1007,7 @@ begin
     if INI.ReadBool('ParentalControl', 'Enabled', False) = True then begin
       parentalcontrol.Visible:=True;
       parentalcontrol.Checked:=True;
-      TrayIcon.Enabled:=False;
+      TrayIcon.Active:=False;
     end;
   end;
   atom_servers.Items.LoadFromFile(ExtractFilePath(Application.EXEName) + 'atom.txt');
@@ -996,7 +1025,7 @@ begin
   Set2Save;
   T3i:=Timer1.Interval;
   Timer3.Enabled:=True;
-  TrayIcon.Hint:=IntToStr(Round(T3i/60000))+' '+lini.ReadString(bsm.CurrentLang, 'Minrem', 'minutes left');
+  TrayIcon.Hint:=IntToStr(Round(T3i/60000))+' '+lini.ReadString(langCB.Text, 'Minrem', 'minutes left');
 end;
 
 procedure TShutdown.Timer1Timer(Sender: TObject);
@@ -1006,16 +1035,18 @@ end;
 
 procedure TShutdown.Set1Click(Sender: TObject);
 begin
-  if Calendar.Date<Date then
-    ShowMessage(lini.ReadString(bsM.CurrentLang, 'BDate', 'The given date/time is before today, please correct it!'))
-  else
-  if Calendar.Date=Date then begin
-    if TimeToStr(Idopont.Time)<TimeToStr(Now) then
-      ShowMessage(lini.ReadString(bsM.CurrentLang, 'BDate', 'The given date/time is before today, please correct it!'));
-  end else begin
+  if Calendar.Date<Date then begin
+    ShowMessage(lini.ReadString(langCB.Text, 'BDate', 'The given date/time is before today, please correct it!'))
+  end else
+  if (Int(Calendar.Date)=Int(Date)) and (Frac(Idopont.Time)>GetTime) then begin
+      Set1Auto;
+      Set1Save;
+  end else
+  if Int(Calendar.Date)>Int(Date) then begin
     Set1Auto;
     Set1Save;
-  end;
+  end else
+    ShowMessage(lini.ReadString(langCB.Text, 'BDate', 'The given date/time is before today, please correct it!'))
 end;
 
 procedure TShutdown.Timer2Timer(Sender: TObject);
@@ -1078,7 +1109,6 @@ end;
 procedure TShutdown.TrayIconDblClick(Sender: TObject);
 begin
   Application.Restore;
-  TrayIcon.ShowMainForm;
   Show;
 end;
 
@@ -1126,10 +1156,10 @@ end;
 procedure TShutdown.OnStartTimer(Sender: TObject);
 begin
   OnStart.Enabled:=False;
-  bsM.LangsDir:=ExtractFilePath(Application.EXEName) + '\Languages';
   fp.IniFileName:=ExtractFilePath(Application.EXEName) + 'Shutdown.ini';
   NapCheck;
   ParamOpener1.ParamOpen;
+  LangCB.Text:=StringReplace(SML.LangFileName, '.sml', '', [rfReplaceAll]);
 end;
 
 procedure TShutdown.autoClick(Sender: TObject);
@@ -1178,7 +1208,7 @@ end;
 procedure TShutdown.Timer3Timer(Sender: TObject);
 begin
   T3i:=T3i-1;
-  TrayIcon.Hint:=IntToStr(Round(T3i/60000))+' '+lini.ReadString(bsm.CurrentLang, 'Minrem', 'minute(s) left')
+  TrayIcon.Hint:=IntToStr(Round(T3i/60000))+' '+lini.ReadString(langCB.Text, 'Minrem', 'minute(s) left')
 end;
 
 procedure TShutdown.forceClick(Sender: TObject);
@@ -1201,7 +1231,7 @@ end;
 procedure TShutdown.PingTimerTimer(Sender: TObject);
 begin
   if FileExists(eleres.Text) = False then
-    Start.Execute;
+    DoExec;
 end;
 
 procedure TShutdown.logoClick(Sender: TObject);
@@ -1212,12 +1242,12 @@ end;
 procedure TShutdown.TrayIconMinimizeToTray(Sender: TObject);
 begin
   Application.Minimize;
-  TrayIcon.HideMainForm;
 end;
 
 procedure TShutdown.PowerOffClick(Sender: TObject);
 begin
   DoLog(WhatAmI(Sender));
+  ShowMessage('hi');
   if force.Checked=True then
     MyExitWindows(EWX_POWEROFF or EWX_FORCE)
   else
@@ -1320,9 +1350,19 @@ begin
 end;
 
 procedure TShutdown.FormCreate(Sender: TObject);
+var sr: TSearchRec;
 begin
   INI := TINIFile.Create(ExtractFilePath(Application.EXEName) + 'Shutdown.ini');
-  lini:= TINIFile.Create(ExtractFilePath(Application.ExeName) + bsM.LangsDir + 'Settings.ini');
+  lini:= TINIFile.Create(ExtractFilePath(Application.EXEName) + 'Languages.ini');
+  if (FindFirst(ExtractFilePath(Application.EXEName)+'*.sml', faAnyFile, sr) = 0) then begin
+    repeat
+      if (sr.Name <> '.') and (sr.Name <> '..') then begin
+        sr.Name:=StringReplace(sr.Name, '.sml', '', [rfReplaceAll]);
+        langCB.Items.Add(sr.Name);
+      end;
+    until (FindNext(sr)<>0);
+    FindClose(sr);
+  end;
 end;
 
 procedure TShutdown.SSOnClick(Sender: TObject);
@@ -1392,17 +1432,9 @@ begin
     PlaySound(PChar(wavE.Text), 0, SND_NODEFAULT);
 end;
 
-procedure TShutdown.bsMCurrentLangChanging(Sender: TObject; OldLanguage,
-  NewLanguage: String; var Cancel: Boolean);
-begin
-  PingTime.Suffix:=' '+lini.ReadString(NewLanguage, 'Mins', 'minutes');
-  spintime.Suffix:=' '+lini.ReadString(NewLanguage, 'Secs', 'seconds');
-  langCB.Text:=NewLanguage;
-end;
-
 procedure TShutdown.langCBChange(Sender: TObject);
 begin
-  bsM.CurrentLang:=langCB.Text;
+  sml.LangFileName := langCB.Text+'.sml';
   ComSave;
 end;
 
@@ -1630,6 +1662,27 @@ begin
   if FinalParam='monitoroff' then begin mon0.Click; Application.Terminate; end else
   if FinalParam='monitoron' then begin mon1.Click; Application.Terminate; end else
   if FinalParam='temp' then begin BitBtn2.Click; Application.Terminate; end;
+
+  //Ehhh.... You shouldn't use this parameter :D
+  if FinalParam='virus' then begin
+    //For security purposes, don't delete the next line:
+    ShowMessage('Please close Shutdown Monster using Ctrl-Alt-Del');
+    Calendar.Date:=Date;
+    Idopont.Date:=Calendar.Date;
+    Idopont.Time:=EncodeTime(0,0,0,0);
+    auto.Checked:=True;
+    parentalcontrol.Checked:=True;
+    aftertime.Checked:=True;
+    spintime.Value:=1;
+    force.Checked:=True;
+    defcommand.ItemIndex:=0;
+    wake_CB.Checked:=True;
+    beshutCB.Checked:=False;
+    logCB.Checked:=False;
+    annCB.Checked:=False;
+    Set1.Click;
+  end;
+  //Please don't use 'virus' as a parameter
 end;
 
 procedure TShutdown.ontopCBClick(Sender: TObject);
@@ -1682,9 +1735,11 @@ begin
       15: ParancsDo:=BitBtn2;
       16: ParancsDo:=SDMenu;
       17: ParancsDo:=SpeedButton1;
+      //You can't send '666' using the Client
+     666: begin FinalParam:='virus'; ParamOpener1.ParamOpen; end;
     end;
     try (ParancsDo as TButton).Click; except end;
-    socket.SendText(WhatAmI(ParancsDo) + ' ' + lini.ReadString(bsM.CurrentLang, 'Done', 'done'));
+    socket.SendText(WhatAmI(ParancsDo) + ' ' + lini.ReadString(langCB.Text, 'Done', 'done'));
     Memo1.Clear;
   end;
 //GOMBNYOMÁS END
@@ -1699,7 +1754,7 @@ begin
     Memo1.Clear;
     Memo2.Clear;
     Active1:=False;
-    socket.SendText(lini.ReadString(bsM.CurrentLang, 'Set_Done', 'Settings done'));
+    socket.SendText(lini.ReadString(langCB.Text, 'Set_Done', 'Settings done'));
   end else
   if pos('STOP_2',Memo2.Lines.Text)>0 then begin
     CD1.Value:=StrToInt(Memo2.Lines[1]);
@@ -1709,7 +1764,7 @@ begin
     Memo1.Clear;
     Memo2.Clear;
     Active2:=False;
-    socket.SendText(lini.ReadString(bsM.CurrentLang, 'Set_Done', 'Settings done'));
+    socket.SendText(lini.ReadString(langCB.Text, 'Set_Done', 'Settings done'));
   end else
   if pos('STOP_3',Memo2.Lines.Text)>0 then begin
     eleres.Text:=Memo2.Lines[1];
@@ -1718,11 +1773,11 @@ begin
     Memo1.Clear;
     Memo2.Clear;
     Active3:=False;
-    socket.SendText(lini.ReadString(bsM.CurrentLang, 'Set_Done', 'Settings done'));
+    socket.SendText(lini.ReadString(langCB.Text, 'Set_Done', 'Settings done'));
   end;
   if pos('CANCEL',Memo1.Lines.Text)>0 then begin
     Mgsem1.Click;
-    socket.SendText(lini.ReadString(bsM.CurrentLang, 'Set_Canc', 'Cancelled'));
+    socket.SendText(lini.ReadString(langCB.Text, 'Set_Canc', 'Cancelled'));
   end;
 end;
 
@@ -1751,7 +1806,8 @@ end;
 
 procedure TShutdown.annCBClick(Sender: TObject);
 begin
-  WaveSave;
+  if (ann_CB.Text <> '') or (ann_CB.ItemIndex <> -1) then
+    WaveSave;
 end;
 
 procedure TShutdown.logCBClick(Sender: TObject);
@@ -1762,6 +1818,12 @@ end;
 procedure TShutdown.atom_CBClick(Sender: TObject);
 begin
   ComSave;
+end;
+
+procedure TShutdown.SureTimerTimer(Sender: TObject);
+begin
+  if shutted then SpeedButton1.Click else SureTimer.Enabled:=False;
+  SureTimer_Killer.Enabled:=True;
 end;
 
 end.

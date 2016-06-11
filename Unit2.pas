@@ -3,7 +3,7 @@ unit Unit2;
 interface
 
 uses Windows, SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,
-  Buttons, ExtCtrls, bsPolyglotUn, SUIForm;
+  Buttons, ExtCtrls, SUIForm;
 
 type
   Tabout = class(TForm)
@@ -14,8 +14,6 @@ type
     Version: TLabel;
     Copyright: TLabel;
     OKButton: TButton;
-    bsT2: TbsPolyglotTranslator;
-    bsM2: TbsPolyglotManager;
     Label1: TLabel;
     procedure Label1MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);

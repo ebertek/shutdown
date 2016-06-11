@@ -10,13 +10,11 @@ uses
   LMDCustomMaskEdit, LMDCustomExtSpinEdit, LMDSpinEdit, LMDCustomControl,
   LMDCustomPanel, LMDCustomBevelPanel, LMDBaseEdit, LMDCustomEdit,
   LMDCustomBrowseEdit, LMDCustomFileEdit, LMDFileOpenEdit, ScktComp,
-  bsPolyglotUn, ExtCtrls, SUIForm, RXClock;
+  ExtCtrls, SUIForm, RXClock;
 
 type
   TShutdown = class(TForm)
     Client: TClientSocket;
-    bsT: TbsPolyglotTranslator;
-    bsM: TbsPolyglotManager;
     OnStart: TTimer;
     suiForm1: TsuiForm;
     Valasztas: TPageControl;
@@ -124,18 +122,18 @@ implementation
 
 procedure TShutdown.ComSave;
 begin
-  lini.WriteString('Settings', 'Language', bsM.CurrentLang);
-  INI.WriteString('AutoShutdown', 'IP', IP_Edit.Text);
+//  lini.WriteString('Settings', 'Language', bsM.CurrentLang);
+//  INI.WriteString('AutoShutdown', 'IP', IP_Edit.Text);
 end;
 
 procedure TShutdown.ComOpen;
-var
-  i: integer;
+//var
+//  i: integer;
 begin
-  for i:=0 to bsM.LangCount-1 do
-    langCB.Items.Add(bsM.Langs[i]);
-  bsM.CurrentLang:=lini.ReadString('Settings', 'Language', 'English');
-  IP_Edit.Text:=INI.ReadString('AutoShutdown', 'IP', '127.0.0.1');  
+//  for i:=0 to bsM.LangCount-1 do
+//   langCB.Items.Add(bsM.Langs[i]);
+//  bsM.CurrentLang:=lini.ReadString('Settings', 'Language', 'English');
+  IP_Edit.Text:=INI.ReadString('AutoShutdown', 'IP', '127.0.0.1');
 end;
 
 procedure TShutdown.Set1Save;
@@ -180,7 +178,8 @@ begin
     Connect.Enabled:=False;
     Disconnect.Enabled:=True;
   except
-    ShowMessage(lini.ReadString(bsM.CurrentLang, 'Conn_er', 'Please type in a valid IP address!'));
+//    ShowMessage(lini.ReadString(bsM.CurrentLang, 'Conn_er', 'Please type in a valid IP address!'));
+    ShowMessage('A kapcsolódás sikertelen');
   end;
 end;
 
@@ -298,29 +297,29 @@ end;
 
 procedure TShutdown.langCBChange(Sender: TObject);
 begin
-  bsM.CurrentLang:=langCB.Text;
+//  bsM.CurrentLang:=langCB.Text;
   ComSave;
 end;
 
 procedure TShutdown.FormShow(Sender: TObject);
-var
-  i: integer;
+//var
+//  i: integer;
 begin
-  for i:=0 to bsM.LangCount-1 do
-    langCB.Items.Add(bsM.Langs[i]);
+//  for i:=0 to bsM.LangCount-1 do
+//    langCB.Items.Add(bsM.Langs[i]);
 end;
 
 procedure TShutdown.OnStartTimer(Sender: TObject);
 begin
   OnStart.Enabled:=False;
-  bsM.LangsDir:=ExtractFilePath(Application.EXEName) + '\Languages';
+//  bsM.LangsDir:=ExtractFilePath(Application.EXEName) + '\Languages';
   NapCheck;
 end;
 
 procedure TShutdown.FormCreate(Sender: TObject);
 begin
   INI := TINIFile.Create(ExtractFilePath(Application.EXEName) + 'ShutdC.ini');
-  lini:= TINIFile.Create(ExtractFilePath(Application.ExeName) + bsM.LangsDir + 'Settings.ini');
+//  lini:= TINIFile.Create(ExtractFilePath(Application.ExeName) + bsM.LangsDir + 'Settings.ini');
 end;
 
 procedure TShutdown.bsMCurrentLangChanging(Sender: TObject; OldLanguage,

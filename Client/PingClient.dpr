@@ -1,5 +1,8 @@
 program PingClient;
 
+{%File 'ModelSupport\Main\Main.txvpck'}
+{%File 'ModelSupport\default.txvpck'}
+
 uses
   Forms,
   Main in 'Main.pas' {Shutdown};

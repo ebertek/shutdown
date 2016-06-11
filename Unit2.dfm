@@ -6,7 +6,8 @@ object about: Tabout
   ClientHeight = 200
   ClientWidth = 301
   Color = clBtnFace
-  Constraints.MinWidth = 130
+  Constraints.MinHeight = 50
+  Constraints.MinWidth = 125
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -18,10 +19,10 @@ object about: Tabout
   PixelsPerInch = 96
   TextHeight = 13
   object suiForm1: TsuiForm
-    Left = 1
+    Left = 0
     Top = 0
-    Width = 299
-    Height = 199
+    Width = 301
+    Height = 200
     TitleBarCustom = False
     UIStyle = DeepBlue
     UIStyleAutoUpdateSub = False
@@ -542,12 +543,12 @@ object about: Tabout
     MenuBarColor = 15263976
     MenuBarHeight = 22
     RoundCorner = 0
-    Version = '4.30'
+    Version = '5.3'
     object Panel1: TPanel
       Left = 0
-      Top = 32
-      Width = 299
-      Height = 167
+      Top = 29
+      Width = 301
+      Height = 171
       Hint = 'A program adatai'
       Align = alClient
       BevelOuter = bvNone
@@ -556,8 +557,8 @@ object about: Tabout
       object ProgramIcon: TImage
         Left = 0
         Top = 0
-        Width = 299
-        Height = 167
+        Width = 301
+        Height = 171
         Hint = 'Shutdown Monster'
         Align = alClient
         Center = True
@@ -962,10 +963,10 @@ object about: Tabout
       object Version: TLabel
         Left = 8
         Top = 32
-        Width = 50
+        Width = 39
         Height = 52
-        Hint = 'A jelenlegi '#233'v'
-        Caption = 'Halloween'#13#10'3.2.0.11'#13#10#13#10'2004'
+        Hint = 'A verzi'#243'sz'#225'm'
+        Caption = 'X -'#13#10'3.2.0.12'#13#10#13#10'2005'
         Transparent = True
         IsControl = True
       end
@@ -1012,17 +1013,5 @@ object about: Tabout
       ModalResult = 1
       TabOrder = 2
     end
-  end
-  object bsT2: TbsPolyglotTranslator
-    Manager = bsM2
-    Left = 264
-    Top = 168
-  end
-  object bsM2: TbsPolyglotManager
-    LangsDir = '.\Languages\'
-    CurrentLang = 'Magyar'
-    TranslateResourceStrings = True
-    Left = 232
-    Top = 168
   end
 end
