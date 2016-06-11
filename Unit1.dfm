@@ -1,12 +1,12 @@
 object Shutdown: TShutdown
-  Left = 235
-  Top = 208
+  Left = 200
+  Top = 207
   Hint = 'Shutdown Monster'
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Shutdown Monster'
-  ClientHeight = 354
-  ClientWidth = 569
+  ClientHeight = 378
+  ClientWidth = 656
   Color = clBtnFace
   TransparentColorValue = clFuchsia
   Constraints.MinWidth = 130
@@ -28,8 +28,8 @@ object Shutdown: TShutdown
   object suiForm1: TsuiForm
     Left = 1
     Top = 0
-    Width = 567
-    Height = 353
+    Width = 654
+    Height = 377
     TitleBarCustom = False
     UIStyle = DeepBlue
     UIStyleAutoUpdateSub = True
@@ -863,8 +863,8 @@ object Shutdown: TShutdown
     object Valasztas: TPageControl
       Left = 0
       Top = 32
-      Width = 567
-      Height = 321
+      Width = 654
+      Height = 345
       Hint = 'V'#225'lassz ki egy f'#252'let!'
       ActivePage = Time
       Align = alClient
@@ -875,7 +875,7 @@ object Shutdown: TShutdown
         Caption = 'Id'#337'pont'
         ImageIndex = 8
         object logo: TImage
-          Left = 352
+          Left = 440
           Top = 0
           Width = 207
           Height = 169
@@ -1367,8 +1367,8 @@ object Shutdown: TShutdown
         end
         object RxClock2: TRxClock
           Left = 0
-          Top = 260
-          Width = 559
+          Top = 284
+          Width = 646
           Height = 33
           Hint = 'A jelenlegi rendszerid'#337
           BevelInner = bvRaised
@@ -1385,7 +1385,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 32946.789171006940000000
+          Date = 32946.671548032400000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1407,8 +1407,8 @@ object Shutdown: TShutdown
         ImageIndex = 7
         object Most: TLMDProgressFill
           Left = 0
-          Top = 277
-          Width = 559
+          Top = 301
+          Width = 646
           Height = 16
           Hint = 'Itt mutatja, hogy a megadott id'#337'nek h'#225'ny %-a telt le'
           Align = alBottom
@@ -1442,8 +1442,8 @@ object Shutdown: TShutdown
         end
         object RxClock1: TRxClock
           Left = 0
-          Top = 244
-          Width = 559
+          Top = 268
+          Width = 646
           Height = 33
           Hint = 'A jelenlegi rendszerid'#337
           BevelInner = bvRaised
@@ -1604,271 +1604,311 @@ object Shutdown: TShutdown
         Hint = 'Itt egy'#233'b, a program m'#369'k'#246'd'#233's'#233't befoly'#225'sol'#243' opci'#243'k adhat'#243'k meg'
         Caption = 'Egy'#233'b'
         ImageIndex = 3
-        object auto: TCheckBox
-          Left = 16
-          Top = 16
-          Width = 177
-          Height = 14
-          Hint = 
-            'A sz'#225'm'#237't'#243'g'#233'p minden nap kikapcsol a megadott id'#337'pontban vagy a m' +
-            'egadott id'#337' letelte ut'#225'n'
-          Caption = 'Minden nap'
+        object GB_Design: TGroupBox
+          Left = 8
+          Top = 8
+          Width = 249
+          Height = 145
+          Caption = 'Design'
           TabOrder = 0
-          OnClick = autoClick
+          object auto: TCheckBox
+            Left = 8
+            Top = 16
+            Width = 201
+            Height = 14
+            Hint = 
+              'A sz'#225'm'#237't'#243'g'#233'p minden nap kikapcsol a megadott id'#337'pontban vagy a m' +
+              'egadott id'#337' letelte ut'#225'n'
+            Caption = 'Minden nap'
+            TabOrder = 0
+            OnClick = autoClick
+          end
+          object parentalcontrol: TCheckBox
+            Left = 8
+            Top = 32
+            Width = 201
+            Height = 13
+            Hint = 'A programb'#243'l csak Ctrl+Alt+Del-el lehet kil'#233'pni ('#39'N'#233'ma M'#243'd'#39')'
+            Caption = 'Sz'#252'l'#337'i fel'#252'gyelet'
+            TabOrder = 1
+            Visible = False
+            OnClick = parentalcontrolClick
+          end
+          object aftertime: TCheckBox
+            Left = 8
+            Top = 48
+            Width = 201
+            Height = 14
+            Hint = 
+              'Ha a megadott id'#337'pont ut'#225'n bekapcsoljuk a g'#233'pet, az r'#246'gt'#246'n kikap' +
+              'csol'
+            Caption = 'Id'#337'pont ut'#225'n is (nagyon durva!)'
+            TabOrder = 2
+            Visible = False
+            OnClick = aftertimeClick
+          end
+          object spintime: TLMDSpinEdit
+            Left = 8
+            Top = 64
+            Width = 145
+            Height = 21
+            Hint = 'Itt adhat'#243' meg, hogy h'#225'ny m'#225'sodpercet v'#225'rjon le'#225'll'#237't'#225's el'#337'tt'
+            Bevel.Mode = bmWindows
+            Caret.BlinkRate = 530
+            TabOrder = 3
+            Visible = False
+            AutoSelect = True
+            CustomButtons = <>
+            Suffix = ' m'#225'sodperc'
+            MinValue = 10
+            MaxValue = 2147483647
+            Value = 10
+            DateTime = 0.000000000000000000
+          end
+          object auto2: TCheckBox
+            Left = 8
+            Top = 88
+            Width = 201
+            Height = 17
+            Hint = 
+              'A program minden bekapcsol'#225'skor elindul, de nem kapcsol ki autom' +
+              'atikusan'
+            Caption = 'Automatikus ind'#237't'#225's'
+            TabOrder = 4
+            OnClick = auto2Click
+          end
+          object minimCB: TCheckBox
+            Left = 8
+            Top = 104
+            Width = 201
+            Height = 17
+            Hint = 'A program indul'#225'skor lekicsiny'#237'ti mag'#225't'
+            Caption = 'Lekicsiny'#237'tve indul'
+            TabOrder = 5
+          end
+          object ontopCB: TCheckBox
+            Left = 8
+            Top = 120
+            Width = 201
+            Height = 17
+            Caption = 'Stay always on top'
+            TabOrder = 6
+            OnClick = ontopCBClick
+          end
         end
-        object parentalcontrol: TCheckBox
-          Left = 16
-          Top = 32
-          Width = 177
-          Height = 13
-          Hint = 'A programb'#243'l csak Ctrl+Alt+Del-el lehet kil'#233'pni ('#39'N'#233'ma M'#243'd'#39')'
-          Caption = 'Sz'#252'l'#337'i fel'#252'gyelet'
+        object GB_Shutdown: TGroupBox
+          Left = 376
+          Top = 8
+          Width = 265
+          Height = 65
+          Caption = 'Shutdown'
           TabOrder = 1
-          Visible = False
-          OnClick = parentalcontrolClick
+          object force: TCheckBox
+            Left = 8
+            Top = 16
+            Width = 249
+            Height = 14
+            Hint = 
+              'A programokat mindenk'#233'ppen bez'#225'rja, akkor is ha nincsenek mentve' +
+              ' a dokumentumok. Er'#337'sen aj'#225'nlott!'
+            Caption = 'Alkalmaz'#225'sok k'#233'nyszer'#369' bez'#225'r'#225'sa'
+            Checked = True
+            State = cbChecked
+            TabOrder = 0
+            OnClick = forceClick
+          end
+          object defcommand: TComboBox
+            Left = 8
+            Top = 32
+            Width = 145
+            Height = 21
+            Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett parancs'
+            ItemHeight = 13
+            TabOrder = 1
+            Text = 'Kikapcsol'#225's'
+            Items.Strings = (
+              'Kikapcsol'#225's'
+              'Le'#225'll'#237't'#225's'
+              #218'jraind'#237't'#225's'
+              'Kijelentkez'#233's'
+              'Hibern'#225'l'#225's'
+              'Munka'#225'llom'#225's lez'#225'r'#225'sa'
+              'K'#233'perny'#337'k'#237'm'#233'l'#337
+              'Riaszt'#225's'
+              'Lemez kiad'#225'sa'
+              'T'#225'lca visszah'#250'z'#225'sa'
+              'Lomt'#225'r '#252'r'#237't'#233'se'
+              'V'#225'g'#243'lap '#252'r'#237't'#233'se'
+              'Monitor ki'
+              'Monitor be'
+              'Ideiglenesen t'#225'rolt f'#225'jlok t'#246'rl'#233'se')
+          end
         end
-        object aftertime: TCheckBox
-          Left = 16
-          Top = 48
-          Width = 177
-          Height = 14
-          Hint = 
-            'Ha a megadott id'#337'pont ut'#225'n bekapcsoljuk a g'#233'pet, az r'#246'gt'#246'n kikap' +
-            'csol'
-          Caption = 'Id'#337'pont ut'#225'n is (nagyon durva!)'
+        object GB_Alarm: TGroupBox
+          Left = 376
+          Top = 80
+          Width = 265
+          Height = 73
+          Caption = 'Alarm'
           TabOrder = 2
-          Visible = False
-          OnClick = aftertimeClick
+          object wavE: TLMDFileOpenEdit
+            Left = 8
+            Top = 16
+            Width = 145
+            Height = 21
+            Hint = 'Itt adhat'#243' meg, hogy melyik hangot j'#225'tsza le riaszt'#225'skor'
+            Bevel.Mode = bmWindows
+            Caret.BlinkRate = 530
+            TabOrder = 0
+            Options = [ofFileMustExist, ofDontAddToRecent]
+            CustomButtonWidth = 18
+            InitialDir = 'C:\WINDOWS\Media'
+            Filter = 'Hangok (*.wav)|*.wav|Minden f'#225'jl (*.*)|*.*'
+            DefaultExt = '.wav'
+            FilenameOnly = False
+          end
+          object wavSE: TLMDSpinEdit
+            Left = 8
+            Top = 40
+            Width = 145
+            Height = 21
+            Hint = 'Itt adhat'#243' meg, hogy h'#225'nyszor j'#225'tsza le a hangot riaszt'#225'skor'
+            Bevel.Mode = bmWindows
+            Caret.BlinkRate = 530
+            TabOrder = 1
+            AutoSelect = True
+            Alignment = taRightJustify
+            CustomButtons = <>
+            MinValue = 1
+            MaxValue = 2147483647
+            Value = 1
+            DateTime = 0.000000000000000000
+          end
         end
-        object force: TCheckBox
-          Left = 208
-          Top = 16
-          Width = 249
-          Height = 14
-          Hint = 
-            'A programokat mindenk'#233'ppen bez'#225'rja, akkor is ha nincsenek mentve' +
-            ' a dokumentumok. Er'#337'sen aj'#225'nlott!'
-          Caption = 'Alkalmaz'#225'sok k'#233'nyszer'#369' bez'#225'r'#225'sa'
-          Checked = True
-          State = cbChecked
-          TabOrder = 9
-          OnClick = forceClick
-        end
-        object spintime: TLMDSpinEdit
-          Left = 16
-          Top = 64
-          Width = 145
-          Height = 21
-          Hint = 'Itt adhat'#243' meg, hogy h'#225'ny m'#225'sodpercet v'#225'rjon le'#225'll'#237't'#225's el'#337'tt'
-          Bevel.Mode = bmWindows
-          Caret.BlinkRate = 530
-          TabOrder = 3
-          Visible = False
-          AutoSelect = True
-          CustomButtons = <>
-          Suffix = ' m'#225'sodperc'
-          MinValue = 10
-          MaxValue = 2147483647
-          Value = 10
-          DateTime = 0.000000000000000000
-        end
-        object defcommand: TComboBox
-          Left = 208
-          Top = 64
-          Width = 145
-          Height = 21
-          Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett parancs'
-          ItemHeight = 13
-          TabOrder = 10
-          Text = 'Kikapcsol'#225's'
-          Items.Strings = (
-            'Kikapcsol'#225's'
-            'Le'#225'll'#237't'#225's'
-            #218'jraind'#237't'#225's'
-            'Kijelentkez'#233's'
-            'Hibern'#225'l'#225's'
-            'Munka'#225'llom'#225's lez'#225'r'#225'sa'
-            'K'#233'perny'#337'k'#237'm'#233'l'#337
-            'Riaszt'#225's'
-            'Lemez kiad'#225'sa'
-            'T'#225'lca visszah'#250'z'#225'sa'
-            'Lomt'#225'r '#252'r'#237't'#233'se'
-            'V'#225'g'#243'lap '#252'r'#237't'#233'se'
-            'Monitor ki'
-            'Monitor be'
-            'Ideiglenesen t'#225'rolt f'#225'jlok t'#246'rl'#233'se')
-        end
-        object auto2: TCheckBox
-          Left = 16
-          Top = 112
-          Width = 177
-          Height = 17
-          Hint = 
-            'A program minden bekapcsol'#225'skor elindul, de nem kapcsol ki autom' +
-            'atikusan'
-          Caption = 'Automatikus ind'#237't'#225's'
+        object GB_Before: TGroupBox
+          Left = 376
+          Top = 160
+          Width = 265
+          Height = 129
+          Caption = 'Do before shutdown'
           TabOrder = 4
-          OnClick = auto2Click
+          object beshutCB: TCheckBox
+            Left = 8
+            Top = 16
+            Width = 249
+            Height = 17
+            Hint = 'Program ind'#237't'#225'sa kikapcsol'#225's el'#337'tt'
+            Caption = 'Program ind'#237't'#225'sa kikapcsol'#225's el'#337'tt'
+            TabOrder = 0
+            OnClick = beshutCBClick
+          end
+          object beshutE: TLMDFileOpenEdit
+            Left = 8
+            Top = 32
+            Width = 145
+            Height = 21
+            Hint = 'Itt adhat'#243' meg, hogy melyik f'#225'jlt ind'#237'tsa el a kikapcsol'#225's el'#337'tt'
+            Bevel.Mode = bmWindows
+            Caret.BlinkRate = 530
+            TabOrder = 1
+            Visible = False
+            Options = [ofFileMustExist, ofDontAddToRecent]
+            CustomButtonWidth = 18
+            Filter = 
+              'Fontosabb f'#225'jlok (*.bat; *.com; *.exe)|*.bat;*.com;*.exe|Minden ' +
+              'f'#225'jl (*.*)|*.*'
+            DefaultExt = '.exe'
+            FilenameOnly = False
+          end
+          object logCB: TCheckBox
+            Left = 8
+            Top = 56
+            Width = 249
+            Height = 17
+            Hint = 'Feljegyzi, hogy ki, mikor '#233's hogyan kapcsolta ki a sz'#225'm'#237't'#243'g'#233'pet'
+            Caption = 'Loggol'#225's'
+            TabOrder = 2
+          end
+          object annCB: TCheckBox
+            Left = 8
+            Top = 80
+            Width = 249
+            Height = 17
+            Caption = 'Visszasz'#225'ml'#225'l'#225's kikapcsol'#225's el'#337'tt'
+            TabOrder = 3
+          end
+          object ann_CB: TComboBox
+            Left = 8
+            Top = 96
+            Width = 145
+            Height = 21
+            Style = csDropDownList
+            ItemHeight = 13
+            TabOrder = 4
+          end
         end
-        object Save4_2: TBitBtn
-          Left = 16
-          Top = 248
-          Width = 24
-          Height = 24
-          Hint = 'Egy'#233'b be'#225'll'#237't'#225'sok ment'#233'se'
-          TabOrder = 18
-          OnClick = Save4Click
-          Glyph.Data = {
-            76010000424D7601000000000000760000002800000020000000100000000100
-            04000000000000010000120B0000120B00001000000000000000000000000000
-            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
-            333333FFFFFFFFFFFFF33000077777770033377777777777773F000007888888
-            00037F3337F3FF37F37F00000780088800037F3337F77F37F37F000007800888
-            00037F3337F77FF7F37F00000788888800037F3337777777337F000000000000
-            00037F3FFFFFFFFFFF7F00000000000000037F77777777777F7F000FFFFFFFFF
-            00037F7F333333337F7F000FFFFFFFFF00037F7F333333337F7F000FFFFFFFFF
-            00037F7F333333337F7F000FFFFFFFFF00037F7F333333337F7F000FFFFFFFFF
-            00037F7F333333337F7F000FFFFFFFFF07037F7F33333333777F000FFFFFFFFF
-            0003737FFFFFFFFF7F7330099999999900333777777777777733}
-          NumGlyphs = 2
-        end
-        object wavE: TLMDFileOpenEdit
-          Left = 208
-          Top = 112
-          Width = 145
-          Height = 21
-          Hint = 'Itt adhat'#243' meg, hogy melyik hangot j'#225'tsza le riaszt'#225'skor'
-          Bevel.Mode = bmWindows
-          Caret.BlinkRate = 530
-          TabOrder = 11
-          Options = [ofFileMustExist, ofDontAddToRecent]
-          CustomButtonWidth = 18
-          InitialDir = 'C:\WINDOWS\Media'
-          Filter = 'Hangok (*.wav)|*.wav|Minden f'#225'jl (*.*)|*.*'
-          DefaultExt = '.wav'
-          FilenameOnly = False
-        end
-        object wavSE: TLMDSpinEdit
-          Left = 208
-          Top = 136
-          Width = 145
-          Height = 21
-          Hint = 'Itt adhat'#243' meg, hogy h'#225'nyszor j'#225'tsza le a hangot riaszt'#225'skor'
-          Bevel.Mode = bmWindows
-          Caret.BlinkRate = 530
-          TabOrder = 12
-          AutoSelect = True
-          Alignment = taRightJustify
-          CustomButtons = <>
-          MinValue = 1
-          MaxValue = 2147483647
-          Value = 1
-          DateTime = 0.000000000000000000
-        end
-        object langCB: TComboBox
-          Left = 16
-          Top = 192
-          Width = 145
-          Height = 21
-          Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett nyelv'
-          ItemHeight = 13
-          TabOrder = 8
-          Text = 'Magyar'
-          OnChange = langCBChange
-        end
-        object logCB: TCheckBox
-          Left = 16
-          Top = 168
-          Width = 177
-          Height = 17
-          Hint = 'Feljegyzi, hogy ki, mikor '#233's hogyan kapcsolta ki a sz'#225'm'#237't'#243'g'#233'pet'
-          Caption = 'Loggol'#225's'
-          TabOrder = 7
-        end
-        object beshutE: TLMDFileOpenEdit
-          Left = 208
-          Top = 192
-          Width = 145
-          Height = 21
-          Hint = 'Itt adhat'#243' meg, hogy melyik f'#225'jlt ind'#237'tsa el a kikapcsol'#225's el'#337'tt'
-          Bevel.Mode = bmWindows
-          Caret.BlinkRate = 530
-          TabOrder = 14
-          Visible = False
-          Options = [ofFileMustExist, ofDontAddToRecent]
-          CustomButtonWidth = 18
-          Filter = 
-            'Fontosabb f'#225'jlok (*.bat; *.com; *.exe)|*.bat;*.com;*.exe|Minden ' +
-            'f'#225'jl (*.*)|*.*'
-          DefaultExt = '.exe'
-          FilenameOnly = False
-        end
-        object beshutCB: TCheckBox
-          Left = 208
-          Top = 168
+        object GB_Other: TGroupBox
+          Left = 8
+          Top = 160
           Width = 249
-          Height = 17
-          Hint = 'Program ind'#237't'#225'sa kikapcsol'#225's el'#337'tt'
-          Caption = 'Program ind'#237't'#225'sa kikapcsol'#225's el'#337'tt'
-          TabOrder = 13
-          OnClick = beshutCBClick
-        end
-        object minimCB: TCheckBox
-          Left = 16
-          Top = 128
-          Width = 177
-          Height = 17
-          Hint = 'A program indul'#225'skor lekicsiny'#237'ti mag'#225't'
-          Caption = 'Lekicsiny'#237'tve indul'
-          TabOrder = 5
-        end
-        object RxDice1: TRxDice
-          Left = 464
-          Top = 93
-          Width = 66
-          Height = 66
-          Hint = 'Kattints r'#225'm!'
-          Align = alCustom
-          Rotate = False
-          ShowFocus = False
-          TabOrder = 19
-          OnClick = RxDice1Click
-        end
-        object Button1: TButton
-          Left = 408
-          Top = 248
-          Width = 145
-          Height = 25
-          Caption = 'Check for Updates'
-          TabOrder = 17
-          OnClick = Button1Click
-        end
-        object ontopCB: TCheckBox
-          Left = 16
-          Top = 144
-          Width = 177
-          Height = 17
-          Caption = 'Stay always on top'
-          TabOrder = 6
-          OnClick = ontopCBClick
-        end
-        object ann_CB: TComboBox
-          Left = 208
-          Top = 248
-          Width = 145
-          Height = 21
-          Style = csDropDownList
-          ItemHeight = 13
-          TabOrder = 16
-        end
-        object annCB: TCheckBox
-          Left = 208
-          Top = 224
-          Width = 249
-          Height = 17
-          Caption = 'Visszasz'#225'ml'#225'l'#225's kikapcsol'#225's el'#337'tt'
-          TabOrder = 15
+          Height = 129
+          Caption = 'Other settings'
+          TabOrder = 3
+          object RxDice1: TRxDice
+            Left = 8
+            Top = 40
+            Width = 66
+            Height = 66
+            Hint = 'Kattints r'#225'm!'
+            Align = alCustom
+            Rotate = False
+            ShowFocus = False
+            TabOrder = 3
+            OnClick = RxDice1Click
+          end
+          object langCB: TComboBox
+            Left = 8
+            Top = 16
+            Width = 145
+            Height = 21
+            Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett nyelv'
+            ItemHeight = 13
+            TabOrder = 0
+            Text = 'Magyar'
+            OnChange = langCBChange
+          end
+          object Button1: TButton
+            Left = 104
+            Top = 64
+            Width = 136
+            Height = 25
+            Caption = 'Check for Updates'
+            TabOrder = 1
+            OnClick = Button1Click
+          end
+          object Save4_2: TBitBtn
+            Left = 216
+            Top = 97
+            Width = 24
+            Height = 24
+            Hint = 'Egy'#233'b be'#225'll'#237't'#225'sok ment'#233'se'
+            TabOrder = 2
+            OnClick = Save4Click
+            Glyph.Data = {
+              76010000424D7601000000000000760000002800000020000000100000000100
+              04000000000000010000120B0000120B00001000000000000000000000000000
+              800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+              FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+              333333FFFFFFFFFFFFF33000077777770033377777777777773F000007888888
+              00037F3337F3FF37F37F00000780088800037F3337F77F37F37F000007800888
+              00037F3337F77FF7F37F00000788888800037F3337777777337F000000000000
+              00037F3FFFFFFFFFFF7F00000000000000037F77777777777F7F000FFFFFFFFF
+              00037F7F333333337F7F000FFFFFFFFF00037F7F333333337F7F000FFFFFFFFF
+              00037F7F333333337F7F000FFFFFFFFF00037F7F333333337F7F000FFFFFFFFF
+              00037F7F333333337F7F000FFFFFFFFF07037F7F33333333777F000FFFFFFFFF
+              0003737FFFFFFFFF7F7330099999999900333777777777777733}
+            NumGlyphs = 2
+          end
         end
       end
       object Veszhelyzet: TTabSheet
@@ -1878,8 +1918,8 @@ object Shutdown: TShutdown
         Caption = 'Gyors el'#233'r'#233's'
         ImageIndex = 2
         object SpeedButton1: TSpeedButton
-          Left = 112
-          Top = 256
+          Left = 0
+          Top = 272
           Width = 23
           Height = 22
           Hint = 'V'#233'grehajt'#225's'
@@ -1902,7 +1942,7 @@ object Shutdown: TShutdown
         object PowerOff: TBitBtn
           Left = 0
           Top = 0
-          Width = 105
+          Width = 161
           Height = 25
           Hint = 'Kikapcsolja a g'#233'pet, ha az ATX el'#233'rhet'#337
           Caption = '&Kikapcsol'#225's'
@@ -1912,7 +1952,7 @@ object Shutdown: TShutdown
         object ReBoot: TBitBtn
           Left = 0
           Top = 64
-          Width = 105
+          Width = 161
           Height = 25
           Hint = #218'jraind'#237'tja a sz'#225'm'#237't'#243'g'#233'pet'
           Caption = '&'#218'jraind'#237't'#225's'
@@ -1922,7 +1962,7 @@ object Shutdown: TShutdown
         object LogOff: TBitBtn
           Left = 0
           Top = 96
-          Width = 105
+          Width = 161
           Height = 25
           Hint = 'Kijelentkezik a Windows-b'#243'l'
           Caption = 'K&ijelentkez'#233's'
@@ -1932,7 +1972,7 @@ object Shutdown: TShutdown
         object ShutDown: TBitBtn
           Left = 0
           Top = 32
-          Width = 105
+          Width = 161
           Height = 25
           Hint = 'Le'#225'll'#237'tja a g'#233'pet (Most m'#225'r kikapcsolhatja a sz'#225'm'#237't'#243'g'#233'pet)'
           Caption = '&Le'#225'll'#237't'#225's'
@@ -1942,7 +1982,7 @@ object Shutdown: TShutdown
         object Hibernate: TBitBtn
           Left = 0
           Top = 128
-          Width = 105
+          Width = 161
           Height = 25
           Hint = 'Lefagyassza a sz'#225'm'#237't'#243'g'#233'pet'
           Caption = '&Hibern'#225'l'#225's'
@@ -1950,7 +1990,7 @@ object Shutdown: TShutdown
           OnClick = HibernateClick
         end
         object HotKeyPOff: THotKey
-          Left = 113
+          Left = 169
           Top = 0
           Width = 121
           Height = 19
@@ -1960,7 +2000,7 @@ object Shutdown: TShutdown
           OnChange = HotKeyPOffChange
         end
         object HotKeySD: THotKey
-          Left = 113
+          Left = 169
           Top = 32
           Width = 121
           Height = 19
@@ -1970,7 +2010,7 @@ object Shutdown: TShutdown
           OnChange = HotKeySDChange
         end
         object HotKeyReB: THotKey
-          Left = 113
+          Left = 169
           Top = 64
           Width = 121
           Height = 19
@@ -1980,7 +2020,7 @@ object Shutdown: TShutdown
           OnChange = HotKeyReBChange
         end
         object HotKeyLO: THotKey
-          Left = 113
+          Left = 169
           Top = 96
           Width = 121
           Height = 19
@@ -1990,7 +2030,7 @@ object Shutdown: TShutdown
           OnChange = HotKeyLOChange
         end
         object HotKeyHib: THotKey
-          Left = 113
+          Left = 169
           Top = 128
           Width = 121
           Height = 19
@@ -2000,8 +2040,8 @@ object Shutdown: TShutdown
           OnChange = HotKeyHibChange
         end
         object Save4: TBitBtn
-          Left = 209
-          Top = 256
+          Left = 137
+          Top = 272
           Width = 24
           Height = 24
           Hint = 'Gyorsbillenty'#369'k ment'#233'se'
@@ -2025,7 +2065,7 @@ object Shutdown: TShutdown
         object LockWS: TBitBtn
           Left = 0
           Top = 160
-          Width = 105
+          Width = 161
           Height = 25
           Hint = 'Lez'#225'rja a munka'#225'llom'#225'st'
           Caption = '&Z'#225'rol'#225's'
@@ -2033,7 +2073,7 @@ object Shutdown: TShutdown
           OnClick = LockWSClick
         end
         object HotKeyLWS: THotKey
-          Left = 113
+          Left = 169
           Top = 160
           Width = 121
           Height = 19
@@ -2043,9 +2083,9 @@ object Shutdown: TShutdown
           OnChange = HotKeyLWSChange
         end
         object SDMenu: TBitBtn
-          Left = 0
-          Top = 256
-          Width = 105
+          Left = 320
+          Top = 224
+          Width = 161
           Height = 25
           Hint = 'Megjelen'#237'ti a Windows Kikapcsol'#225's men'#252'j'#233't'
           Caption = 'Kikapcsol'#225's &men'#252
@@ -2055,7 +2095,7 @@ object Shutdown: TShutdown
         object SSOn: TBitBtn
           Left = 0
           Top = 192
-          Width = 105
+          Width = 161
           Height = 25
           Hint = 'Elind'#237'tja a k'#233'perny'#337'k'#237'm'#233'l'#337't'
           Caption = 'K'#233'perny'#337'&v'#233'd'#337
@@ -2063,7 +2103,7 @@ object Shutdown: TShutdown
           OnClick = SSOnClick
         end
         object HotKeySS: THotKey
-          Left = 113
+          Left = 169
           Top = 192
           Width = 121
           Height = 19
@@ -2075,7 +2115,7 @@ object Shutdown: TShutdown
         object BitBtn1: TBitBtn
           Left = 0
           Top = 224
-          Width = 105
+          Width = 161
           Height = 25
           Hint = 'Hang lej'#225'tsz'#225'sa'
           Caption = '&Riaszt'#225's'
@@ -2083,7 +2123,7 @@ object Shutdown: TShutdown
           OnClick = BitBtn1Click
         end
         object HotKeyAA: THotKey
-          Left = 113
+          Left = 169
           Top = 224
           Width = 121
           Height = 19
@@ -2093,9 +2133,9 @@ object Shutdown: TShutdown
           OnChange = HotKeyAAChange
         end
         object eject: TBitBtn
-          Left = 264
+          Left = 320
           Top = 0
-          Width = 105
+          Width = 161
           Height = 25
           Hint = 'T'#225'lca kinyit'#225'sa'
           Caption = 'Lemez kiad'#225'sa'
@@ -2103,9 +2143,9 @@ object Shutdown: TShutdown
           OnClick = ejectClick
         end
         object close: TBitBtn
-          Left = 264
+          Left = 320
           Top = 32
-          Width = 105
+          Width = 161
           Height = 25
           Hint = 'T'#225'lca visszah'#250'z'#225'sa'
           Caption = 'T'#225'lca visszah'#250'z'#225'sa'
@@ -2113,9 +2153,9 @@ object Shutdown: TShutdown
           OnClick = closeClick
         end
         object recbin: TBitBtn
-          Left = 264
+          Left = 320
           Top = 64
-          Width = 105
+          Width = 161
           Height = 25
           Hint = 'Lomt'#225'r '#252'r'#237't'#233'se'
           Caption = 'Lomt'#225'r '#252'r'#237't'#233'se'
@@ -2123,9 +2163,9 @@ object Shutdown: TShutdown
           OnClick = recbinClick
         end
         object clipb: TBitBtn
-          Left = 264
+          Left = 320
           Top = 96
-          Width = 105
+          Width = 161
           Height = 25
           Hint = 'V'#225'g'#243'lap '#252'r'#237't'#233'se'
           Caption = 'V'#225'g'#243'lap '#252'r'#237't'#233'se'
@@ -2133,7 +2173,7 @@ object Shutdown: TShutdown
           OnClick = clipbClick
         end
         object HotKey1: THotKey
-          Left = 376
+          Left = 488
           Top = 0
           Width = 121
           Height = 19
@@ -2143,7 +2183,7 @@ object Shutdown: TShutdown
           OnChange = HotKey1Change
         end
         object HotKey2: THotKey
-          Left = 376
+          Left = 488
           Top = 32
           Width = 121
           Height = 19
@@ -2153,7 +2193,7 @@ object Shutdown: TShutdown
           OnChange = HotKey2Change
         end
         object HotKey3: THotKey
-          Left = 376
+          Left = 488
           Top = 64
           Width = 121
           Height = 19
@@ -2163,7 +2203,7 @@ object Shutdown: TShutdown
           OnChange = HotKey3Change
         end
         object HotKey4: THotKey
-          Left = 376
+          Left = 488
           Top = 96
           Width = 121
           Height = 19
@@ -2173,9 +2213,9 @@ object Shutdown: TShutdown
           OnChange = HotKey4Change
         end
         object mon0: TBitBtn
-          Left = 264
+          Left = 320
           Top = 128
-          Width = 105
+          Width = 161
           Height = 25
           Hint = 'Monitor kikapcsol'#225'sa'
           Caption = 'Monitor ki'
@@ -2183,9 +2223,9 @@ object Shutdown: TShutdown
           OnClick = mon0Click
         end
         object mon1: TBitBtn
-          Left = 264
+          Left = 320
           Top = 160
-          Width = 105
+          Width = 161
           Height = 25
           Hint = 'Monitor bekapcsol'#225'sa'
           Caption = 'Monitor be'
@@ -2193,7 +2233,7 @@ object Shutdown: TShutdown
           OnClick = mon1Click
         end
         object hkmon0: THotKey
-          Left = 376
+          Left = 488
           Top = 128
           Width = 121
           Height = 19
@@ -2203,7 +2243,7 @@ object Shutdown: TShutdown
           OnChange = hkmon0Change
         end
         object hkmon1: THotKey
-          Left = 376
+          Left = 488
           Top = 160
           Width = 121
           Height = 19
@@ -2213,8 +2253,8 @@ object Shutdown: TShutdown
           OnChange = hkmon1Change
         end
         object BitBtn2: TBitBtn
-          Left = 264
-          Top = 208
+          Left = 320
+          Top = 192
           Width = 161
           Height = 25
           Hint = 'Az ideiglenesen t'#225'rolt f'#225'jlok let'#246'rl'#233'se'
@@ -2223,8 +2263,8 @@ object Shutdown: TShutdown
           OnClick = BitBtn2Click
         end
         object hkctif: THotKey
-          Left = 264
-          Top = 240
+          Left = 488
+          Top = 192
           Width = 121
           Height = 19
           Hint = 'Ideiglenesen t'#225'rolt f'#225'jlok t'#246'rl'#233'se'
@@ -2347,8 +2387,8 @@ object Shutdown: TShutdown
         object ListBox1: TListBox
           Left = 0
           Top = 0
-          Width = 559
-          Height = 293
+          Width = 646
+          Height = 317
           Align = alClient
           ItemHeight = 13
           TabOrder = 0
@@ -2360,21 +2400,21 @@ object Shutdown: TShutdown
   object OnStart: TTimer
     Interval = 1
     OnTimer = OnStartTimer
-    Left = 32
-    Top = 392
+    Left = 480
+    Top = 384
   end
   object Timer1: TTimer
     Enabled = False
     Interval = 6000
     OnTimer = Timer1Timer
-    Left = 64
-    Top = 424
+    Left = 560
+    Top = 384
   end
   object Timer2: TTimer
     Enabled = False
     OnTimer = Timer2Timer
-    Left = 160
-    Top = 456
+    Left = 280
+    Top = 384
   end
   object TrayIcon: TCoolTrayIcon
     CycleInterval = 0
@@ -2411,11 +2451,12 @@ object Shutdown: TShutdown
     MinimizeToTray = True
     OnDblClick = TrayIconDblClick
     OnMinimizeToTray = TrayIconMinimizeToTray
-    Top = 552
+    Left = 72
+    Top = 488
   end
   object SysTrayMenu: TPopupMenu
-    Left = 32
-    Top = 520
+    Left = 136
+    Top = 488
     object Kikapcsols1: TMenuItem
       Caption = '&Kikapcsol'#225's'
       object N15percmlva1: TMenuItem
@@ -2481,13 +2522,14 @@ object Shutdown: TShutdown
     Enabled = False
     Interval = 60000
     OnTimer = Timer3Timer
-    Left = 160
-    Top = 488
+    Left = 360
+    Top = 384
   end
   object PingTimer: TTimer
     Enabled = False
     OnTimer = PingTimerTimer
-    Top = 488
+    Left = 160
+    Top = 384
   end
   object Start: TLMDStarter
     StartOption = soSW_HIDE
@@ -2498,65 +2540,69 @@ object Shutdown: TShutdown
     StartTime.Minute = 46
     StartTime.Second = 14
     OnAfterStart = StartAfterStart
-    Left = 64
-    Top = 520
+    Left = 120
+    Top = 416
   end
   object GHRB: TLMDGlobalHotKey
     HotKey = 0
     OnKeyDown = GHRBKeyDown
-    Left = 64
-    Top = 488
+    Left = 520
+    Top = 408
   end
   object GHH: TLMDGlobalHotKey
     HotKey = 0
     OnKeyDown = GHHKeyDown
-    Left = 32
-    Top = 488
+    Left = 384
+    Top = 440
   end
   object GHLWS: TLMDGlobalHotKey
     HotKey = 0
     OnKeyDown = GHLWSKeyDown
-    Left = 96
-    Top = 456
+    Left = 504
+    Top = 504
   end
   object GHLO: TLMDGlobalHotKey
     HotKey = 0
     OnKeyDown = GHLOKeyDown
-    Top = 520
+    Left = 520
+    Top = 440
   end
   object GHSD: TLMDGlobalHotKey
     HotKey = 0
     OnKeyDown = GHSDKeyDown
-    Left = 64
-    Top = 456
+    Left = 368
+    Top = 472
   end
   object GHPO: TLMDGlobalHotKey
     HotKey = 0
     OnKeyDown = GHPOKeyDown
-    Left = 32
-    Top = 424
+    Left = 336
+    Top = 488
   end
   object GHSS: TLMDGlobalHotKey
     HotKey = 0
     OnKeyDown = GHSSKeyDown
-    Top = 392
+    Left = 320
+    Top = 408
   end
   object bsT: TbsPolyglotTranslator
     Manager = bsM
-    Top = 584
+    Left = 168
+    Top = 456
   end
   object bsM: TbsPolyglotManager
     LangsDir = '.\Languages\'
     CurrentLang = 'Deutsch'
     TranslateResourceStrings = True
     CurrentLangChanging = bsMCurrentLangChanging
-    Top = 360
+    Left = 72
+    Top = 456
   end
   object GHAA: TLMDGlobalHotKey
     HotKey = 0
     OnKeyDown = GHAAKeyDown
-    Left = 128
-    Top = 472
+    Left = 536
+    Top = 504
   end
   object fp: TFormPlacement
     IniFileName = '.\Shutdown.ini'
@@ -2564,63 +2610,63 @@ object Shutdown: TShutdown
     Options = [fpPosition]
     PreventResize = True
     Version = 2004
-    Left = 96
-    Top = 488
+    Left = 120
+    Top = 448
   end
   object cdo: TCDOpener
-    Left = 29
-    Top = 552
+    Left = 104
+    Top = 488
   end
   object LMDGlobalHotKey1: TLMDGlobalHotKey
     HotKey = 0
     OnKeyDown = LMDGlobalHotKey1KeyDown
-    Left = 189
-    Top = 456
+    Left = 472
+    Top = 512
   end
   object LMDGlobalHotKey2: TLMDGlobalHotKey
     HotKey = 0
     OnKeyDown = LMDGlobalHotKey2KeyDown
-    Left = 189
-    Top = 520
+    Left = 520
+    Top = 472
   end
   object LMDGlobalHotKey3: TLMDGlobalHotKey
     HotKey = 0
     OnKeyDown = LMDGlobalHotKey3KeyDown
-    Left = 189
-    Top = 424
+    Left = 264
+    Top = 440
   end
   object LMDGlobalHotKey4: TLMDGlobalHotKey
     HotKey = 0
     OnKeyDown = LMDGlobalHotKey4KeyDown
-    Left = 189
-    Top = 488
+    Left = 568
+    Top = 512
   end
   object mon0hk: TLMDGlobalHotKey
     HotKey = 0
     OnKeyDown = mon0hkKeyDown
-    Left = 221
-    Top = 456
+    Left = 272
+    Top = 472
   end
   object mon1hk: TLMDGlobalHotKey
     HotKey = 0
     OnKeyDown = mon1hkKeyDown
-    Left = 221
+    Left = 304
     Top = 488
   end
   object ctifhk: TLMDGlobalHotKey
     HotKey = 0
     OnKeyDown = ctifhkKeyDown
-    Left = 501
-    Top = 96
+    Left = 320
+    Top = 440
   end
   object IdSNTP1: TIdSNTP
     Port = 123
-    Left = 533
-    Top = 96
+    Left = 80
+    Top = 384
   end
   object atom_menu: TPopupMenu
-    Left = 533
-    Top = 64
+    Left = 445
+    Top = 264
     object Delet1: TMenuItem
       Caption = 'Delete'
       OnClick = Delet1Click
@@ -2628,7 +2674,7 @@ object Shutdown: TShutdown
   end
   object ParamOpener1: TParamOpener
     OnParamOpen = ParamOpener1ParamOpen
-    Left = 501
-    Top = 64
+    Left = 168
+    Top = 488
   end
 end

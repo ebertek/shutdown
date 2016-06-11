@@ -78,21 +78,6 @@ type
     Canc3: TBitBtn;
     eleres: TLMDFileOpenEdit;
     AltOptions: TTabSheet;
-    auto: TCheckBox;
-    parentalcontrol: TCheckBox;
-    aftertime: TCheckBox;
-    force: TCheckBox;
-    spintime: TLMDSpinEdit;
-    defcommand: TComboBox;
-    auto2: TCheckBox;
-    Save4_2: TBitBtn;
-    wavE: TLMDFileOpenEdit;
-    wavSE: TLMDSpinEdit;
-    langCB: TComboBox;
-    logCB: TCheckBox;
-    beshutE: TLMDFileOpenEdit;
-    beshutCB: TCheckBox;
-    minimCB: TCheckBox;
     Veszhelyzet: TTabSheet;
     PowerOff: TBitBtn;
     ReBoot: TBitBtn;
@@ -137,7 +122,6 @@ type
     hkmon0: THotKey;
     hkmon1: THotKey;
     BitBtn2: TBitBtn;
-    RxDice1: TRxDice;
     hkctif: THotKey;
     ctifhk: TLMDGlobalHotKey;
     TabSheet1: TTabSheet;
@@ -150,13 +134,34 @@ type
     atom_add: TComboEdit;
     atom_menu: TPopupMenu;
     Delet1: TMenuItem;
-    Button1: TButton;
     atom_CB: TCheckBox;
     ParamOpener1: TParamOpener;
-    ontopCB: TCheckBox;
     Idozito: TDateTimePicker;
-    ann_CB: TComboBox;
+    GB_Design: TGroupBox;
+    auto: TCheckBox;
+    parentalcontrol: TCheckBox;
+    aftertime: TCheckBox;
+    spintime: TLMDSpinEdit;
+    auto2: TCheckBox;
+    minimCB: TCheckBox;
+    ontopCB: TCheckBox;
+    GB_Shutdown: TGroupBox;
+    force: TCheckBox;
+    defcommand: TComboBox;
+    GB_Alarm: TGroupBox;
+    wavE: TLMDFileOpenEdit;
+    wavSE: TLMDSpinEdit;
+    GB_Before: TGroupBox;
+    beshutCB: TCheckBox;
+    beshutE: TLMDFileOpenEdit;
+    logCB: TCheckBox;
     annCB: TCheckBox;
+    ann_CB: TComboBox;
+    GB_Other: TGroupBox;
+    RxDice1: TRxDice;
+    langCB: TComboBox;
+    Button1: TButton;
+    Save4_2: TBitBtn;
     function TurnScreenSaverOn: boolean;
     function GetUserFromWindows: string;
     procedure DoDownload;
@@ -529,7 +534,7 @@ begin
   s2 := TStringList.Create;
   s1.LoadFromFile(ExtractFilePath(Application.EXEName)+'current.txt');
   s2.LoadFromFile(ExtractFilePath(Application.EXEName)+'update.txt');
-  if s1.Text < s2.Text then
+  if s1.Text <> s2.Text then
     ShowMessage(lini.ReadString(bsM.CurrentLang, 'Update1', 'Version 3.1.0.')+s2.Text+' '+lini.ReadString(bsM.CurrentLang, 'Update2', 'is available!')+#13#10+lini.ReadString(bsM.CurrentLang, 'Update3', 'Get it from http://www.mosolyorszag.hu/david/prog/'));
   s1.Free;
   s2.Free;
@@ -1133,10 +1138,7 @@ end;
 
 procedure TShutdown.RxDice1Click(Sender: TObject);
 begin
-  if RxDice1.Rotate=False then
-    RxDice1.Rotate:=True
-  else
-    RxDice1.Rotate:=False;
+  RxDice1.Rotate:=not RxDice1.Rotate;
 end;
 
 procedure TShutdown.TrayIconDblClick(Sender: TObject);
@@ -1456,6 +1458,7 @@ end;
 procedure TShutdown.langCBChange(Sender: TObject);
 begin
   bsM.CurrentLang:=langCB.Text;
+  ComSave;
 end;
 
 procedure TShutdown.auto2Click(Sender: TObject);
@@ -1674,7 +1677,6 @@ begin
 end;
 
 procedure TShutdown.ParamOpener1ParamOpen(Sender: TObject);
-//const paramok: array ['default', 'poff'] of string;
 begin
   if FinalParam='default' then begin Start.Execute; Application.Terminate; end else
   if FinalParam='poff' then begin PowerOff.Click; Application.Terminate; end else
