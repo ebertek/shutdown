@@ -950,16 +950,22 @@ object about: Tabout
         Height = 13
         Hint = 'A term'#233'k neve'
         Caption = 'Shutdown Monster'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = []
+        ParentFont = False
         Transparent = True
         IsControl = True
       end
       object Version: TLabel
         Left = 8
-        Top = 40
-        Width = 24
+        Top = 32
+        Width = 40
         Height = 13
         Hint = 'A jelenlegi '#233'v'
-        Caption = '2004'
+        Caption = 'X - 2004'
         Transparent = True
         IsControl = True
       end

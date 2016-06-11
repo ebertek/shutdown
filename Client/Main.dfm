@@ -871,7 +871,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 32946.690961504630000000
+          Date = 32946.657614108790000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1407,7 +1407,7 @@ object Shutdown: TShutdown
   object Client: TClientSocket
     Active = False
     ClientType = ctNonBlocking
-    Port = 381
+    Port = 38100
     OnError = ClientError
     Left = 496
     Top = 120
@@ -1419,6 +1419,7 @@ object Shutdown: TShutdown
   end
   object bsM: TbsPolyglotManager
     LangsDir = '.\Languages\'
+    CurrentLang = 'Deutsch'
     TranslateResourceStrings = True
     CurrentLangChanging = bsMCurrentLangChanging
     Left = 432

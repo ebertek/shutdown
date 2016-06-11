@@ -1385,7 +1385,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 32946.691442187490000000
+          Date = 32946.832075729170000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1867,6 +1867,7 @@ object Shutdown: TShutdown
             Hint = 'Feljegyzi, hogy ki, mikor '#233's hogyan kapcsolta ki a sz'#225'm'#237't'#243'g'#233'pet'
             Caption = 'Loggol'#225's'
             TabOrder = 2
+            OnClick = logCBClick
           end
           object annCB: TCheckBox
             Left = 8
@@ -1875,6 +1876,7 @@ object Shutdown: TShutdown
             Height = 17
             Caption = 'Visszasz'#225'ml'#225'l'#225's kikapcsol'#225's el'#337'tt'
             TabOrder = 3
+            OnClick = annCBClick
           end
           object ann_CB: TComboBox
             Left = 8
@@ -1882,7 +1884,7 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Style = csDropDownList
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 4
           end
         end
@@ -1911,7 +1913,7 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett nyelv'
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 0
             Text = 'Magyar'
             OnChange = langCBChange
@@ -2369,7 +2371,7 @@ object Shutdown: TShutdown
         object UserCB: TCheckBox
           Left = 16
           Top = 16
-          Width = 89
+          Width = 204
           Height = 17
           Hint = 
             'Ha a jelenlegi felhaszn'#225'l'#243' kil'#233'p, akkor nem engedi bel'#233'pni egy i' +
@@ -2465,6 +2467,7 @@ object Shutdown: TShutdown
           Height = 17
           Caption = 'Check on program start'
           TabOrder = 3
+          OnClick = atom_CBClick
         end
       end
     end
@@ -2652,6 +2655,7 @@ object Shutdown: TShutdown
   end
   object bsM: TbsPolyglotManager
     LangsDir = '.\Languages\'
+    CurrentLang = 'Deutsch'
     TranslateResourceStrings = True
     CurrentLangChanging = bsMCurrentLangChanging
     Left = 72
@@ -2734,7 +2738,7 @@ object Shutdown: TShutdown
   end
   object ServerSocket1: TServerSocket
     Active = False
-    Port = 381
+    Port = 38100
     ServerType = stNonBlocking
     OnClientRead = ServerSocket1ClientRead
     Left = 413

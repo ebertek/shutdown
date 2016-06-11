@@ -10,7 +10,7 @@ uses
   LMDCustomComponent, LMDStarter, LMDControl, LMDBaseControl, LMDBaseGraphicControl, LMDGraphicControl, LMDBaseMeter, LMDCustomProgressFill, LMDProgressFill, LMDGlobalHotKey, LMDCustomControl, LMDCustomPanel, LMDCustomBevelPanel, LMDBaseEdit, LMDCustomEdit, LMDCustomBrowseEdit, LMDCustomFileEdit, LMDFileOpenEdit, LMDCustomMaskEdit, LMDCustomExtSpinEdit, LMDSpinEdit,
   RXDice, RXClock, Placemnt,
   ScktComp, IdBaseComponent, IdComponent, IdUDPBase, IdUDPClient, IdSNTP,
-  ParamOpener, bsPolyglotUn, Mask, ToolEdit, Graphics, SUIForm;
+  ParamOpener, Mask, ToolEdit, Graphics, SUIForm, bsPolyglotUn;
 
 type
   TShutdown = class(TForm)
@@ -299,6 +299,9 @@ type
     procedure GHSusKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure HotKeySusChange(Sender: TObject);
+    procedure annCBClick(Sender: TObject);
+    procedure logCBClick(Sender: TObject);
+    procedure atom_CBClick(Sender: TObject);
   private
     INI, lini: TINIFile;
   public
@@ -635,6 +638,7 @@ begin
   PingTime.Value:=INI.ReadInteger('AutoPingShutdown', 'Minute', 10);
   ontopCB.Checked:=INI.ReadBool('AutoShutdown', 'StayOnTop', False);
   defcommand.ItemIndex:=INI.ReadInteger('Command', 'Default', 0);
+  Server_CB.Checked:=INI.ReadBool('AutoShutdown', 'Server', False);
 end;
 
 procedure TShutdown.UserSave;
@@ -969,7 +973,7 @@ begin
   if atom_CB.Checked = True then
     Atomic_Clock;
   if ontopCB.Checked = True then
-    FormStyle := fsStayOnTop;
+    ontopCBClick(self);
   if server_CB.Checked = True then
     ServerSocket1.Active := True;
 end;
@@ -1396,6 +1400,7 @@ end;
 procedure TShutdown.beshutCBClick(Sender: TObject);
 begin
   beshutE.Visible:=beshutCB.Checked;
+  ComSave;
 end;
 
 procedure TShutdown.HotKeyAAChange(Sender: TObject);
@@ -1605,10 +1610,13 @@ end;
 
 procedure TShutdown.ontopCBClick(Sender: TObject);
 begin
-  if ontopCB.Checked = True then
-    FormStyle := fsStayOnTop
-  else
+  if ontopCB.Checked = True then begin
+    FormStyle := fsStayOnTop;
+    logo.Hide;
+  end else begin
     FormStyle := fsNormal;
+    logo.Show;
+  end
 end;
 
 procedure TShutdown.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -1684,6 +1692,7 @@ end;
 procedure TShutdown.server_CBClick(Sender: TObject);
 begin
   ServerSocket1.Active:=server_CB.Checked;
+  ComSave;
 end;
 
 procedure TShutdown.SuspendClick(Sender: TObject);
@@ -1700,6 +1709,21 @@ end;
 procedure TShutdown.HotKeySusChange(Sender: TObject);
 begin
   GHSus.HotKey:=HotKeySus.HotKey;
+end;
+
+procedure TShutdown.annCBClick(Sender: TObject);
+begin
+  WaveSave;
+end;
+
+procedure TShutdown.logCBClick(Sender: TObject);
+begin
+  ComSave;
+end;
+
+procedure TShutdown.atom_CBClick(Sender: TObject);
+begin
+  ComSave;
 end;
 
 end.
