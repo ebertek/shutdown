@@ -577,10 +577,10 @@ object about: Tabout
         Width = 260
         Height = 104
         Caption = 
-          'The New Generation - Ocean -'#13#10'4.0'#13#10'Made by ebiSoft'#13#10#13#10'New versio' +
-          'ns and source code is available at'#13#10'http://sourceforge.net/proje' +
-          'cts/shutdown/'#13#10'If you like Shutdown Monster, please donate!'#13#10'Don' +
-          'ation is available through SourceForge, via PayPal.'
+          'The New Generation - Ocean -'#13#10'4.0.2'#13#10'Made by ebiSoft'#13#10#13#10'New vers' +
+          'ions and source code is available at'#13#10'http://sourceforge.net/pro' +
+          'jects/shutdown/'#13#10'If you like Shutdown Monster, please donate!'#13#10'D' +
+          'onation is available through SourceForge, via PayPal.'
         Transparent = False
         IsControl = True
       end

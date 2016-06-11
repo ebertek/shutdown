@@ -204,3 +204,4 @@ atom_add_Hint=Szerver hozzáadása
 Update_L_Caption=Shutdown Monster 4.0
 Update_L_Hint=A program honlapjának megjelenítése
 clearCB_Caption=Ideiglenes tárolók ürítése
+updateCB_Caption=Frissítések automatikus keresése

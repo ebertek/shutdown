@@ -23,6 +23,7 @@ object Shutdown: TShutdown
   ShowHint = True
   OnClose = FormClose
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -1363,7 +1364,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 38565.928876226850000000
+          Date = 38565.505308333330000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1747,7 +1748,7 @@ object Shutdown: TShutdown
           Left = 8
           Top = 8
           Width = 265
-          Height = 185
+          Height = 169
           Caption = 'Kin'#233'zet'
           TabOrder = 0
           object auto: TCheckBox
@@ -1818,7 +1819,7 @@ object Shutdown: TShutdown
           end
           object minimCB: TCheckBox
             Left = 8
-            Top = 128
+            Top = 120
             Width = 249
             Height = 17
             Hint = 'A program indul'#225'skor lekicsiny'#237'ti mag'#225't'
@@ -1827,7 +1828,7 @@ object Shutdown: TShutdown
           end
           object ontopCB: TCheckBox
             Left = 8
-            Top = 160
+            Top = 144
             Width = 249
             Height = 17
             Hint = 'Ezt az ablakot nem takarja el m'#225'sik ablak'
@@ -1897,7 +1898,7 @@ object Shutdown: TShutdown
         end
         object GB_Alarm: TGroupBox
           Left = 392
-          Top = 120
+          Top = 104
           Width = 265
           Height = 73
           Caption = 'Riaszt'#225's'
@@ -1938,9 +1939,9 @@ object Shutdown: TShutdown
         end
         object GB_Before: TGroupBox
           Left = 392
-          Top = 200
+          Top = 184
           Width = 265
-          Height = 193
+          Height = 209
           Caption = 'Kikapcsol'#225's el'#337'tt v'#233'grehajtand'#243
           TabOrder = 4
           object beshutCB: TCheckBox
@@ -1972,7 +1973,7 @@ object Shutdown: TShutdown
           end
           object logCB: TCheckBox
             Left = 8
-            Top = 72
+            Top = 88
             Width = 249
             Height = 17
             Hint = 'Feljegyzi, hogy ki, mikor '#233's hogyan kapcsolta ki a sz'#225'm'#237't'#243'g'#233'pet'
@@ -1982,7 +1983,7 @@ object Shutdown: TShutdown
           end
           object annCB: TCheckBox
             Left = 8
-            Top = 88
+            Top = 112
             Width = 249
             Height = 17
             Hint = 
@@ -1994,19 +1995,16 @@ object Shutdown: TShutdown
           end
           object ann_CB: TComboBox
             Left = 8
-            Top = 104
+            Top = 128
             Width = 145
             Height = 21
-            Hint = 
-              'Itt v'#225'laszthatod ki, hogy melyik hangcsomagot haszn'#225'lja a progra' +
-              'm a visszasz'#225'ml'#225'l'#225'shoz'
             Style = csDropDownList
             ItemHeight = 0
             TabOrder = 5
           end
           object volfade_CB: TCheckBox
             Left = 8
-            Top = 136
+            Top = 160
             Width = 249
             Height = 17
             Hint = 'A hanger'#337' lass'#250' leh'#250'z'#225'sa kikapcsol'#225's el'#337'tt'
@@ -2016,7 +2014,7 @@ object Shutdown: TShutdown
           end
           object volfade_E: TLMDSpinEdit
             Left = 8
-            Top = 152
+            Top = 176
             Width = 100
             Height = 21
             Hint = 'A lehalk'#237't'#225's sebess'#233'ge'
@@ -2033,7 +2031,7 @@ object Shutdown: TShutdown
           end
           object clearCB: TCheckBox
             Left = 8
-            Top = 56
+            Top = 64
             Width = 249
             Height = 17
             Caption = 'Ideiglenes t'#225'rol'#243'k '#252'r'#237't'#233'se'
@@ -2043,18 +2041,18 @@ object Shutdown: TShutdown
         end
         object GB_Other: TGroupBox
           Left = 8
-          Top = 200
+          Top = 184
           Width = 265
-          Height = 193
+          Height = 209
           Caption = 'Egy'#233'b'
           TabOrder = 3
           object Update_L: TLabel
             Left = 8
-            Top = 72
-            Width = 107
+            Top = 80
+            Width = 116
             Height = 13
             Hint = 'A program honlapj'#225'nak megjelen'#237't'#233'se'
-            Caption = 'Shutdown Monster 4.0'
+            Caption = 'Shutdown Monster 4.0.2'
             OnClick = Update_LClick
           end
           object langCB: TComboBox
@@ -2062,14 +2060,13 @@ object Shutdown: TShutdown
             Top = 16
             Width = 145
             Height = 21
-            Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett nyelv'
             ItemHeight = 0
             TabOrder = 0
             OnChange = langCBChange
           end
           object Save4_2: TBitBtn
             Left = 216
-            Top = 40
+            Top = 48
             Width = 24
             Height = 24
             Hint = 'Egy'#233'b be'#225'll'#237't'#225'sok ment'#233'se'
@@ -2092,19 +2089,19 @@ object Shutdown: TShutdown
           end
           object server_CB: TCheckBox
             Left = 8
-            Top = 104
+            Top = 120
             Width = 249
             Height = 17
             Hint = 
               'A sz'#225'm'#237't'#243'g'#233'pedet LAN-on '#233's Interneten kereszt'#252'l is kikapcsolhato' +
               'd'
             Caption = 'Szerver '#252'zemm'#243'd enged'#233'lyez'#233'se'
-            TabOrder = 3
+            TabOrder = 4
             OnClick = server_CBClick
           end
           object Button1: TBitBtn
             Left = 8
-            Top = 40
+            Top = 48
             Width = 145
             Height = 25
             Hint = #218'j verzi'#243' keres'#233'se'
@@ -2141,20 +2138,28 @@ object Shutdown: TShutdown
           end
           object RxDice1: TRxDice
             Left = 8
-            Top = 120
+            Top = 136
             Width = 66
             Height = 66
             Rotate = False
             ShowFocus = False
-            TabOrder = 4
+            TabOrder = 5
             OnClick = RxDice1Click
+          end
+          object updateCB: TCheckBox
+            Left = 8
+            Top = 96
+            Width = 249
+            Height = 17
+            Caption = 'Friss'#237't'#233'sek automatikus keres'#233'se'
+            TabOrder = 3
           end
         end
         object Memo1: TMemo
           Left = 281
           Top = 8
           Width = 103
-          Height = 185
+          Height = 169
           TabStop = False
           ReadOnly = True
           TabOrder = 5
@@ -2162,9 +2167,9 @@ object Shutdown: TShutdown
         end
         object Memo2: TMemo
           Left = 281
-          Top = 200
+          Top = 184
           Width = 103
-          Height = 193
+          Height = 209
           TabStop = False
           ReadOnly = True
           TabOrder = 6
@@ -2608,7 +2613,6 @@ object Shutdown: TShutdown
           Top = 32
           Width = 169
           Height = 65
-          Hint = 'A szerverek list'#225'ja'
           ItemHeight = 13
           Items.Strings = (
             'time.nist.gov'
@@ -3697,7 +3701,7 @@ object Shutdown: TShutdown
     Top = 504
   end
   object fp: TFormPlacement
-    IniFileName = 'Shutdown.ini'
+    IniFileName = 'Settings.ini'
     IniSection = 'Placement'
     Left = 248
     Top = 536

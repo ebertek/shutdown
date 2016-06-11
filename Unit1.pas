@@ -252,6 +252,8 @@ type
     CPUCheck: TThreadedTimer;
     Update_L: TLabel;
     clearCB: TCheckBox;
+    updateCB: TCheckBox;
+    procedure FormDestroy(Sender: TObject);
     procedure TrayIconClick(Sender: TObject);
     procedure Update_LClick(Sender: TObject);
     procedure volfade_TTimer(Sender: TObject);
@@ -911,6 +913,7 @@ end;
   INI.WriteBool('Settings', 'Minimize', minimCB.Checked);
   INI.WriteBool('Settings', 'StayOnTop', ontopCB.Checked);
   INI.WriteBool('Settings', 'Server', server_CB.Checked);
+  INI.WriteBool('Settings', 'C4U', updateCB.Checked);
   INI.WriteBool('Volume', 'Fade', volfade_CB.Checked);
   INI.WriteInteger('Volume', 'FadeDur', volfade_E.Value);
 end;
@@ -930,6 +933,7 @@ begin
   defcommand.ItemIndex:=INI.ReadInteger('Command', 'Default', 0);
   if defcommand.ItemIndex=-1 then defcommand.ItemIndex:=0;
   Server_CB.Checked:=INI.ReadBool('Settings', 'Server', False);
+  updateCB.Checked:=INI.ReadBool('Settings', 'C4U', False);
   logCB.Checked:=INI.ReadBool('Settings', 'Logging', False);
   clearCB.Checked:=INI.ReadBool('Settings', 'Clear', False);
   atom_CB.Checked:=INI.ReadBool('Settings', 'Sync', False);
@@ -1333,6 +1337,8 @@ begin
     ontopCBClick(self);
   if server_CB.Checked then
     ServerSocket1.Active := True;
+  if updateCB.Checked then
+    Button1.Click;
 end;
 
 procedure TShutdown.Set2Click(Sender: TObject);
@@ -2377,6 +2383,14 @@ end;
 procedure TShutdown.TrayIconClick(Sender: TObject);
 begin
   Application.BringToFront;
+end;
+
+procedure TShutdown.FormDestroy(Sender: TObject);
+begin
+  try
+    lini.Free;
+    INI.Free;
+  except end;
 end;
 
 end.

@@ -206,3 +206,4 @@ atom_add_Hint=Add server
 Update_L_Caption=Shutdown Monster 4.0
 Update_L_Hint=Visit the homepage of Shutdown Monster
 clearCB_Caption=Clear temporary files
+updateCB_Caption=Check for updates automatically
