@@ -9,14 +9,10 @@ type
   Tabout = class(TForm)
     suiForm1: TsuiForm;
     Panel1: TPanel;
-    ProgramIcon: TImage;
     ProductName: TLabel;
     Version: TLabel;
-    Copyright: TLabel;
     SpeedButton1: TSpeedButton;
     procedure SpeedButton1Click(Sender: TObject);
-    procedure Label1MouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
   public
@@ -29,12 +25,6 @@ var
 implementation
 
 {$R *.dfm}
-
-procedure Tabout.Label1MouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-  ProgramIcon.Visible:=not ProgramIcon.Visible;
-end;
 
 procedure Tabout.SpeedButton1Click(Sender: TObject);
 begin
