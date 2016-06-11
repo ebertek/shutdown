@@ -8,9 +8,9 @@ uses
   ActnList, Messages, ComObj, mmsystem, clipbrd, ExtActns, PSInterface,
   Forms, XPMan, Menus, CoolTrayIcon, ExtCtrls, StdCtrls, Controls, Grids, ComCtrls, Buttons, Classes,
   LMDCustomComponent, LMDStarter,  LMDControl, LMDBaseControl, LMDBaseGraphicControl, LMDGraphicControl, LMDBaseMeter, LMDCustomProgressFill, LMDProgressFill, LMDGlobalHotKey, LMDCustomControl, LMDCustomPanel, LMDCustomBevelPanel, LMDBaseEdit, LMDCustomEdit, LMDCustomBrowseEdit, LMDCustomFileEdit, LMDFileOpenEdit, LMDCustomMaskEdit, LMDCustomExtSpinEdit, LMDSpinEdit,
-  RXDice, RXClock, RxGIF,
+  RXDice, RXClock,
   bsPolyglotUn, Placemnt, SUIForm, CDOpener, Mask, ToolEdit, ParamOpener,
-  IdBaseComponent, IdComponent, IdUDPBase, IdUDPClient, IdSNTP;
+  IdBaseComponent, IdComponent, IdUDPBase, IdUDPClient, IdSNTP, Graphics;
 
 type
   ELoadLibraryFailed = class(Exception);
@@ -155,6 +155,8 @@ type
     ParamOpener1: TParamOpener;
     ontopCB: TCheckBox;
     Idozito: TDateTimePicker;
+    ann_CB: TComboBox;
+    annCB: TCheckBox;
     function TurnScreenSaverOn: boolean;
     function GetUserFromWindows: string;
     procedure DoDownload;
@@ -528,7 +530,7 @@ begin
   s1.LoadFromFile(ExtractFilePath(Application.EXEName)+'current.txt');
   s2.LoadFromFile(ExtractFilePath(Application.EXEName)+'update.txt');
   if s1.Text < s2.Text then
-    ShowMessage(lini.ReadString(bsM.CurrentLang, 'Update1', 'Version 3.0.1.')+s2.Text+' '+lini.ReadString(bsM.CurrentLang, 'Update2', 'is available!')+#13#10+lini.ReadString(bsM.CurrentLang, 'Update3', 'Get it from http://www.mosolyorszag.hu/david/prog/'));
+    ShowMessage(lini.ReadString(bsM.CurrentLang, 'Update1', 'Version 3.1.0.')+s2.Text+' '+lini.ReadString(bsM.CurrentLang, 'Update2', 'is available!')+#13#10+lini.ReadString(bsM.CurrentLang, 'Update3', 'Get it from http://www.mosolyorszag.hu/david/prog/'));
   s1.Free;
   s2.Free;
 end;
@@ -623,19 +625,6 @@ end;
 
 procedure TShutdown.DeMin;  //deaktival
 begin
-(*  Idozito.Enabled:=False;
-  Calendar.Enabled:=False;
-  Idopont.Enabled:=False;
-  Set1.Enabled:=False;
-  Set2.Enabled:=False;
-  Set3.Enabled:=False;
-  Save1.Enabled:=False;
-  Save2.Enabled:=False;
-  Save3.Enabled:=False;
-  AltOptions.Enabled:=False;
-  Veszhelyzet.Enabled:=False;
-  eleres.Enabled:=False;
-  PingTime.Enabled:=False;*)
   Valasztas.Enabled:=False;
   Application.Minimize;
   TrayIcon.HideMainForm;
@@ -649,19 +638,6 @@ end;
 
 procedure TShutdown.EnMax;  //aktival
 begin
-(*  Idozito.Enabled:=True;
-  Calendar.Enabled:=True;
-  Idopont.Enabled:=True;
-  Set1.Enabled:=True;
-  Set2.Enabled:=True;
-  Set3.Enabled:=True;
-  Save1.Enabled:=True;
-  Save2.Enabled:=True;
-  Save3.Enabled:=True;
-  AltOptions.Enabled:=True;
-  Veszhelyzet.Enabled:=True;
-  eleres.Enabled:=True;
-  PingTime.Enabled:=True;*)
   Valasztas.Enabled:=True;
   N15percmlva1.Enabled:=True;
   N30percmlva1.Enabled:=True;
@@ -670,6 +646,12 @@ begin
   Mgsem1.Enabled:=False;
   TrayIcon.ShowMainForm;
   Show;
+  Mgsem1.Click;
+  Timer1.Enabled:=False;
+  Timer2.Enabled:=False;
+  Timer3.Enabled:=False;
+  Start.AutoStart:=False;
+  Most.UserValue:=0;
 end;
 
 (*
@@ -821,18 +803,30 @@ begin
   mon0hk.HotKey:=hkmon0.HotKey;
   mon1hk.HotKey:=hkmon1.HotKey;
   ctifhk.HotKey:=hkctif.HotKey;
-end;
+end;                                   
 
 procedure TShutdown.WaveSave;
 begin
   INI.WriteString('AutoAlarm', 'Path', wavE.Text);
   INI.WriteInteger('AutoAlarm', 'Loop', wavSE.Value);
+  INI.WriteBool('AutoAlarm', 'Voice', annCB.Checked);
+  INI.WriteInteger('AutoAlarm', 'VoicePack', ann_CB.ItemIndex);
 end;
 
 procedure TShutdown.WaveOpen;
+var sr: TSearchRec;
 begin
   wavE.Text:=INI.ReadString('AutoAlarm', 'Path', '');
   wavSE.Value:=INI.ReadInteger('AutoAlarm', 'Loop', 1);
+  annCB.Checked:=INI.ReadBool('AutoAlarm', 'Voice', True);
+  if (FindFirst(ExtractFilePath(Application.ExeName)+'Sounds\*.*', faDirectory, sr) = 0) then begin
+    repeat
+      if (sr.Name <> '.') and (sr.Name <> '..') then
+        ann_CB.Items.Add(sr.Name);
+    until (FindNext(sr)<>0);
+    FindClose(sr);
+  end;
+  ann_CB.ItemIndex:=INI.ReadInteger('AutoAlarm', 'VoicePack', 0);
 end;
 
 procedure TShutdown.Set1Save;
@@ -1088,24 +1082,52 @@ end;
 procedure TShutdown.Timer2Timer(Sender: TObject);
 begin
   Most.UserValue:=Most.UserValue+1;
-  case Most.MaxValue-Most.UserValue of
-    10: begin
-          countd.ShowModal;
-          countd.countd_label.Caption:='10';
-        end;
-    9: countd.countd_label.Caption:='9';
-    8: countd.countd_label.Caption:='8';
-    7: countd.countd_label.Caption:='7';
-    6: countd.countd_label.Caption:='6';
-    5: countd.countd_label.Caption:='5';
-    4: countd.countd_label.Caption:='4';
-    3: countd.countd_label.Caption:='3';
-    2: countd.countd_label.Caption:='2';
-    1: countd.countd_label.Caption:='1';
-    0: begin
-         countd.countd_label.Caption:='0';
-         countd.Hide;
-       end;
+  if annCB.Checked then begin
+    case Most.MaxValue-Most.UserValue of
+      10: begin
+            countd.ShowModal;
+            countd.countd_label.Caption:='10';
+  //          PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Ten.wav'), 0, SND_PURGE);
+          end;
+      9: begin
+           countd.countd_label.Caption:='9';
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Nine.wav'), 0, SND_PURGE);
+         end;
+      8: begin
+           countd.countd_label.Caption:='8';
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Eight.wav'), 0, SND_PURGE);
+         end;
+      7: begin
+           countd.countd_label.Caption:='7';
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Seven.wav'), 0, SND_PURGE);
+         end;
+      6: begin
+           countd.countd_label.Caption:='6';
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Six.wav'), 0, SND_PURGE);
+         end;
+      5: begin
+           countd.countd_label.Caption:='5';
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Five.wav'), 0, SND_PURGE);
+         end;
+      4: begin
+           countd.countd_label.Caption:='4';
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Four.wav'), 0, SND_PURGE);
+         end;
+      3: begin
+           countd.countd_label.Caption:='3';
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Three.wav'), 0, SND_PURGE);
+         end;
+      2: begin
+           countd.countd_label.Caption:='2';
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Two.wav'), 0, SND_PURGE);
+         end;
+      1: begin
+           countd.countd_label.Caption:='1';
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\One.wav'), 0, SND_PURGE);
+           countd.Hide;
+           countd.countd_label.Caption:='10';
+         end;
+    end;
   end;
 end;
 
@@ -1163,6 +1185,7 @@ begin
   bsM.LangsDir:=ExtractFilePath(Application.EXEName) + '\Languages';
   fp.IniFileName:=ExtractFilePath(Application.EXEName) + 'Shutdown.ini';
   NapCheck;
+  ParamOpener1.ParamOpen;
 end;
 
 procedure TShutdown.autoClick(Sender: TObject);
@@ -1419,7 +1442,7 @@ procedure TShutdown.BitBtn1Click(Sender: TObject);
 var I: integer;
 begin
   for I := 1 to wavSE.Value do
-    PlaySound(PChar(wavE.Text), 0, SND_SYNC);
+    PlaySound(PChar(wavE.Text), 0, SND_NODEFAULT);
 end;
 
 procedure TShutdown.bsMCurrentLangChanging(Sender: TObject; OldLanguage,
@@ -1604,8 +1627,7 @@ end;
 
 procedure TShutdown.FormShow(Sender: TObject);
 begin
-//The stuff are in the OnStart Timer !
-ParamOpener1.ParamOpen;
+//All the stuffs are in the OnStart Timer !
 end;
 
 procedure TShutdown.atom_doClick(Sender: TObject);

@@ -1,7 +1,7 @@
 library plugin1;
 
 uses
-  Windows, Messages,
+  Windows, Messages, ExtCtrls,
   SysUtils, Classes, ActnList, PSInterface;
 
 {$R *.RES}
@@ -11,6 +11,10 @@ type
   private
     Host: IHost;
     ASomeAction: TAction;
+    Timerr: TTimer;
+    Timerrr: TTimer;
+    procedure TimerrTimer(Sender: TObject);
+    procedure TimerrrTimer(Sender: TObject);
   public
     procedure InitPlugin(AHost: IHost);
     procedure ASomeActionExecute(Sender: TObject);
@@ -26,46 +30,32 @@ begin
   Host.RegisterAction(ASomeAction);
 end;
 
+procedure TPlugin.TimerrTimer(Sender: TObject);
+begin
+  SendMessage(Host.GetApplication.Handle, WM_SYSCOMMAND, SC_MONITORPOWER, - 1);
+  Timerr.Enabled:=False;
+end;
+
+procedure TPlugin.TimerrrTimer(Sender: TObject);
+begin
+  SendMessage(Host.GetApplication.Handle, WM_SYSCOMMAND, SC_MONITORPOWER, 2);
+  Sleep(1000);
+  SendMessage(Host.GetApplication.Handle, WM_SYSCOMMAND, SC_MONITORPOWER, 2);
+  Timerrr.Enabled:=False;
+end;
+
 procedure TPlugin.ASomeActionExecute(Sender: TObject);
 begin
-(*
-Power Off (1st: foce applications to exit. 2nd: normal):
-    MyExitWindows(EWX_POWEROFF or EWX_FORCE)
-    MyExitWindows(EWX_POWEROFF);
-
-Shutdown (1st: foce applications to exit. 2nd: normal):
-    MyExitWindows(EWX_SHUTDOWN or EWX_FORCE)
-    MyExitWindows(EWX_SHUTDOWN);
-
-Reboot (1st: foce applications to exit. 2nd: normal):
-    MyExitWindows(EWX_REBOOT or EWX_FORCE)
-    MyExitWindows(EWX_REBOOT);
-
-Log Off (1st: foce applications to exit. 2nd: normal):
-    MyExitWindows(EWX_LOGOFF or EWX_FORCE)
-    MyExitWindows(EWX_LOGOFF);
-
-Hibernate:
-ShellExecute(Handle, 'open', 'rundll32.exe', PChar ('Powrprof.dll,SetSuspendState'), nil, SW_SHOWNORMAL);
-
-Lock Workstation:
-WinExec('rundll32.exe user32.dll,LockWorkStation', SW_SHOWNORMAL);
-
-Empty Recycle Bin:
-SHEmptyRecycleBin(self.handle,'',SHERB_NOCONFIRMATION);
-
-Clear Clipboard:
-Clipboard.Clear;
-
-Turn Monitor 1st: off, 2nd: on:
-  SendMessage(Application.Handle, WM_SYSCOMMAND, SC_MONITORPOWER, 2);
-  SendMessage(Application.Handle, WM_SYSCOMMAND, SC_MONITORPOWER, - 1);
-
-This plugin will turn off the monitor, wait 2 secs and turn it on again
-*)
-  SendMessage(Host.GetApplication.Handle, WM_SYSCOMMAND, SC_MONITORPOWER, 2);
-  Sleep(5000);
-  SendMessage(Host.GetApplication.Handle, WM_SYSCOMMAND, SC_MONITORPOWER, - 1);
+  Timerr := TTimer.Create(Timerr);
+  Timerr.Enabled:=False;
+  Timerr.Interval:=5000;
+  Timerr.OnTimer:=TimerrTimer;
+  Timerr.Enabled:=True;
+  Timerrr := TTimer.Create(Timerrr);
+  Timerrr.Enabled:=False;
+  Timerrr.Interval:=1;
+  Timerrr.OnTimer:=TimerrrTimer;
+  Timerrr.Enabled:=True;
 end;
 
 destructor TPlugin.Destroy;

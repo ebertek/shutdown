@@ -3,7 +3,7 @@ unit Unit2;
 interface
 
 uses Windows, SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,
-  Buttons, ExtCtrls, bsPolyglotUn, SUIForm, RxGIF;
+  Buttons, ExtCtrls, bsPolyglotUn, SUIForm;
 
 type
   Tabout = class(TForm)
