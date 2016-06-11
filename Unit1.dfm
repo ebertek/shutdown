@@ -1363,7 +1363,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 38565.461069872680000000
+          Date = 38565.872120219910000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -2039,6 +2039,15 @@ object Shutdown: TShutdown
           Height = 193
           Caption = 'Egy'#233'b'
           TabOrder = 3
+          object Update_L: TLabel
+            Left = 8
+            Top = 72
+            Width = 107
+            Height = 13
+            Hint = 'A program honlapj'#225'nak megjelen'#237't'#233'se'
+            Caption = 'Shutdown Monster 4.0'
+            OnClick = Update_LClick
+          end
           object langCB: TComboBox
             Left = 8
             Top = 16
@@ -2051,7 +2060,7 @@ object Shutdown: TShutdown
           end
           object Save4_2: TBitBtn
             Left = 216
-            Top = 56
+            Top = 40
             Width = 24
             Height = 24
             Hint = 'Egy'#233'b be'#225'll'#237't'#225'sok ment'#233'se'
@@ -2074,7 +2083,7 @@ object Shutdown: TShutdown
           end
           object server_CB: TCheckBox
             Left = 8
-            Top = 96
+            Top = 104
             Width = 249
             Height = 17
             Hint = 
@@ -2086,7 +2095,7 @@ object Shutdown: TShutdown
           end
           object Button1: TBitBtn
             Left = 8
-            Top = 56
+            Top = 40
             Width = 145
             Height = 25
             Hint = #218'j verzi'#243' keres'#233'se'
@@ -2539,6 +2548,7 @@ object Shutdown: TShutdown
           'Ha a jelenlegi felhaszn'#225'l'#243' kil'#233'p, akkor nem engedi bel'#233'pni egy i' +
           'deig'
         Caption = 'Felhaszn'#225'l'#243' specifikus'
+        Enabled = False
         ImageIndex = 5
         object UserCB: TCheckBox
           Left = 16
@@ -2709,13 +2719,6 @@ object Shutdown: TShutdown
     Left = 216
     Top = 536
   end
-  object Timer1: TTimer
-    Enabled = False
-    Interval = 6000
-    OnTimer = Timer1Timer
-    Left = 624
-    Top = 472
-  end
   object Timer2: TTimer
     Enabled = False
     OnTimer = Timer2Timer
@@ -2780,12 +2783,6 @@ object Shutdown: TShutdown
     OnTimer = Timer3Timer
     Left = 448
     Top = 472
-  end
-  object PingTimer: TTimer
-    Enabled = False
-    OnTimer = PingTimerTimer
-    Left = 184
-    Top = 536
   end
   object Start: TLMDStarter
     StartOption = soSW_HIDE
@@ -3689,13 +3686,6 @@ object Shutdown: TShutdown
     Left = 312
     Top = 504
   end
-  object SureTimer: TTimer
-    Enabled = False
-    Interval = 120000
-    OnTimer = SureTimerTimer
-    Left = 280
-    Top = 536
-  end
   object fp: TFormPlacement
     IniFileName = 'Shutdown.ini'
     IniSection = 'Placement'
@@ -3707,24 +3697,6 @@ object Shutdown: TShutdown
     ReceiveTimeout = 7000
     Left = 280
     Top = 568
-  end
-  object CPU: TTimer
-    OnTimer = CPUTimer
-    Left = 216
-    Top = 504
-  end
-  object CPUOff: TTimer
-    Enabled = False
-    Interval = 1800000
-    OnTimer = CPUOffTimer
-    Left = 280
-    Top = 504
-  end
-  object CPUCheck: TTimer
-    Enabled = False
-    OnTimer = CPUCheckTimer
-    Left = 248
-    Top = 504
   end
   object ApplicationEvents1: TApplicationEvents
     OnMessage = ApplicationEvents1Message
@@ -3743,5 +3715,45 @@ object Shutdown: TShutdown
     OnTimer = volfade_TTimer
     Left = 624
     Top = 72
+  end
+  object Timer1: TThreadedTimer
+    Interval = 6000
+    OnTimer = Timer1Timer
+    ThreadPriority = tpHigher
+    Left = 176
+    Top = 232
+  end
+  object PingTimer: TThreadedTimer
+    OnTimer = PingTimerTimer
+    ThreadPriority = tpHigher
+    Left = 216
+    Top = 232
+  end
+  object SureTimer: TThreadedTimer
+    Interval = 120000
+    OnTimer = SureTimerTimer
+    ThreadPriority = tpHighest
+    Left = 256
+    Top = 232
+  end
+  object CPU: TThreadedTimer
+    Enabled = True
+    OnTimer = CPUTimer
+    ThreadPriority = tpHigher
+    Left = 296
+    Top = 232
+  end
+  object CPUOff: TThreadedTimer
+    Interval = 1800000
+    OnTimer = CPUOffTimer
+    ThreadPriority = tpHigher
+    Left = 336
+    Top = 232
+  end
+  object CPUCheck: TThreadedTimer
+    OnTimer = CPUCheckTimer
+    ThreadPriority = tpHigher
+    Left = 376
+    Top = 232
   end
 end

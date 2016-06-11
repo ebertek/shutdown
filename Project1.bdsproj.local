@@ -1,2 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject/>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2005/07/24 17:20:26.667.pas,E:\Projects\Ocean\Unit1.pas=</Transaction>
+    <Transaction>2005/07/24 17:20:26.667.dfm,E:\Projects\Ocean\Unit1.dfm=</Transaction>
+  </Transactions>
+</BorlandProject>

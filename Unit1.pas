@@ -20,11 +20,29 @@ You must not use this software for illegal things!
     GNU General Public License for more details.
 
 Components used in this project:
-Indy 9    Delphi 2005
-LMD SE    Delphi 2005 companinon CD
-dclebi    Currently not available for Delphi 2005; e-mail me if you need it
-SUIPack   SuniSoft
-SMLPack   SuniSoft
+Indy 9      Delphi 2005
+LMD SE      Delphi 2005 companinon CD
+dclebi      Currently not available for Delphi 2005; e-mail me if you need it
+SUIPack     SuniSoft
+SMLPack     SuniSoft
+adCpuUsage  Freely available
+ThdTimer    Freely available
+
+adCpuUsage, ThdTimer, ParamOpener are in the folder 'Components'.
+Copy those files in the directory of this file.
+
+SUIPack and SMLPack aren't free, you gotta buy them or use the trial versions.
+Trials of it are available at http://www.sunisoft.com
+
+Indy9 and LMD SE are free, and come with Delphi9.
+If you don't have the companion CD, you can get LMD at:
+http://www.lmd.de/download/
+You need LMD-Tools SE 7.01 Delphi 9 Win32.
+
+If you need the source code and don't want to install these components then
+I may make you it 3rd-party-component-free (Shutdown Monster 'Sky').
+'Sky' still uses adCpuUsage, ThdTimer and Indy, but not SUIPack and
+SMLPack, netiher LMD SE.
 
 *)
 
@@ -33,20 +51,35 @@ unit Unit1;
 interface
 
 uses
-//First two lines added manually by ebertek
-  Math, WinInet, IniFiles, Windows, SysUtils, Registry, DateUtils, Dialogs, ShellApi,
-  ActnList, Messages, ComObj, mmsystem, clipbrd, ExtActns, adCpuUsage,
-  Forms, XPMan, Menus, ExtCtrls, StdCtrls, Controls, Grids, ComCtrls, Buttons, Classes,
-  LMDCustomComponent, LMDStarter, LMDControl, LMDBaseControl, LMDBaseGraphicControl, LMDGraphicControl, LMDBaseMeter, LMDCustomProgressFill, LMDProgressFill, LMDGlobalHotKey, LMDCustomControl, LMDCustomPanel, LMDCustomBevelPanel, LMDBaseEdit, LMDCustomEdit, LMDCustomBrowseEdit, LMDCustomFileEdit, LMDFileOpenEdit, LMDCustomMaskEdit, LMDCustomExtSpinEdit, LMDSpinEdit,
-  ScktComp, IdBaseComponent, IdComponent, IdUDPBase, IdUDPClient, IdSNTP,
-  ParamOpener, Mask, Graphics,
-  LMDWndProcComponent, LMDTrayIcon, SMLLangRes, SMLFormLangRes,
-  RXClock, RXDice, Placemnt, ToolEdit, SMLMenuLangRes, SMLMsgLangRes, AppEvnts,
-  SUIForm;
+//First three lines added manually by ebertek
+  Math, WinInet, IniFiles, Windows, SysUtils, Registry, DateUtils, Dialogs,
+  ShellApi, ActnList, Messages, ComObj, mmsystem, clipbrd, ExtActns,
+  adCpuUsage, ThdTimer,
+  Forms, XPMan, Menus, ExtCtrls, StdCtrls, Controls, Grids, ComCtrls, Buttons,
+  Classes, LMDCustomComponent, LMDStarter, LMDControl, LMDBaseControl,
+  LMDBaseGraphicControl, LMDGraphicControl, LMDBaseMeter,
+  LMDCustomProgressFill, LMDProgressFill, LMDGlobalHotKey, LMDCustomControl,
+  LMDCustomPanel, LMDCustomBevelPanel, LMDBaseEdit, LMDCustomEdit,
+  LMDCustomBrowseEdit, LMDCustomFileEdit, LMDFileOpenEdit, LMDCustomMaskEdit,
+  LMDCustomExtSpinEdit, LMDSpinEdit, ScktComp, IdBaseComponent, IdComponent,
+  IdUDPBase, IdUDPClient, IdSNTP, ParamOpener, Mask, Graphics,
+  LMDWndProcComponent, LMDTrayIcon, SMLLangRes, SMLFormLangRes, RXClock,
+  RXDice, Placemnt, ToolEdit, SMLMenuLangRes, SMLMsgLangRes, AppEvnts, SUIForm;
+
+type                                  //MY VERY-FIRST THREAD!! :)
+ TUpdateThread = class(TThread)
+ Public
+  Procedure Execute; override;
+ end;
+
+type
+ TAtomThread = class(TThread)
+ Public
+  Procedure Execute; override;
+ end;
 
 type
   TShutdown = class(TForm)
-    Timer1: TTimer;
     Timer2: TTimer;
     SysTrayMenu: TPopupMenu;
     Kikapcsols1: TMenuItem;
@@ -61,7 +94,6 @@ type
     jraindts1: TMenuItem;
     Kijelentkezs1: TMenuItem;
     Timer3: TTimer;
-    PingTimer: TTimer;
     Start: TLMDStarter;
     Munkallomszrolsa1: TMenuItem;
     GHRB: TLMDGlobalHotKey;
@@ -87,14 +119,10 @@ type
     GHSus: TLMDGlobalHotKey;
     TrayIcon: TLMDTrayIcon;
     sml: TsmlFormLangRes;
-    SureTimer: TTimer;
     fp: TFormPlacement;
     IdSNTP1: TIdSNTP;
     sml2: TsmlMenuLangRes;
     sml3: TsmlMenuLangRes;
-    CPU: TTimer;
-    CPUOff: TTimer;
-    CPUCheck: TTimer;
     ApplicationEvents1: TApplicationEvents;
     HookTimer: TTimer;
     suiForm1: TsuiForm;
@@ -216,6 +244,14 @@ type
     volfade_CB: TCheckBox;
     volfade_E: TLMDSpinEdit;
     volfade_T: TTimer;
+    Timer1: TThreadedTimer;
+    PingTimer: TThreadedTimer;
+    SureTimer: TThreadedTimer;
+    CPU: TThreadedTimer;
+    CPUOff: TThreadedTimer;
+    CPUCheck: TThreadedTimer;
+    Update_L: TLabel;
+    procedure Update_LClick(Sender: TObject);
     procedure volfade_TTimer(Sender: TObject);
     procedure volfade_CBClick(Sender: TObject);
     procedure HookTimerTimer(Sender: TObject);
@@ -238,6 +274,7 @@ type
     procedure DoExec;
     procedure Atomic_Clock;
     procedure AutoToReg;
+    procedure DelReg;
     procedure DeMin;
     procedure EnMax;
     procedure FullHide;
@@ -376,6 +413,8 @@ type
     INI, lini: TINIFile;
     FHookStarted : Boolean;
   public
+    UpThread: TUpdateThread;
+    AtomThread: TAtomThread;
   end;
 
 var
@@ -388,7 +427,8 @@ var
   T3i: Extended;  //interval, ebbol kivonunk, kell a systray-hez
   cmd, recv: string;
   Active1, Active2, Active3: boolean;
-  _SetSuspendState: function (Hibernate, ForceCritical, DisableWakeEvent: BOOL): BOOL
+  _SetSuspendState: function
+  (Hibernate, ForceCritical, DisableWakeEvent: BOOL): BOOL
   stdcall = nil;
 
     function LinkAPI(const module, functionname: string): Pointer; forward;
@@ -407,7 +447,7 @@ uses Unit2, Unit3;
 {$R *.dfm}
 var JHook: THandle;
 
-function MyExitWindows(RebootParam: Longword): Boolean;  //ez a kikapcsolos cucc
+function MyExitWindows(RebootParam: Longword): Boolean;
 var
   TTokenHd: THandle;
   TTokenPvg: TTokenPrivileges;
@@ -469,7 +509,7 @@ begin
     Result := nil;
 end;
 
-function TShutdown.TurnScreenSaverOn: boolean;  //wlock-bol raktam be, ss-t indit
+function TShutdown.TurnScreenSaverOn: boolean;  //wlock-bol raktam be
 var b : bool;
 begin
   result := false;
@@ -497,7 +537,8 @@ End;
 function SHEmptyRecycleBin; external
   'SHELL32.DLL' name 'SHEmptyRecycleBinA';
 
-function JournalProc(Code, wParam: Integer; var EventStrut: TEventMsg): Integer; stdcall;
+function JournalProc(Code, wParam: Integer; var EventStrut: TEventMsg): Integer;
+stdcall;
 begin
   {this is the JournalRecordProc}
   Result := CallNextHookEx(JHook, Code, wParam, Longint(@EventStrut));
@@ -556,12 +597,19 @@ begin
   s2 := TStringList.Create;
   s1.LoadFromFile(ExtractFilePath(Application.EXEName)+'current.txt');
   s2.LoadFromFile(ExtractFilePath(Application.EXEName)+'update.txt');
-  ss1:=s1.Text;
-  ss2:=s2.Text;
-  if StrToInt(ss2) > StrToInt(ss1) then
-    ShowMessage(lini.ReadString(langCB.Text, 'Update2', 'A new version is available!')+#13#10+lini.ReadString(langCB.Text, 'Update3', 'Get it from http://shutdown.sf.net/'));
-  s1.Free;
-  s2.Free;
+  ss1:=Copy(s1.Text,1,7);
+  ss2:=Copy(s2.Text,1,7);
+  if StrToInt(ss2) > StrToInt(ss1) then begin
+    Update_L.Caption:=(lini.ReadString
+(langCB.Text, 'Update2', 'A new version is available!')+#13#10+
+lini.ReadString(langCB.Text, 'Update3', 'Get it from http://shutdown.sf.net/'));
+  end else begin
+    Update_L.Caption:=lini.ReadString
+      (langCB.Text, 'NoUpdate', 'There are no new updates available!');
+  end;
+  s1.Clear; s2.Clear;
+  s1.Free; s2.Free;
+  UpThread.Free;
 end;
 
 procedure TShutdown.DoSD; //kikapcsolja a gepet
@@ -610,11 +658,14 @@ begin
       ReWrite(f);
       CloseFile(f);
     end;
-    logMe.Lines.LoadFromFile(ExtractFilePath(Application.EXEName) + 'Shutdown.log');
+    logMe.Lines.LoadFromFile(ExtractFilePath(Application.EXEName) +
+      'Shutdown.log');
     if Sender <> '\DoExec/' then command:=Sender else command:=defcommand.Text;
     Delete(command,pos('&',command),1);
-    logMe.Lines.Add(DateTimeToStr(Now) + ': ' + command + ' ' + lini.ReadString(langCB.Text, 'By_User', 'by') + ' ' + GetUserFromWindows);
-    logMe.Lines.SaveToFile(ExtractFilePath(Application.EXEName) + 'Shutdown.log');
+    logMe.Lines.Add(DateTimeToStr(Now) + ': ' + command + ' ' +
+      lini.ReadString(langCB.Text, 'By_User', 'by') + ' ' + GetUserFromWindows);
+    logMe.Lines.SaveToFile(ExtractFilePath(Application.EXEName) +
+      'Shutdown.log');
   end;
 end;
 
@@ -637,6 +688,11 @@ begin
     CheckVol;
     rvol:=HexToInt(copy(IntToHex(Vol,8),1,4));  //high-order része a dword-nek
     lvol:=HexToInt(copy(IntToHex(Vol,8),5,8));  //low-order része a dword-nek
+    if auto2.Checked then begin
+      INI.WriteInteger('Volume', 'Right', rvol);
+      INI.WriteInteger('Volume', 'Left', lvol);
+      INI.WriteBool('Volume', 'WasFaded', True);
+    end;
     volfade_T.Enabled:=True;
   end;
   DoSD;
@@ -653,15 +709,19 @@ begin
       IdSNTP1.Host:=atom_servers.Items.Strings[i];
       IdSNTP1.Active:=True;
       if IdSNTP1.SyncTime then begin
-        atom_label.Caption:=lini.ReadString(langCB.Text, 'Synced', 'Time synchronized');
+        atom_label.Caption:=lini.ReadString
+          (langCB.Text, 'Synced', 'Time synchronized');
         break;
         IdSNTP1.Active:=False;
       end else
-        atom_label.Caption:=lini.ReadString(langCB.Text, 'Sync_fail', 'Error: synchronization failed!');
+        atom_label.Caption:=lini.ReadString
+          (langCB.Text, 'Sync_fail', 'Error: synchronization failed!');
       end;
   except
-    atom_label.Caption:=lini.ReadString(langCB.Text, 'Sync_fail', 'Error: synchronization failed!');
+    atom_label.Caption:=lini.ReadString
+      (langCB.Text, 'Sync_fail', 'Error: synchronization failed!');
   end;
+  AtomThread.Free;
 end;
 
 procedure TShutdown.AutoToReg;  //beirja a regbe
@@ -671,9 +731,28 @@ begin
   Reg := TRegistry.Create;
   try
     Reg.RootKey := HKEY_CURRENT_USER;
-    if Reg.OpenKey('\Software\Microsoft\Windows\CurrentVersion\RunOnce', True) then
+    if Reg.OpenKey('\Software\Microsoft\Windows\CurrentVersion\RunOnce', True)
+    then
     begin
       Reg.WriteString('Shutdown Monster', Application.ExeName);
+      Reg.CloseKey;
+    end;
+  finally
+    Reg.Free;
+  end;
+end;
+
+procedure TShutdown.DelReg;  //kiszedi a regbol
+var
+  Reg: TRegistry;
+begin
+  Reg := TRegistry.Create;
+  try
+    Reg.RootKey := HKEY_CURRENT_USER;
+    if Reg.OpenKey('\Software\Microsoft\Windows\CurrentVersion\RunOnce', True)
+    then
+    begin
+      Reg.DeleteValue('Shutdown Monster');
       Reg.CloseKey;
     end;
   finally
@@ -798,8 +877,8 @@ end;
   INI.WriteBool('Settings', 'Minimize', minimCB.Checked);
   INI.WriteBool('Settings', 'StayOnTop', ontopCB.Checked);
   INI.WriteBool('Settings', 'Server', server_CB.Checked);
-  INI.WriteBool('Settings', 'Fade', volfade_CB.Checked);
-  INI.WriteInteger('Settings', 'FadeDur', volfade_E.Value);
+  INI.WriteBool('Volume', 'Fade', volfade_CB.Checked);
+  INI.WriteInteger('Volume', 'FadeDur', volfade_E.Value);
 end;
 
 procedure TShutdown.ComOpen;
@@ -819,8 +898,14 @@ begin
   Server_CB.Checked:=INI.ReadBool('Settings', 'Server', False);
   logCB.Checked:=INI.ReadBool('Settings', 'Logging', False);
   atom_CB.Checked:=INI.ReadBool('Settings', 'Sync', False);
-  volfade_CB.Checked:=INI.ReadBool('Settings', 'Fade', False);
-  volfade_E.Value:=INI.ReadInteger('Settings', 'FadeDur', 256);
+  volfade_CB.Checked:=INI.ReadBool('Volume', 'Fade', False);
+  volfade_E.Value:=INI.ReadInteger('Volume', 'FadeDur', 256);
+  rvol:=INI.ReadInteger('Volume', 'Right', 65535);
+  lvol:=INI.ReadInteger('Volume', 'Left', 65535);
+  if (INI.ReadBool('Volume', 'WasFaded', False)) and (auto2.Checked) and (volfade_CB.Checked) then begin
+    try WaveOutSetVolume(WAVE_MAPPER, MakeLong(rvol,lvol)); except end;
+    INI.WriteBool('Volume', 'WasFaded', False);
+  end;
 end;
 
 procedure TShutdown.UserSave;
@@ -913,8 +998,9 @@ var sr: TSearchRec;
 begin
   wavE.Text:=INI.ReadString('AutoAlarm', 'Path', '');
   wavSE.Value:=INI.ReadInteger('AutoAlarm', 'Loop', 1);
-  annCB.Checked:=INI.ReadBool('AutoAlarm', 'Voice', True);
-  if (FindFirst(ExtractFilePath(Application.ExeName)+'Sounds\*.*', faDirectory, sr) = 0) then begin
+  annCB.Checked:=INI.ReadBool('AutoAlarm', 'Voice', False);
+  if (FindFirst(ExtractFilePath(Application.ExeName)+
+    'Sounds\*.*', faDirectory, sr) = 0) then begin
     repeat
       if (sr.Name <> '.') and (sr.Name <> '..') then
         ann_CB.Items.Add(sr.Name);
@@ -1130,6 +1216,7 @@ begin
 
   if INI.ReadBool('AutoStart', 'Enabled', False) = True then begin
     auto2.Checked:=True;
+    auto2Click(self);
     AutoToReg;
   end;
 
@@ -1141,7 +1228,8 @@ begin
 //User-specific thing begin
   if auto2.Checked=True then begin
     if UserCB.Checked=True then begin
-      if GetUserFromWindows = INI.ReadString('UserSpecific', 'User', '') then begin
+      if GetUserFromWindows = INI.ReadString('UserSpecific', 'User', '') then
+      begin
         if FromTime.DateTime<ToTime.DateTime then begin
           if ToTime.DateTime>=Now then begin
             Start.Execute;
@@ -1203,9 +1291,10 @@ begin
       FullHide;
     end;
   end;
-  atom_servers.Items.LoadFromFile(ExtractFilePath(Application.EXEName) + 'atom.txt');
+  atom_servers.Items.LoadFromFile(ExtractFilePath(Application.EXEName) +
+    'atom.txt');
   if atom_CB.Checked = True then
-    Atomic_Clock;
+    atom_do.Click;
   if ontopCB.Checked = True then
     ontopCBClick(self);
   if server_CB.Checked = True then
@@ -1222,23 +1311,29 @@ begin
   //ÓRA
   if Round(T3i/60000) > 60 then begin
     if Round(T3i/3600000) = 1 then
-      TrayIcon.Hint:=FloatToStr(RoundTo(T3i/3600000,-1))+' '+lini.ReadString(langCB.Text, '1Hrem', 'hour left') else
-        TrayIcon.Hint:=FloatToStr(RoundTo(T3i/3600000,-1))+' '+lini.ReadString(langCB.Text, 'Hrem', 'hours left');
+      TrayIcon.Hint:=FloatToStr(RoundTo(T3i/3600000,-1))+' '+
+        lini.ReadString(langCB.Text, '1Hrem', 'hour left') else
+        TrayIcon.Hint:=FloatToStr(RoundTo(T3i/3600000,-1))+' '+
+          lini.ReadString(langCB.Text, 'Hrem', 'hours left');
   end else
   //ÓRA
 
   //MÁSODPERC
   if Round(T3i/1000) < 60 then begin
     if Round(T3i/1000) = 1 then
-      TrayIcon.Hint:=IntToStr(Round(T3i/1000))+' '+lini.ReadString(langCB.Text, '1Srem', 'second left') else
-        TrayIcon.Hint:=IntToStr(Round(T3i/1000))+' '+lini.ReadString(langCB.Text, 'Srem', 'seconds left');
+      TrayIcon.Hint:=IntToStr(Round(T3i/1000))+' '+
+        lini.ReadString(langCB.Text, '1Srem', 'second left') else
+        TrayIcon.Hint:=IntToStr(Round(T3i/1000))+' '+
+          lini.ReadString(langCB.Text, 'Srem', 'seconds left');
   end else
   //MÁSODPERC
 
   //PERC
   if Round(T3i/60000) = 1 then
-    TrayIcon.Hint:=IntToStr(Round(T3i/60000))+' '+lini.ReadString(langCB.Text, '1Mrem', 'minute left') else
-      TrayIcon.Hint:=IntToStr(Round(T3i/60000))+' '+lini.ReadString(langCB.Text, 'Mrem', 'minutes left');
+    TrayIcon.Hint:=IntToStr(Round(T3i/60000))+' '+
+      lini.ReadString(langCB.Text, '1Mrem', 'minute left') else
+      TrayIcon.Hint:=IntToStr(Round(T3i/60000))+' '+
+        lini.ReadString(langCB.Text, 'Mrem', 'minutes left');
   //PERC
 end;
 
@@ -1250,7 +1345,8 @@ end;
 procedure TShutdown.Set1Click(Sender: TObject);
 begin
   if Calendar.Date<Date then begin
-    ShowMessage(lini.ReadString(langCB.Text, 'BDate', 'The given date/time is before today, please correct it!'))
+    ShowMessage(lini.ReadString(langCB.Text,
+      'BDate', 'The given date/time is before today, please correct it!'))
   end else
   if (Int(Calendar.Date)=Int(Date)) and (Frac(Idopont.Time)>GetTime) then begin
       Set1Auto;
@@ -1260,7 +1356,8 @@ begin
     Set1Auto;
     Set1Save;
   end else
-    ShowMessage(lini.ReadString(langCB.Text, 'BDate', 'The given date/time is before today, please correct it!'))
+    ShowMessage(lini.ReadString(langCB.Text,
+      'BDate', 'The given date/time is before today, please correct it!'))
 end;
 
 procedure TShutdown.Timer2Timer(Sender: TObject);
@@ -1271,43 +1368,53 @@ begin
       10: begin
             countd.ShowModal;
             countd.countd_label.Caption:='10';
-  //          PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Ten.wav'), 0, SND_PURGE);
+  //          PlaySound(PChar(ExtractFilePath(Application.ExeName)+
+    //          'Sounds\'+ann_CB.Text+'\Ten.wav'), 0, SND_PURGE);
           end;
       9: begin
            countd.countd_label.Caption:='9';
-           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Nine.wav'), 0, SND_PURGE);
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+
+             'Sounds\'+ann_CB.Text+'\Nine.wav'), 0, SND_PURGE);
          end;
       8: begin
            countd.countd_label.Caption:='8';
-           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Eight.wav'), 0, SND_PURGE);
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+
+             'Sounds\'+ann_CB.Text+'\Eight.wav'), 0, SND_PURGE);
          end;
       7: begin
            countd.countd_label.Caption:='7';
-           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Seven.wav'), 0, SND_PURGE);
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+
+             'Sounds\'+ann_CB.Text+'\Seven.wav'), 0, SND_PURGE);
          end;
       6: begin
            countd.countd_label.Caption:='6';
-           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Six.wav'), 0, SND_PURGE);
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+
+             'Sounds\'+ann_CB.Text+'\Six.wav'), 0, SND_PURGE);
          end;
       5: begin
            countd.countd_label.Caption:='5';
-           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Five.wav'), 0, SND_PURGE);
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+
+             'Sounds\'+ann_CB.Text+'\Five.wav'), 0, SND_PURGE);
          end;
       4: begin
            countd.countd_label.Caption:='4';
-           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Four.wav'), 0, SND_PURGE);
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+
+             'Sounds\'+ann_CB.Text+'\Four.wav'), 0, SND_PURGE);
          end;
       3: begin
            countd.countd_label.Caption:='3';
-           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Three.wav'), 0, SND_PURGE);
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+
+             'Sounds\'+ann_CB.Text+'\Three.wav'), 0, SND_PURGE);
          end;
       2: begin
            countd.countd_label.Caption:='2';
-           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\Two.wav'), 0, SND_PURGE);
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+
+             'Sounds\'+ann_CB.Text+'\Two.wav'), 0, SND_PURGE);
          end;
       1: begin
            countd.countd_label.Caption:='1';
-           PlaySound(PChar(ExtractFilePath(Application.ExeName)+'Sounds\'+ann_CB.Text+'\One.wav'), 0, SND_PURGE);
+           PlaySound(PChar(ExtractFilePath(Application.ExeName)+
+             'Sounds\'+ann_CB.Text+'\One.wav'), 0, SND_PURGE);
            countd.Hide;
            countd.countd_label.Caption:='10';
          end;
@@ -1423,7 +1530,33 @@ end;
 procedure TShutdown.Timer3Timer(Sender: TObject);
 begin
   T3i:=T3i-1;
-  TrayIcon.Hint:=IntToStr(Round(T3i/60000))+' '+lini.ReadString(langCB.Text, 'Minrem', 'minute(s) left')
+  //ÓRA
+  if Round(T3i/60000) > 60 then begin
+    if Round(T3i/3600000) = 1 then
+      TrayIcon.Hint:=FloatToStr(RoundTo(T3i/3600000,-1))+' '+
+        lini.ReadString(langCB.Text, '1Hrem', 'hour left') else
+        TrayIcon.Hint:=FloatToStr(RoundTo(T3i/3600000,-1))+' '+
+          lini.ReadString(langCB.Text, 'Hrem', 'hours left');
+  end else
+  //ÓRA
+
+  //MÁSODPERC
+  if Round(T3i/1000) < 60 then begin
+    if Round(T3i/1000) = 1 then
+      TrayIcon.Hint:=IntToStr(Round(T3i/1000))+' '+
+        lini.ReadString(langCB.Text, '1Srem', 'second left') else
+        TrayIcon.Hint:=IntToStr(Round(T3i/1000))+' '+
+          lini.ReadString(langCB.Text, 'Srem', 'seconds left');
+  end else
+  //MÁSODPERC
+
+  //PERC
+  if Round(T3i/60000) = 1 then
+    TrayIcon.Hint:=IntToStr(Round(T3i/60000))+' '+
+      lini.ReadString(langCB.Text, '1Mrem', 'minute left') else
+      TrayIcon.Hint:=IntToStr(Round(T3i/60000))+' '+
+        lini.ReadString(langCB.Text, 'Mrem', 'minutes left');
+  //PERC
 end;
 
 procedure TShutdown.forceClick(Sender: TObject);
@@ -1499,7 +1632,8 @@ procedure TShutdown.HibernateClick(Sender: TObject);
 begin
   DoLog(WhatAmI(Sender));
   SetSuspendState(True,force.Checked,wake_CB.Checked);
-  ShellExecute(Handle, 'open', 'rundll32.exe', PChar ('Powrprof.dll,SetSuspendState'), nil, SW_SHOWNORMAL);
+  ShellExecute(Handle, 'open', 'rundll32.exe', PChar
+  ('Powrprof.dll,SetSuspendState'), nil, SW_SHOWNORMAL);
 end;
 
 procedure TShutdown.HotKeyPOffChange(Sender: TObject);
@@ -1570,9 +1704,10 @@ end;
 procedure TShutdown.FormCreate(Sender: TObject);
 var sr: TSearchRec;
 begin
-  INI := TINIFile.Create(ExtractFilePath(Application.EXEName) + 'Shutdown.ini');
-  lini:= TINIFile.Create(ExtractFilePath(Application.EXEName) + 'Languages.ini');
-  if (FindFirst(ExtractFilePath(Application.EXEName)+'*.sml', faAnyFile, sr) = 0) then begin
+  INI := TINIFile.Create(ExtractFilePath(Application.EXEName)+'Shutdown.ini');
+  lini:= TINIFile.Create(ExtractFilePath(Application.EXEName)+'Languages.ini');
+  if (FindFirst(ExtractFilePath(Application.EXEName)+'*.sml', faAnyFile, sr)=0)
+  then begin
     repeat
       if (sr.Name <> '.') and (sr.Name <> '..') then begin
         sr.Name:=StringReplace(sr.Name, '.sml', '', [rfReplaceAll]);
@@ -1670,8 +1805,11 @@ begin
   if auto2.Checked=False then begin
     auto.Checked:=False;
     UserSpecific.Enabled:=False;
-  end else
+    DelReg;
+  end else begin
+    AutoToReg;
     UserSpecific.Enabled:=True;
+  end;
 end;
 
 procedure TShutdown.beshutCBClick(Sender: TObject);
@@ -1815,9 +1953,16 @@ begin
   BitBtn2.Click;
 end;
 
+procedure TUpdateThread.Execute;
+begin
+  Shutdown.DoDownload;
+end;
+
 procedure TShutdown.Button1Click(Sender: TObject);
 begin
-  DoDownload;
+  UpThread:=TUpdateThread.Create(True);
+  UpThread.Priority:=tpLower;
+  UpThread.Resume;
 end;
 
 procedure TShutdown.FormShow(Sender: TObject);
@@ -1825,21 +1970,30 @@ begin
 //All the stuffs are in the OnStart Timer !
 end;
 
+procedure TAtomThread.Execute;
+begin
+  Shutdown.Atomic_Clock;
+end;
+
 procedure TShutdown.atom_doClick(Sender: TObject);
 begin
-  Atomic_Clock;
+  AtomThread:=TAtomThread.Create(True);
+  AtomThread.Priority:=tpLower;
+  AtomThread.Resume;
 end;
 
 procedure TShutdown.atom_addButtonClick(Sender: TObject);
 begin
   atom_servers.AddItem(atom_add.Text, nil);
-  atom_servers.Items.SaveToFile(ExtractFilePath(Application.EXEName) + 'atom.txt');
+  atom_servers.Items.SaveToFile(ExtractFilePath(Application.EXEName) +
+    'atom.txt');
 end;
 
 procedure TShutdown.Delet1Click(Sender: TObject);
 begin
   atom_servers.DeleteSelected;
-  atom_servers.Items.SaveToFile(ExtractFilePath(Application.EXEName) + 'atom.txt');
+  atom_servers.Items.SaveToFile(ExtractFilePath(Application.EXEName) +
+    'atom.txt');
 end;
 
 procedure TShutdown.BitBtn2Click(Sender: TObject);
@@ -1854,13 +2008,14 @@ begin
   GetMem(lpEntryInfo, dwEntrySize);
   if dwEntrySize > 0 then lpEntryInfo^.dwStructSize := dwEntrySize;
   hCacheDir := FindFirstUrlCacheEntry(nil, lpEntryInfo^, dwEntrySize);
-  if hCacheDir <> 0 then 
+  if hCacheDir <> 0 then
   begin
     repeat
       DeleteUrlCacheEntry(lpEntryInfo^.lpszSourceUrlName);
       FreeMem(lpEntryInfo, dwEntrySize);
       dwEntrySize := 0;
-      FindNextUrlCacheEntry(hCacheDir, TInternetCacheEntryInfo(nil^), dwEntrySize);
+      FindNextUrlCacheEntry(hCacheDir,
+        TInternetCacheEntryInfo(nil^), dwEntrySize);
       GetMem(lpEntryInfo, dwEntrySize);
       if dwEntrySize > 0 then lpEntryInfo^.dwStructSize := dwEntrySize;
     until not FindNextUrlCacheEntry(hCacheDir, lpEntryInfo^, dwEntrySize);
@@ -1871,24 +2026,42 @@ end;
 
 procedure TShutdown.ParamOpener1ParamOpen(Sender: TObject);
 begin
-  if FinalParam='def' then begin Start.Execute; Application.Terminate; end else
-  if FinalParam='p' then begin PowerOff.Click; Application.Terminate; end else
-  if FinalParam='s' then begin ShutDown_B.Click; Application.Terminate; end else
-  if FinalParam='r' then begin ReBoot.Click; Application.Terminate; end else
-  if FinalParam='l' then begin LogOff.Click; Application.Terminate; end else
-  if FinalParam='standby' then begin Suspend.Click; Application.Terminate; end else
-  if FinalParam='h' then begin Hibernate.Click; Application.Terminate; end else
-  if FinalParam='lock' then begin LockWS.Click; Application.Terminate; end else
-  if FinalParam='scr' then begin SSOn.Click; Application.Terminate; end else
-  if FinalParam='alarm' then begin BitBtn1.Click; Application.Terminate; end else
-  if FinalParam='menu' then begin SDMenu.Click; Application.Terminate; end else
-  if FinalParam='cd0' then begin eject.Click; Application.Terminate; end else
-  if FinalParam='cd1' then begin close.Click; Application.Terminate; end else
-  if FinalParam='recbin' then begin recbin.Click; Application.Terminate; end else
-  if FinalParam='clipb' then begin clipb.Click; Application.Terminate; end else
-  if FinalParam='mon0' then begin mon0.Click; Application.Terminate; end else
-  if FinalParam='mon1' then begin mon1.Click; Application.Terminate; end else
-  if FinalParam='temp' then begin BitBtn2.Click; Application.Terminate; end;
+  if FinalParam='def' then begin Start.Execute; Application.Terminate;
+   end else
+  if FinalParam='p' then begin PowerOff.Click; Application.Terminate;
+   end else
+  if FinalParam='s' then begin ShutDown_B.Click; Application.Terminate;
+   end else
+  if FinalParam='r' then begin ReBoot.Click; Application.Terminate;
+   end else
+  if FinalParam='l' then begin LogOff.Click; Application.Terminate;
+   end else
+  if FinalParam='standby' then begin Suspend.Click; Application.Terminate;
+   end else
+  if FinalParam='h' then begin Hibernate.Click; Application.Terminate;
+   end else
+  if FinalParam='lock' then begin LockWS.Click; Application.Terminate;
+   end else
+  if FinalParam='scr' then begin SSOn.Click; Application.Terminate;
+   end else
+  if FinalParam='alarm' then begin BitBtn1.Click; Application.Terminate;
+   end else
+  if FinalParam='menu' then begin SDMenu.Click; Application.Terminate;
+   end else
+  if FinalParam='cd0' then begin eject.Click; Application.Terminate;
+   end else
+  if FinalParam='cd1' then begin close.Click; Application.Terminate;
+   end else
+  if FinalParam='recbin' then begin recbin.Click; Application.Terminate;
+   end else
+  if FinalParam='clipb' then begin clipb.Click; Application.Terminate;
+   end else
+  if FinalParam='mon0' then begin mon0.Click; Application.Terminate;
+   end else
+  if FinalParam='mon1' then begin mon1.Click; Application.Terminate;
+   end else
+  if FinalParam='temp' then begin BitBtn2.Click; Application.Terminate;
+   end;
 end;
 
 procedure TShutdown.ontopCBClick(Sender: TObject);
@@ -1945,7 +2118,8 @@ begin
       17: ParancsDo:=SpeedButton1;
     end;
     try (ParancsDo as TButton).Click; except end;
-    socket.SendText(WhatAmI(ParancsDo) + ' ' + lini.ReadString(langCB.Text, 'Done', 'done'));
+    socket.SendText(WhatAmI(ParancsDo) + ' ' + lini.ReadString(langCB.Text,
+      'Done', 'done'));
     Memo1.Clear;
   end;
 //GOMBNYOMÁS END
@@ -2135,6 +2309,11 @@ begin
     Next:
   end;
   try WaveOutSetVolume(WAVE_MAPPER, MakeLong(rvol,lvol)); except end;
+end;
+
+procedure TShutdown.Update_LClick(Sender: TObject);
+begin
+  ShellExecute(handle,'open','http://shutdown.sf.net/',nil,nil,SW_SHOWNORMAL);
 end;
 
 end.

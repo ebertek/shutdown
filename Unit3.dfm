@@ -1,12 +1,11 @@
 object countd: Tcountd
   Left = 285
   Top = 158
-  AutoSize = True
   BorderIcons = []
   BorderStyle = bsNone
   ClientHeight = 446
   ClientWidth = 540
-  Color = clBtnFace
+  Color = 16776176
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -24,13 +23,17 @@ object countd: Tcountd
     Height = 446
     Align = alClient
     Alignment = taCenter
+    AutoSize = False
     Caption = '10'
+    Color = 16776176
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clRed
+    Font.Color = clTeal
     Font.Height = -467
     Font.Name = 'Arial'
     Font.Style = [fsBold]
+    ParentColor = False
     ParentFont = False
+    Transparent = False
     OnClick = countd_labelClick
   end
 end

@@ -201,3 +201,5 @@ volfade_CB_Hint=A hangerõ lassú lehúzása kikapcsolás elõtt
 volfade_E_Hint=A lehalkítás sebessége
 Button1_Hint=Új verzió keresése
 atom_add_Hint=Szerver hozzáadása
+Update_L_Caption=Shutdown Monster 4.0
+Update_L_Hint=A program honlapjának megjelenítése

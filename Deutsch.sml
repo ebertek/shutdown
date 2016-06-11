@@ -207,3 +207,5 @@ volfade_CB_Hint=Lautstärke abblenden vor dem Herunterfahren
 volfade_E_Hint=Geschwindigkeit der Abblendung
 Button1_Hint=Nach Updates suchen
 atom_add_Hint=Server zugeben
+Update_L_Caption=There are no new updates available!
+Update_L_Hint=Homepage des Programs besuchen
