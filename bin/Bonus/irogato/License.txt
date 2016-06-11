@@ -1,0 +1,10 @@
+Mindenki olyan bonyolult License-t ír, amit szinte senki sem olvas el.
+Szóval. Én nem nagyon szeretném ezt túlbonyolítani. Ezért csak ennyit errõl:
+Ez a program freeware.
+Korlátlanul és bárhol módosítható, sokszorosítható, felhasználható.
+
+Az ebiSoft és az NZs Software nem vállal felelõséget a szoftver okozta hibákért, károkért!
+
+A program UPX-el van tömörítve.
+ UPX is Copyright (C) 1996-2000 Markus Franz Xaver Johannes Oberhumer
+ UPX is Copyright (C) 1996-2000 Laszlo Molnar

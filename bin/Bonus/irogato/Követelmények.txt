@@ -1,0 +1,17 @@
+Az Írogató 2003-as széria rendszerkövetelményei:
+
+Minimális:
+1. Egy számítógép
+2. Egy processzor
+3. 8 MB RAM memória
+4. Egy monitor, ami 640*480-ban és monokrómban mûködik
+5. Windows (vagy más operációs rendszer Windows emulátorral)
+6. 585 kB szabad hely
+
+Optimális:
+1. Egy számítógép, amit be lehet kapcsolni és mûködik is
+2. Egy 100 MHz-s processzor
+3. 16 MB RAM memória
+4. Egy monitor, ami 800*600-ban és 16 bites színmélységben mûködik
+5. Windows (vagy más operációs rendszer Windows emulátorral)
+6. 1 MB szabad hely
