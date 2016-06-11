@@ -1,0 +1,18 @@
+{"pages": [{
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4bfd48f84218013a06",
+    "_id": "2ea030e4",
+    "posts": [],
+    "page": null,
+    "subject": ""
+  },
+  "labels": [],
+  "related_artifacts": [],
+  "attachments": [],
+  "mod_date": "2012-10-10 13:55:23.775000",
+  "text": "Shutdown Monster is a utility that can make your PC turn off at a specified time. You can set a countdown, type in an exact date and time, or even specify a file to check periodically. It's written in Delphi 10.\n[[project_screenshots]]\n[[project_admins]]\n[[download_button]]",
+  "title": "Home",
+  "_id": "50757e4bfd48f84218013a0a",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/wiki/_discuss/thread/2ea030e4/"
+}]}

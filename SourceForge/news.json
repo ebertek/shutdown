@@ -1,0 +1,438 @@
+{"posts": [{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2004/10/27-size-drop/",
+  "text": "The applications require some .BPL files, which you can download in separate package. Once you installed it, you won't need to download it again if a new version is released.\r\n\r\nThe Client/Server port is now changed to 38100, because port 381 is used by HP's performance data collector.",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "07b8f509",
+    "posts": [],
+    "page": null,
+    "subject": "27% size drop! discussion"
+  },
+  "mod_date": "2012-10-10 13:55:27.618000",
+  "title": "27% size drop!",
+  "_id": "50757e4ffd48f84218013abb",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/07b8f509/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2004/10/help-wanted/",
+  "text": "If you have a lot of time, and want to do something .....\r\nYou could spell-check the .lng files  ;-)\r\nIf you find an error in any of them, please report it in the 'Bugs' section of the project page!",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "a3e896d5",
+    "posts": [],
+    "page": null,
+    "subject": "Help Wanted! discussion"
+  },
+  "mod_date": "2012-10-10 13:55:27.475000",
+  "title": "Help Wanted!",
+  "_id": "50757e4ffd48f84218013ab1",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/a3e896d5/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2004/10/setup---gt--62-in-size-please-vote/",
+  "text": "Please vote (in comment :P), which one do you prefer:\r\n1. Basic installer without uninstaller (you have to click Overwrite to update files and delete the files manually to 'uninstall'.\r\n2. Installer and unintaller. It's 62% larger in size, but does updating and deleting automatically.\r\n\r\n",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "fb69cc34",
+    "posts": [],
+    "page": null,
+    "subject": "Setup --&gt; + 62% in size. Please vote! discussion"
+  },
+  "mod_date": "2012-10-10 13:55:27.881000",
+  "title": "Setup --&gt; + 62% in size. Please vote!",
+  "_id": "50757e4ffd48f84218013acf",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/fb69cc34/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2004/10/setup-is-a-self-extracting-archive-again/",
+  "text": "Be sure to click &quot;Yes to all&quot; when setup wants to overwrite the files.",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "e00b7d10",
+    "posts": [],
+    "page": null,
+    "subject": "Setup is a self-extracting archive again discussion"
+  },
+  "mod_date": "2012-10-10 13:55:28.034000",
+  "title": "Setup is a self-extracting archive again",
+  "_id": "50757e4ffd48f84218013ad9",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/e00b7d10/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2004/10/someone-has-shutdown-monster-2/",
+  "text": "If someone has a release of Shutdown Monster (formerly 'Kikapcsol' or 'Shutdown for XP') not included in the list below, please send me the binary to ebertek AT gmail DOT com\r\n\r\nHere's the list:\r\n1.0.2.65\r\n1.1.1.20\r\n3.0.0.19\r\n3.0.0.22\r\n3.0.1.41\r\n3.1.0.3\r\n3.1.0.4\r\n3.1.0.5\r\n3.1.0.7\r\n3.1.0.45\r\n3.1.0.53\r\n3.2.0.0\r\n3.2.0.1\r\n3.2.0.5\r\n3.2.0.7\r\n3.2.0.8\r\n3.2.0.9\r\n3.2.0.10 Pre-Release (still under construction :P)\r\n\r\nAs you can see, I don't have any SM2 releases (I don't know where did they go o_O).\r\nSo, if YOU or any of your friends has it, please send it me to mailto:ebertek@gmail.com\r\n\r\nThanks!\r\n",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "7232f0ff",
+    "posts": [],
+    "page": null,
+    "subject": "Someone has Shutdown Monster 2? discussion"
+  },
+  "mod_date": "2012-10-10 13:55:27.761000",
+  "title": "Someone has Shutdown Monster 2?",
+  "_id": "50757e4ffd48f84218013ac5",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/7232f0ff/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2004/12/lite-verzi-hungarian-only/",
+  "text": "Kiadsra kerlt egy 'Lite' verzi az j teljes verzi el&amp;#337;tt. Ez a progi a teljes verzin alapszik, de csak az alapvet&amp;#337; funkcikat tartalmazza. A program mindssze egy fjlbl ll.\r\nHasznlathoz le kell tlteni a bpl90.exe-t is!",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "787d2017",
+    "posts": [],
+    "page": null,
+    "subject": "Lite verzi (Hungarian only) discussion"
+  },
+  "mod_date": "2012-10-10 13:55:27.346000",
+  "title": "Lite verzi (Hungarian only)",
+  "_id": "50757e4ffd48f84218013aa7",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/787d2017/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2005/05/new-versions-coming-soon/",
+  "text": "From now on, there will be two branches of the project:\r\n1. Codename 'Ocean'\r\n- Based upon the latest ShutX I released\r\n- Original build (developed by me)\r\n- Source code available upon request\r\n\r\n2. Codename 'Sky'\r\n- Based upon the latest 'Ocean' build, but without additional components --&gt; everyone can use it without downloading or buying things\r\n- Source code freely available\r\n- If you finished a modification, you can send me the source and then I'll put it on SF (or, if it's a really good idea I may include it in later 'Ocean' builds)\r\n\r\nNew versions coming this month!",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "7af1529b",
+    "posts": [],
+    "page": null,
+    "subject": "New versions coming soon discussion"
+  },
+  "mod_date": "2012-10-10 13:55:28.222000",
+  "title": "New versions coming soon",
+  "_id": "50757e50fd48f84218013ae3",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/7af1529b/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2005/06/33-preview-sources-only/",
+  "text": "Yes, the time has come, the preview version of 3.3 Ocean is available. But for now, only the sources.",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "3f4310fb",
+    "posts": [],
+    "page": null,
+    "subject": "3.3 preview, sources only discussion"
+  },
+  "mod_date": "2012-10-10 13:55:28.526000",
+  "title": "3.3 preview, sources only",
+  "_id": "50757e50fd48f84218013af7",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/3f4310fb/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2005/06/about-code-names/",
+  "text": "Ehh, my idea was good but it doesn't work in real life :)\r\n\r\nSo, from now on:\r\n-Codename Ocean remains the offical version\r\n-'Ocean' will be released with source\r\n\r\n-I won't make any 'Sky' version, unless you ask me to do so\r\nTo make you remember: 'Sky' is ShutX's downloaded-component-less version, so you can use it with simple, plain D9.\r\n\r\n-Beta versions could have a name like 'Ground' or 'Earth' or something like that :))",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "6907cecd",
+    "posts": [],
+    "page": null,
+    "subject": "About code names discussion"
+  },
+  "mod_date": "2012-10-10 13:55:28.366000",
+  "title": "About code names",
+  "_id": "50757e50fd48f84218013aed",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/6907cecd/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2005/07/40-is-ready-still-not-installer--/",
+  "text": "Yeah, Shutdown Monster 4.0 is finally finished! Got more stable, got more functions, got new logo.\r\n\r\nI still want to make an installer for it, and then, it's gonna be released (in one week, I hope!).\r\n\r\nAnyways, here's the changelog:\r\n ! The SysTray icon's hint displays the remaining time correctly (hours, minutes or seconds), this time not only for one second :P\r\n ! 'Check for Updates' (C4U) and 'Synchronize time' functions work in low-priority --&gt; won't make the program freeze down\r\n !* About box bugfixed and updated (sorry, Monsty is removed from the about box :P)\r\n * The tray icon is always visible\r\n * New Monster! The New Generation!\r\n * &quot;Shutdown for Sure&quot; changed (checking 36 times in 180 seconds (5 seconds intervals) became checking once, after 2 minutes :]). The 'second try' is forced in any case, ensuring that your PC will really shut down\r\n * Timing (Countdown, CPU usage) works in high-priority --&gt; they're more precise\r\n + Fade out volume before shutdown\r\n + Shutdown if CPU usage is low",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "1a16766f",
+    "posts": [],
+    "page": null,
+    "subject": "4.0 is ready, still not installer :-/ discussion"
+  },
+  "mod_date": "2012-10-10 13:55:29.137000",
+  "title": "4.0 is ready, still not installer :-/",
+  "_id": "50757e51fd48f84218013b1f",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/1a16766f/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2005/07/40-on-the-way/",
+  "text": "The time has come, Shutdown Monster got evolved to version 4.\r\nIt'll be released in just a few weeks, so get ready!",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "13a8aadb",
+    "posts": [],
+    "page": null,
+    "subject": "4.0 on the way! discussion"
+  },
+  "mod_date": "2012-10-10 13:55:28.846000",
+  "title": "4.0 on the way!",
+  "_id": "50757e50fd48f84218013b0b",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/13a8aadb/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2005/07/no-40-in-a-week--but-beta/",
+  "text": "So, Shutdown Monster 4.0 is ready and working -- but I still want to make it more precise.\r\n//Now it uses TTimers, they ain't precise//\r\nBUT, to make you not struggle with the buggy and old 3.2.x.x releases, I release a beta version for you!",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "cfb04914",
+    "posts": [],
+    "page": null,
+    "subject": "No 4.0 in a week :=( But beta! discussion"
+  },
+  "mod_date": "2012-10-10 13:55:28.715000",
+  "title": "No 4.0 in a week :=( But beta!",
+  "_id": "50757e50fd48f84218013b01",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/cfb04914/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2005/08/shutdown-monster-40-is-released/",
+  "text": "Finally, Shutdown Monster 4.0 is released!\r\n\r\nThank you for everyone who supported me, including more than 18,000 people, who downloaded the software!\r\n\r\nebi",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "f6dc4b85",
+    "posts": [],
+    "page": null,
+    "subject": "Shutdown Monster 4.0 is released! discussion"
+  },
+  "mod_date": "2012-10-10 13:55:28.994000",
+  "title": "Shutdown Monster 4.0 is released!",
+  "_id": "50757e50fd48f84218013b15",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/f6dc4b85/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2005/08/shutdown-monster-401/",
+  "text": "This release only contains some bugfixes",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "5fa5e078",
+    "posts": [],
+    "page": null,
+    "subject": "Shutdown Monster 4.0.1 discussion"
+  },
+  "mod_date": "2012-10-10 13:55:29.308000",
+  "title": "Shutdown Monster 4.0.1",
+  "_id": "50757e51fd48f84218013b29",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/5fa5e078/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2005/09/shutdown-monster-403-released/",
+  "text": "Yeah, another release in just a few days - sorry :)\r\nSo, 'CSB' is bundled with a neat little clock (just like in the previous version), 'min' is just the program, without clock, without Client-Server support.\r\nIf you want to get the source of the clock, drop me a mail! (It's open-source as well :P).\r\n\r\nI'm learning French now, so I may translate the program to French.. but I would be happy if someone could please help me :)",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "d70d9102",
+    "posts": [],
+    "page": null,
+    "subject": "Shutdown Monster 4.0.3 released! discussion"
+  },
+  "mod_date": "2012-10-10 13:55:29.451000",
+  "title": "Shutdown Monster 4.0.3 released!",
+  "_id": "50757e51fd48f84218013b33",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/d70d9102/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2005/09/shutdown-monster-404-finished---still-not-released/",
+  "text": "Yeah, Shutdown Monster 4.0.4 is ready, but I will test it for some days :)\r\nSo, it's to be released in some days, get ready!\r\nLOTS of bugs fixed :P",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "c811f24c",
+    "posts": [],
+    "page": null,
+    "subject": "Shutdown Monster 4.0.4 finished - still not released discussion"
+  },
+  "mod_date": "2012-10-10 13:55:29.628000",
+  "title": "Shutdown Monster 4.0.4 finished - still not released",
+  "_id": "50757e51fd48f84218013b3d",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/c811f24c/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2005/10/shutdown-monster-404-released/",
+  "text": "Finally, Shutdown Monster 4.0.4 is released, with loads of bugfixes - get it now and feel the real power of the monster!",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "d76d5e00",
+    "posts": [],
+    "page": null,
+    "subject": "Shutdown Monster 4.0.4 released discussion"
+  },
+  "mod_date": "2012-10-10 13:55:29.909000",
+  "title": "Shutdown Monster 4.0.4 released",
+  "_id": "50757e51fd48f84218013b47",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/d76d5e00/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2005/10/what-should-be-in-the-next-version/",
+  "text": "I don't have any more ideas that could make Shutdown Monster even better :P\r\nAnyways, even if I won't add anything to it, I'll re-release it in December - when Delphi 10 comes out.",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "a24da8f5",
+    "posts": [],
+    "page": null,
+    "subject": "What should be in the next version? discussion"
+  },
+  "mod_date": "2012-10-10 13:55:30.046000",
+  "title": "What should be in the next version?",
+  "_id": "50757e52fd48f84218013b51",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/a24da8f5/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2006/01/405-is-getting-ready/",
+  "text": "I decided not to include .beats anymore. Some people may not like bundled software :)\r\n\r\nThe change log so long:\r\n - Bundling: .beats is not included anymore\r\n ! Accessibility: The windows is visible when it should be and is minimized when it should be (hopefully; fourth try)\r\n ! Shutdown: Hibernation works normally (thanks goes to Arne (pi82) for finding the bug)\r\n * Source: Ported to Delphi 2006 -&gt; uses Indy 10, JVCL, doesn't use RXLib anymore. 'Sky' is no longer available\r\n * Accessibility: Parameters can have a '-' or '/' prefix\r\n + CPU usage: 'Shutdown only if there is no data input' should work now (but it is off by default, for stability and security purposes)\r\n\r\n\r\nIt's gotta be out in the next few weeks (if everything goes right); I still have to get SMLPack. And BTW, Delphi 2006 doesn't like Hungarian letters with double acute accent (\u0151 and \u0171). So, you must wait until I get SMLPack from Sunisoft (or you can buy me one anytime :D).",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "8ca6428c",
+    "posts": [],
+    "page": null,
+    "subject": "4.0.5 is getting ready discussion"
+  },
+  "mod_date": "2012-10-10 13:55:30.187000",
+  "title": "4.0.5 is getting ready",
+  "_id": "50757e52fd48f84218013b5b",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/8ca6428c/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2006/02/shutdown-monster-405---still-in-the-works/",
+  "text": "I still don't have SMLPack. Someone please get me one for Delphi 2006.\r\nAnyways, the changelog is getting longer:\r\n - Bundling: .beats is not included anymore\r\n ! Logging: logs those things only that really happened\r\n ! Accessibility: The windows is visible when it should be and is minimized when it should be (hopefully; fourth try)\r\n ! Countdown: The SysTray icon shows remaining time normally\r\n ! Shutdown: Hibernation works normally (thanks goes to Arne (pi82) for finding the bug)\r\n * Source: Ported to Delphi 2006 -&gt; uses Indy 10, JVCL, doesn't use RXLib anymore. 'Sky' is no longer available\r\n * Shutdown: Shutdown for Sure enhanced\r\n * Accessibility: Parameters can have a '-', '/' or '--' prefix\r\n + Logging: Verbose logging added. Launch Shutdown Monster with the parameter 'v' to use it\r\n + CPU usage: 'Shutdown only if there is no data input' should work now (but it is off by default, for stability and security purposes)\r\n",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "f1701cb8",
+    "posts": [],
+    "page": null,
+    "subject": "Shutdown Monster 4.0.5 - Still in the works discussion"
+  },
+  "mod_date": "2012-10-10 13:55:30.330000",
+  "title": "Shutdown Monster 4.0.5 - Still in the works",
+  "_id": "50757e52fd48f84218013b65",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/f1701cb8/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2006/05/shutdown-monster-405/",
+  "text": "After seven months of waiting, Shutdown Monster is reborn. Thank you very much for all your feedback you've sent me, I hope I have fixed all the bugs.",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "de8d107b",
+    "posts": [],
+    "page": null,
+    "subject": "Shutdown Monster 4.0.5 discussion"
+  },
+  "mod_date": "2012-10-10 13:55:30.467000",
+  "title": "Shutdown Monster 4.0.5",
+  "_id": "50757e52fd48f84218013b6f",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/de8d107b/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2006/05/shutdown-monster-4052/",
+  "text": "Some bugs are fixed, will get this baby on SourceForge tomorrow.\r\n\r\n\r\nVersion Rebirth - 4.0.5.2\tOfficial\t\tBugfixes\r\nReleased [05/23/2006]\r\n ! Interface: Some labels are repositioned to make the French texts fit in\r\n ! Parameters: Using '-', '--' or '/' prefix really works now\r\n ! Interface: The Monster logo won't get hidden if the 'Always on top' function is enabled\r\n ! Accessibility: The systray icon is not showed if Shutdown Monster should be completely hidden... (thanks to an unknown man for finding this bug)\r\n * Saving: Everything is saved upon exit **WILL ADD A CHECKBOX IN THE NEXT VERSION**\r\n * Interface: The icon looks better\r\n + Interface: French language file added; translated by Nico220 -- thank you! **NOT COMPLETE**",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "2511c166",
+    "posts": [],
+    "page": null,
+    "subject": "Shutdown Monster 4.0.5.2 discussion"
+  },
+  "mod_date": "2012-10-10 13:55:30.601000",
+  "title": "Shutdown Monster 4.0.5.2",
+  "_id": "50757e52fd48f84218013b79",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/2511c166/"
+},{
+  "related_artifacts": [],
+  "author": "ebertek",
+  "url": "https://sourceforge.net/rest/p/shutdown/news/2010/01/thank-you/",
+  "text": "I'd like to thank all of you for the great reviews and for over 100,000 downloads. That's huge. I never thought this little piece of software would reach something that amazing.\r\nAnd this is also why I feel quite ashamed - I stopped working on this project almost 4 years ago. I'm really sorry for this -- I didn't have the time and effort to continue working on it. Later on I've put a lot of thought into this, I wanted to continue developing it, then I wanted to start over the whole thing in C++, but I just didn't do anything. And now, in 2010, downloading a shutdown utility is no longer needed, as current versions of Windows have quite advanced energy saving policies, and the system can do most of the things people usually need.\r\nThere is still some need for advanced functions, but I think it's negligible. The built-in functions are sufficient for most of us, including me.\r\nMaybe, if I'll have some free time, I'll reconsider the demand for Shutdown Monster, and maybe I'll &quot;resurrect&quot; it -- but this is quite unlikely.\r\nI'm really sorry, I feel bad for killing off &quot;The Monster&quot;. Thank you very much for your support, it really meant a lot to me.\r\nLove,\r\nDavid.",
+  "labels": [],
+  "state": "published",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4ffd48f84218013aa4",
+    "_id": "8b082afc",
+    "posts": [],
+    "page": null,
+    "subject": "Thank you discussion"
+  },
+  "mod_date": "2012-10-10 13:55:30.756000",
+  "title": "Thank you",
+  "_id": "50757e52fd48f84218013b83",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/news/_discuss/thread/8b082afc/"
+}]}

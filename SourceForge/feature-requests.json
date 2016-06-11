@@ -1,0 +1,130 @@
+{"tickets": [{
+  "status": "open",
+  "reported_by_id": null,
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "*anonymous",
+  "assigned_to": null,
+  "labels": [],
+  "discussion_disabled": false,
+  "assigned_to_id": null,
+  "private": false,
+  "summary": "Some usable tip",
+  "description": "\u00dcdv! \r\nA progi nagyon j\u00f3, \u00edme n\u00e9h\u00e1ny \u00f6tlet! \r\n \r\n1. Egy nagyon hasznos dolog pl a File f\u00fclh\u00f6z: ha egy\r\nprogram vagy folyamat le\u00e1ll (vagy elindul), akkor is\r\ncsin\u00e1lja amit akarunk. Ez az\u00e9rt kellene mert pl vannak\r\nolyan progik amik bez\u00e1rj\u00e1k magukat feladatuk v\u00e9g\u00e9n de\r\nnincs lehet\u00f6s\u00e9g le\u00e1ll\u00edt\u00e1sra. Sz\u00f3val valahogy le kellene\r\nvizsg\u00e1lni a fut\u00f3 programokat x id\u00f6k\u00f6z\u00f6nk\u00e9nt. \r\n(Az m\u00e1r csak hab lenne a torm\u00e1n ha t\u00f6bbet is tudna AND\r\nkapcsolattal ellen\u00f6rizni, pl k\u00e9t k\u00fcl\u00f6nb\u00f6z\u00f6 let\u00f6lt\u00f6progi\r\nfut \u00e9s ha mindkett\u00f6 befejezte \u00e9s le\u00e1llt akkor kapcsol ki. \r\n \r\n2. Kellene egy \"minimze to tray\" funkci\u00f3 mert kis\r\nm\u00e9retben ott marad a t\u00e1lc\u00e1n \u00e9s ez nagyon zavar\u00f3 \r\n \r\n3. Ebb\u00f6l k\u00f6vetkezik hogy Fast access al\u00e1 kellene egy\r\nhotkey ami main window-t aktiv\u00e1lja \r\n \r\nV\u00e1rom az updatetokat :)",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4dfd48f84218013a4d",
+    "_id": "d3e025f0",
+    "posts": [],
+    "page": null,
+    "subject": ""
+  },
+  "mod_date": "2012-10-10 13:55:26.134000",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "50757e4efd48f84218013a57",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/feature-requests/_discuss/thread/d3e025f0/",
+  "ticket_num": 1,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2005-08-15 23:16:06"
+},{
+  "status": "open",
+  "reported_by_id": "50755330fd48f842180138da",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "smittythesmith",
+  "assigned_to": null,
+  "labels": [],
+  "discussion_disabled": false,
+  "assigned_to_id": null,
+  "private": false,
+  "summary": "Task manager?",
+  "description": "I miss the task manager.  The \"no new tasks\" was \r\ngreat. I sure you dropped it because it was buggy. I \r\nhope it's not hard to fix. Perhaps it got split into a \r\ndifferent project?",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4dfd48f84218013a4d",
+    "_id": "7b193309",
+    "posts": [],
+    "page": null,
+    "subject": ""
+  },
+  "mod_date": "2012-10-10 13:55:26.264000",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "50757e4efd48f84218013a5e",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/feature-requests/_discuss/thread/7b193309/",
+  "ticket_num": 2,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2006-06-05 07:45:52"
+}],
+"tracker_config":{
+  "_id": "50757e4dfd48f84218013a4b",
+  "options": {
+    "ordinal": 5,
+    "import_id": "tracker/677937",
+    "mount_point": "feature-requests",
+    "TicketMonitoringType": null,
+    "url": "/p/shutdown/feature-requests/",
+    "EnableVoting": false,
+    "TicketMonitoringEmail": "",
+    "mount_label": "Feature Requests"
+  }
+},
+"milestones":[
+  {
+    "due_date": null,
+    "complete": false,
+    "closed": 0,
+    "default": null,
+    "description": "Next Release (example)",
+    "total": 0,
+    "name": "Next_Release_(example)"
+  }
+],
+"custom_fields":[
+  {
+    "milestones": [
+      {
+        "due_date": null,
+        "description": "Next Release (example)",
+        "complete": false,
+        "name": "Next_Release_(example)"
+      }
+    ],
+    "type": "milestone",
+    "name": "_milestone",
+    "label": "Group"
+  },
+  {
+    "type": "select",
+    "options": "1 2 3 4 5 6 7 8 9",
+    "name": "_priority",
+    "label": "Priority"
+  }
+],
+"open_status_names":"open unread accepted pending",
+"closed_status_names":"closed wont-fix",
+"saved_bins":[
+  {
+    "sort": "mod_date_dt desc",
+    "_id": "50757e4dfd48f84218013a53",
+    "terms": "!status:wont-fix && !status:closed",
+    "summary": "Changes"
+  },
+  {
+    "sort": "",
+    "_id": "50757e4dfd48f84218013a52",
+    "terms": "status:wont-fix or status:closed",
+    "summary": "Closed Tickets"
+  },
+  {
+    "sort": "",
+    "_id": "50757e4dfd48f84218013a51",
+    "terms": "!status:wont-fix && !status:closed",
+    "summary": "Open Tickets"
+  }
+]}

@@ -1,0 +1,203 @@
+{"tickets": [{
+  "status": "closed",
+  "reported_by_id": null,
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "*anonymous",
+  "assigned_to": "ebertek",
+  "labels": [],
+  "discussion_disabled": false,
+  "assigned_to_id": "507551221be1ce7a4e445c08",
+  "private": false,
+  "summary": "Minimize and Hide",
+  "description": "I have installed shutdown monster 4.0.4 and I have\r\nselected run on startup, start minimized, and hide.  Is\r\nthere an option to have it start up and be minimized to\r\nthe system tray rather than my task bar?  When I open\r\nthe program and then minimize it, it goes to the system\r\ntray.",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4efd48f84218013a67",
+    "_id": "b5e317ad",
+    "posts": [
+      {
+        "attachments": [],
+        "author": "ebertek",
+        "timestamp": "2005-12-02 22:06:14",
+        "author_icon_url": "https://secure.gravatar.com/avatar/bc5f277f06a5175e6b180f3480250426?r=pg",
+        "text": "Logged In: YES \nuser_id=1108593\n\nThis is a problem I couldn't solve; I'm working hard on it.\r\nSadly, I don't have a clue why the program does so.\r\nSometimes it works, sometimes it doesn't.\r\nI'm really sorry that I couldn't help you.\r\nThe next version should be out in some weaks (currently, my\r\nPC isn't working, since there ain't no motherboard inside :P).\r\nI think, this is the only thing that will be fixed - I don't\r\nhave any ideas for this program.\r\nAlso, it will be compiled in Delphi 2006 (if there will be\r\nan Academic version, of course - if not, then I'll stay with\r\n2005).",
+        "last_edited": null,
+        "slug": "b4b1",
+        "subject": "#1 Minimize and Hide"
+      },
+      {
+        "attachments": [],
+        "author": "ebertek",
+        "timestamp": "2006-05-22 21:10:10",
+        "author_icon_url": "https://secure.gravatar.com/avatar/bc5f277f06a5175e6b180f3480250426?r=pg",
+        "text": "Logged In: YES \nuser_id=1108593\n\nProbably solved in 4.0.5",
+        "last_edited": null,
+        "slug": "d1c8",
+        "subject": "#1 Minimize and Hide"
+      }
+    ],
+    "page": null,
+    "subject": ""
+  },
+  "mod_date": "2012-10-10 13:55:26.602000",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "50757e4efd48f84218013a71",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/bugs/_discuss/thread/b5e317ad/",
+  "ticket_num": 1,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2005-11-30 15:23:02"
+},{
+  "status": "closed",
+  "reported_by_id": null,
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "*anonymous",
+  "assigned_to": "ebertek",
+  "labels": [],
+  "discussion_disabled": false,
+  "assigned_to_id": "507551221be1ce7a4e445c08",
+  "private": false,
+  "summary": "hiding shutdown monster",
+  "description": "How can I really hide shutdown monster. I set the hide\r\noption but the shutdown monster still available on the\r\nsystem tray. I intended to use shutdown monster to\r\nrestrict the computer time for my kid. My kid could\r\njust open the menu and exit the program.",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4efd48f84218013a67",
+    "_id": "cdff0b11",
+    "posts": [
+      {
+        "attachments": [],
+        "author": "ebertek",
+        "timestamp": "2006-05-22 20:17:54",
+        "author_icon_url": "https://secure.gravatar.com/avatar/bc5f277f06a5175e6b180f3480250426?r=pg",
+        "text": "Logged In: YES \nuser_id=1108593\n\nI'm really sorry for that.. I forgot to make the systray\r\nicon go away. Bug fixed, will re-release Shutdown Monster soon.",
+        "last_edited": null,
+        "slug": "ead7",
+        "subject": "#2 hiding shutdown monster"
+      },
+      {
+        "attachments": [],
+        "author": "ebertek",
+        "timestamp": "2006-05-22 21:11:44",
+        "author_icon_url": "https://secure.gravatar.com/avatar/bc5f277f06a5175e6b180f3480250426?r=pg",
+        "text": "Logged In: YES \nuser_id=1108593\n\nWill release it tomorrow",
+        "last_edited": null,
+        "slug": "e162",
+        "subject": "#2 hiding shutdown monster"
+      }
+    ],
+    "page": null,
+    "subject": ""
+  },
+  "mod_date": "2012-10-10 13:55:26.881000",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "50757e4efd48f84218013a86",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/bugs/_discuss/thread/cdff0b11/",
+  "ticket_num": 2,
+  "custom_fields": {
+    "_priority": "7"
+  },
+  "created_date": "2006-05-17 17:44:48"
+},{
+  "status": "open",
+  "reported_by_id": "4ff30e9b1be1ce2e5b0000e8",
+  "related_artifacts": [],
+  "attachments": [],
+  "reported_by": "xpxpxp",
+  "assigned_to": null,
+  "labels": [],
+  "discussion_disabled": false,
+  "assigned_to_id": null,
+  "private": false,
+  "summary": "App frezzes when dice is doubleclicked",
+  "description": "@ Windows 7 x64 build 7601, ESET NOD32 v.6\r\n\r\nApplication freeze when dice is doubleclicked in advanced tab..\r\nwhen i try to exit the program via system tray, suddenly shutd.exe consume 100% CPU Usage..",
+  "discussion_thread": {
+    "limit": null,
+    "discussion_id": "50757e4efd48f84218013a67",
+    "_id": "74ac9ecb",
+    "posts": [],
+    "page": null,
+    "subject": ""
+  },
+  "mod_date": "2012-10-10 13:55:27.125000",
+  "votes_down": 0,
+  "votes_up": 0,
+  "_id": "50757e4ffd48f84218013a9b",
+  "discussion_thread_url": "https://sourceforge.net/rest/p/shutdown/bugs/_discuss/thread/74ac9ecb/",
+  "ticket_num": 3,
+  "custom_fields": {
+    "_priority": "5"
+  },
+  "created_date": "2012-07-03 15:22:46"
+}],
+"tracker_config":{
+  "_id": "50757e4efd48f84218013a65",
+  "options": {
+    "ordinal": 6,
+    "import_id": "tracker/677934",
+    "mount_point": "bugs",
+    "TicketMonitoringType": null,
+    "url": "/p/shutdown/bugs/",
+    "EnableVoting": false,
+    "TicketMonitoringEmail": "",
+    "mount_label": "Bugs"
+  }
+},
+"milestones":[
+  {
+    "due_date": null,
+    "complete": false,
+    "closed": 0,
+    "default": null,
+    "description": "v1.0 (example)",
+    "total": 0,
+    "name": "v1.0_(example)"
+  }
+],
+"custom_fields":[
+  {
+    "milestones": [
+      {
+        "due_date": null,
+        "description": "v1.0 (example)",
+        "complete": false,
+        "name": "v1.0_(example)"
+      }
+    ],
+    "type": "milestone",
+    "name": "_milestone",
+    "label": "Group"
+  },
+  {
+    "type": "select",
+    "options": "1 2 3 4 5 6 7 8 9",
+    "name": "_priority",
+    "label": "Priority"
+  }
+],
+"open_status_names":"open unread accepted pending",
+"closed_status_names":"closed wont-fix",
+"saved_bins":[
+  {
+    "sort": "mod_date_dt desc",
+    "_id": "50757e4efd48f84218013a6d",
+    "terms": "!status:wont-fix && !status:closed",
+    "summary": "Changes"
+  },
+  {
+    "sort": "",
+    "_id": "50757e4efd48f84218013a6c",
+    "terms": "status:wont-fix or status:closed",
+    "summary": "Closed Tickets"
+  },
+  {
+    "sort": "",
+    "_id": "50757e4efd48f84218013a6b",
+    "terms": "!status:wont-fix && !status:closed",
+    "summary": "Open Tickets"
+  }
+]}

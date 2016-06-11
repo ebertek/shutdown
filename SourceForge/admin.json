@@ -1,0 +1,343 @@
+{
+  "status": "abandoned",
+  "preferred_support_tool": "",
+  "preferred_support_url": "",
+  "labels": [],
+  "private": false,
+  "creation_date": "2004-08-21",
+  "socialnetworks": [
+    {
+      "accounturl": "ebertek",
+      "socialnetwork": "Twitter"
+    },
+    {
+      "accounturl": null,
+      "socialnetwork": "Facebook"
+    }
+  ],
+  "tools": [
+    {
+      "mount_point": "admin",
+      "name": "admin",
+      "icons": {
+        "24": "images/admin_24.png",
+        "32": "images/admin_32.png",
+        "48": "images/admin_48.png"
+      },
+      "url": "/p/shutdown/admin/",
+      "tool_label": "admin",
+      "installable": false,
+      "mount_label": "Admin"
+    },
+    {
+      "sourceforge_group_id": 117404,
+      "mount_point": "summary",
+      "name": "summary",
+      "icons": {
+        "24": "images/sftheme/24x24/blog_24.png",
+        "32": "images/sftheme/32x32/blog_32.png",
+        "48": "images/sftheme/48x48/blog_48.png"
+      },
+      "url": "/p/shutdown/summary/",
+      "tool_label": "Summary",
+      "installable": false,
+      "mount_label": "Summary"
+    },
+    {
+      "mount_point": "wiki",
+      "name": "wiki",
+      "icons": {
+        "24": "images/wiki_24.png",
+        "32": "images/wiki_32.png",
+        "48": "images/wiki_48.png"
+      },
+      "url": "/p/shutdown/wiki/",
+      "tool_label": "Wiki",
+      "installable": true,
+      "mount_label": "Wiki"
+    },
+    {
+      "mount_point": "files",
+      "name": "files",
+      "icons": {
+        "24": "images/downloads_24.png",
+        "32": "images/downloads_32.png",
+        "48": "images/downloads_48.png"
+      },
+      "url": "/p/shutdown/files/",
+      "tool_label": "Files",
+      "installable": false,
+      "mount_label": "Files"
+    },
+    {
+      "mount_point": "mailman",
+      "name": "mailman",
+      "icons": {
+        "24": "images/forums_24.png",
+        "32": "images/forums_32.png",
+        "48": "images/forums_48.png"
+      },
+      "url": "/p/shutdown/mailman/",
+      "tool_label": "Mailing Lists",
+      "installable": false,
+      "mount_label": "Mailing Lists"
+    },
+    {
+      "mount_point": "feature-requests",
+      "name": "tickets",
+      "icons": {
+        "24": "images/tickets_24.png",
+        "32": "images/tickets_32.png",
+        "48": "images/tickets_48.png"
+      },
+      "url": "/p/shutdown/feature-requests/",
+      "tool_label": "Tickets",
+      "installable": true,
+      "mount_label": "Feature Requests"
+    },
+    {
+      "mount_point": "bugs",
+      "name": "tickets",
+      "icons": {
+        "24": "images/tickets_24.png",
+        "32": "images/tickets_32.png",
+        "48": "images/tickets_48.png"
+      },
+      "url": "/p/shutdown/bugs/",
+      "tool_label": "Tickets",
+      "installable": true,
+      "mount_label": "Bugs"
+    },
+    {
+      "mount_point": "news",
+      "name": "blog",
+      "icons": {
+        "24": "images/blog_24.png",
+        "32": "images/blog_32.png",
+        "48": "images/blog_48.png"
+      },
+      "url": "/p/shutdown/news/",
+      "tool_label": "Blog",
+      "installable": true,
+      "mount_label": "News"
+    },
+    {
+      "mount_point": "discussion",
+      "name": "discussion",
+      "icons": {
+        "24": "images/forums_24.png",
+        "32": "images/forums_32.png",
+        "48": "images/forums_48.png"
+      },
+      "url": "/p/shutdown/discussion/",
+      "tool_label": "Discussion",
+      "installable": true,
+      "mount_label": "Discussion"
+    },
+    {
+      "mount_point": "donate",
+      "name": "link",
+      "icons": {
+        "24": "images/ext_24.png",
+        "32": "images/ext_32.png",
+        "48": "images/ext_48.png"
+      },
+      "url": "/p/shutdown/donate/",
+      "tool_label": "External Link",
+      "installable": true,
+      "mount_label": "Donate"
+    },
+    {
+      "mount_point": "reviews",
+      "name": "reviews",
+      "icons": {
+        "24": "images/sftheme/24x24/blog_24.png",
+        "32": "images/sftheme/32x32/blog_32.png",
+        "48": "images/sftheme/48x48/blog_48.png"
+      },
+      "url": "/p/shutdown/reviews/",
+      "tool_label": "Reviews",
+      "installable": false,
+      "mount_label": "Reviews"
+    },
+    {
+      "mount_point": "support",
+      "name": "support",
+      "icons": {
+        "24": "images/sftheme/24x24/blog_24.png",
+        "32": "images/sftheme/32x32/blog_32.png",
+        "48": "images/sftheme/48x48/blog_48.png"
+      },
+      "url": "/p/shutdown/support/",
+      "tool_label": "Support",
+      "installable": false,
+      "mount_label": "Support"
+    },
+    {
+      "mount_point": "search",
+      "name": "search",
+      "icons": {
+        "24": "images/admin_24.png",
+        "32": "images/admin_32.png",
+        "48": "images/admin_48.png"
+      },
+      "url": "/p/shutdown/search/",
+      "tool_label": "Tool",
+      "installable": false,
+      "mount_label": "search"
+    },
+    {
+      "mount_point": "activity",
+      "name": "activity",
+      "icons": {
+        "24": "images/admin_24.png",
+        "32": "images/admin_32.png",
+        "48": "images/admin_48.png"
+      },
+      "url": "/p/shutdown/activity/",
+      "tool_label": "Tool",
+      "installable": false,
+      "mount_label": "Activity"
+    }
+  ],
+  "categories": {
+    "developmentstatus": [
+      {
+        "fullpath": "Development Status :: 7 - Inactive",
+        "fullname": "7 - Inactive",
+        "shortname": "inactive",
+        "id": 358
+      }
+    ],
+    "environment": [
+      {
+        "fullpath": "User Interface :: Graphical :: Win32 (MS Windows)",
+        "fullname": "Win32 (MS Windows)",
+        "shortname": "win32",
+        "id": 230
+      }
+    ],
+    "language": [
+      {
+        "fullpath": "Programming Language :: Delphi/Kylix",
+        "fullname": "Delphi/Kylix",
+        "shortname": "Delphi",
+        "id": 265
+      }
+    ],
+    "license": [
+      {
+        "fullpath": "License :: OSI-Approved Open Source :: GNU General Public License version 2.0 (GPLv2)",
+        "fullname": "GNU General Public License version 2.0 (GPLv2)",
+        "shortname": "gpl",
+        "id": 15
+      }
+    ],
+    "database": [],
+    "topic": [
+      {
+        "fullpath": "Topic :: System",
+        "fullname": "System",
+        "shortname": "system",
+        "id": 136
+      }
+    ],
+    "audience": [
+      {
+        "fullpath": "Intended Audience :: by Industry or Sector :: Education",
+        "fullname": "Education",
+        "shortname": "education",
+        "id": 360
+      },
+      {
+        "fullpath": "Intended Audience :: by End-User Class :: System Administrators",
+        "fullname": "System Administrators",
+        "shortname": "sysadmins",
+        "id": 4
+      },
+      {
+        "fullpath": "Intended Audience :: by End-User Class :: End Users/Desktop",
+        "fullname": "End Users/Desktop",
+        "shortname": "endusers",
+        "id": 2
+      }
+    ],
+    "translation": [
+      {
+        "fullpath": "Translations :: English",
+        "fullname": "English",
+        "shortname": "english",
+        "id": 275
+      },
+      {
+        "fullpath": "Translations :: German",
+        "fullname": "German",
+        "shortname": "german",
+        "id": 279
+      },
+      {
+        "fullpath": "Translations :: Hungarian",
+        "fullname": "Hungarian",
+        "shortname": "hungarian",
+        "id": 335
+      }
+    ],
+    "os": [
+      {
+        "fullpath": "Operating System :: Grouping and Descriptive Categories :: All 32-bit MS Windows (95/98/NT/2000/XP)",
+        "fullname": "All 32-bit MS Windows (95/98/NT/2000/XP)",
+        "shortname": "mswin_all32bit",
+        "id": 435
+      }
+    ]
+  },
+  "name": "Shutdown Monster",
+  "developers": [
+    {
+      "url": "https://sourceforge.net/u/ebertek/",
+      "username": "ebertek",
+      "name": "ebertek"
+    }
+  ],
+  "video_url": null,
+  "url": "https://sourceforge.net/p/shutdown/",
+  "icon_url": null,
+  "screenshots": [
+    {
+      "url": "https://sourceforge.net/p/shutdown/screenshot/34794.jpg",
+      "caption": "Advanced",
+      "thumbnail_url": "https://sourceforge.net/p/shutdown/screenshot/34794.jpg/thumb"
+    },
+    {
+      "url": "https://sourceforge.net/p/shutdown/screenshot/34792.jpg",
+      "caption": "CPU usage",
+      "thumbnail_url": "https://sourceforge.net/p/shutdown/screenshot/34792.jpg/thumb"
+    },
+    {
+      "url": "https://sourceforge.net/p/shutdown/screenshot/34788.jpg",
+      "caption": "Countdown",
+      "thumbnail_url": "https://sourceforge.net/p/shutdown/screenshot/34788.jpg/thumb"
+    },
+    {
+      "url": "https://sourceforge.net/p/shutdown/screenshot/34786.jpg",
+      "caption": "Exact time",
+      "thumbnail_url": "https://sourceforge.net/p/shutdown/screenshot/34786.jpg/thumb"
+    },
+    {
+      "url": "https://sourceforge.net/p/shutdown/screenshot/34796.jpg",
+      "caption": "Fast access - what else do you want to do?",
+      "thumbnail_url": "https://sourceforge.net/p/shutdown/screenshot/34796.jpg/thumb"
+    },
+    {
+      "url": "https://sourceforge.net/p/shutdown/screenshot/34790.jpg",
+      "caption": "File",
+      "thumbnail_url": "https://sourceforge.net/p/shutdown/screenshot/34790.jpg/thumb"
+    }
+  ],
+  "summary": "",
+  "short_description": "Shutdown Monster is a utility that can make your PC turn off at a specified time. You can set a countdown, type in an exact date and time, or even specify a file to check periodically. It's written in Delphi 10.",
+  "moved_to_url": "",
+  "shortname": "shutdown",
+  "_id": "50757e4bfd48f842180139f6",
+  "external_homepage": "http://shutdown.sourceforge.net"
+}

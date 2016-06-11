@@ -1,0 +1,46 @@
+{"forums": [{
+  "shortname": "401526",
+  "_id": "50757e5afd48f84218013b91",
+  "threads": [
+    {
+      "limit": null,
+      "discussion_id": "50757e5afd48f84218013b91",
+      "_id": "0a41c83e",
+      "posts": [
+        {
+          "attachments": [],
+          "author": "lezuzius",
+          "timestamp": "2005-08-12 02:25:56",
+          "author_icon_url": "https://secure.gravatar.com/avatar/855c6f770bdc66ae8f973ace547ec300?r=pg",
+          "text": "dv!\r\nA progi nagyon j, me nhny tlet!\r\n\r\n1. Egy nagyon hasznos dolog pl a File flhz: ha egy program vagy folyamat lell (vagy elindul), akkor is csinlja amit akarunk. Ez azrt kellene mert pl vannak olyan progik amik bezrjk magukat feladatuk vgn de nincs lehet&amp;#337;sg lelltsra. Szval valahogy le kellene vizsglni a fut programokat x id&amp;#337;kznknt.\r\n(Az mr csak hab lenne a tormn ha tbbet is tudna AND kapcsolattal ellen&amp;#337;rizni, pl kt klnbz&amp;#337; letlt&amp;#337;progi fut s ha mindkett&amp;#337; befejezte s lellt akkor kapcsol ki.\r\n\r\n2. Kellene egy &quot;minimze to tray&quot; funkci mert kis mretben ott marad a tlcn s ez nagyon zavar\r\n\r\n3. Ebb&amp;#337;l kvetkezik hogy Fast access al kellene egy hotkey ami main window-t aktivlja\r\n\r\nVrom az updatetokat :)\r\nKsznet, dn",
+          "last_edited": null,
+          "slug": "bf59",
+          "subject": "Welcome to Open Discussion"
+        }
+      ],
+      "page": null,
+      "subject": "Welcome to Open Discussion"
+    },
+    {
+      "limit": null,
+      "discussion_id": "50757e5afd48f84218013b91",
+      "_id": "d49efb7c",
+      "posts": [
+        {
+          "attachments": [],
+          "author": "tigerix",
+          "timestamp": "2008-07-01 13:57:27",
+          "author_icon_url": "https://secure.gravatar.com/avatar/18e2b853543cd4c0730568b5143307fd?r=pg",
+          "text": "I just discovered shutdown monster, which seems to be a great piece of software!\r\n\r\nUnfortunately, it fails to work correctly under Windows Vista!\r\n\r\nIssue: After the countdown has reached 0, nothing happens, instead the countdown counter jumps up to something like 1299hours...\r\n\r\nIs there any chance of compiling this with a newer compiler, and see if it works?\r\nOr fix the bug by another way?\r\n\r\nThanks for help!\r\nCheers, Tigerix.",
+          "last_edited": null,
+          "slug": "eeb9",
+          "subject": "Problem with Vista!"
+        }
+      ],
+      "page": null,
+      "subject": "Problem with Vista!"
+    }
+  ],
+  "description": "",
+  "name": "Open Discussion"
+}]}
