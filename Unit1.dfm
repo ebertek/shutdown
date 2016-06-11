@@ -1,6 +1,6 @@
 object Shutdown: TShutdown
-  Left = 266
-  Top = 185
+  Left = 225
+  Top = 147
   Hint = 'Shutdown Monster'
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
@@ -17,6 +17,7 @@ object Shutdown: TShutdown
   Font.Style = []
   OldCreateOrder = False
   PopupMenu = SysTrayMenu
+  Position = poDefault
   Scaled = False
   ShowHint = True
   OnCreate = FormCreate
@@ -1069,7 +1070,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 32946.822765115740000000
+          Date = 32946.708862847220000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1111,25 +1112,8 @@ object Shutdown: TShutdown
           Height = 24
           Hint = 'A be'#225'll'#237't'#225'sok '#233'rv'#233'nybe hozatala'
           Caption = 'Be'#225'll'#237't'#225's'
-          TabOrder = 1
-          OnClick = Set2Click
-        end
-        object Idozito: TLMDSpinEdit
-          Left = 16
-          Top = 16
-          Width = 89
-          Height = 21
-          Hint = 'Itt adhat'#243' meg, hogy h'#225'ny perc m'#250'lva kapcsoljon ki a g'#233'p'#252'nk'
-          Bevel.Mode = bmWindows
-          Caret.BlinkRate = 530
           TabOrder = 0
-          AutoSelect = True
-          CustomButtons = <>
-          Suffix = ' perc'
-          MinValue = 1
-          MaxValue = 240
-          Value = 30
-          DateTime = 0.000000000000000000
+          OnClick = Set2Click
         end
         object Canc2: TBitBtn
           Left = 112
@@ -1138,7 +1122,7 @@ object Shutdown: TShutdown
           Height = 24
           Hint = 'A le'#225'll'#237't'#225's meg'#225'll'#237't'#225'sa'
           Caption = 'M'#233'gsem'
-          TabOrder = 3
+          TabOrder = 2
           OnClick = Mgsem1Click
         end
         object RxClock1: TRxClock
@@ -1158,7 +1142,7 @@ object Shutdown: TShutdown
           Width = 24
           Height = 24
           Hint = 'Be'#225'll'#237't'#225'sok ment'#233'se'
-          TabOrder = 2
+          TabOrder = 1
           OnClick = Save2Click
           Glyph.Data = {
             76010000424D7601000000000000760000002800000020000000100000000100
@@ -1175,20 +1159,6 @@ object Shutdown: TShutdown
             0003737FFFFFFFFF7F7330099999999900333777777777777733}
           NumGlyphs = 2
         end
-        object ITimeP: TPanel
-          Left = 509
-          Top = 0
-          Width = 50
-          Height = 244
-          Hint = 'A jelenlegi Internet Id'#337
-          Align = alRight
-          BevelOuter = bvLowered
-          Caption = '@999'
-          ParentBackground = True
-          ParentColor = True
-          TabOrder = 5
-          Visible = False
-        end
         object logMe: TMemo
           Left = 0
           Top = 40
@@ -1199,8 +1169,19 @@ object Shutdown: TShutdown
             'logMe')
           ParentShowHint = False
           ShowHint = False
-          TabOrder = 6
+          TabOrder = 4
           Visible = False
+        end
+        object Idozito: TDateTimePicker
+          Left = 16
+          Top = 16
+          Width = 89
+          Height = 21
+          Hint = 'Itt adhat'#243' meg, hogy h'#225'ny perc m'#250'lva kapcsoljon ki a g'#233'p'#252'nk'
+          Date = 38024.000000000000000000
+          Time = 38024.000000000000000000
+          Kind = dtkTime
+          TabOrder = 5
         end
       end
       object IPing: TTabSheet
@@ -1311,7 +1292,7 @@ object Shutdown: TShutdown
         object auto: TCheckBox
           Left = 16
           Top = 16
-          Width = 89
+          Width = 145
           Height = 14
           Hint = 
             'A sz'#225'm'#237't'#243'g'#233'p minden nap kikapcsol a megadott id'#337'pontban vagy a m' +
@@ -1323,7 +1304,7 @@ object Shutdown: TShutdown
         object parentalcontrol: TCheckBox
           Left = 16
           Top = 32
-          Width = 105
+          Width = 145
           Height = 13
           Hint = 'A programb'#243'l csak Ctrl+Alt+Del-el lehet kil'#233'pni ('#39'N'#233'ma M'#243'd'#39')'
           Caption = 'Sz'#252'l'#337'i fel'#252'gyelet'
@@ -1347,7 +1328,7 @@ object Shutdown: TShutdown
         object force: TCheckBox
           Left = 208
           Top = 16
-          Width = 201
+          Width = 249
           Height = 14
           Hint = 
             'A programokat mindenk'#233'ppen bez'#225'rja, akkor is ha nincsenek mentve' +
@@ -1361,7 +1342,7 @@ object Shutdown: TShutdown
         object spintime: TLMDSpinEdit
           Left = 16
           Top = 64
-          Width = 121
+          Width = 145
           Height = 21
           Hint = 'Itt adhat'#243' meg, hogy h'#225'ny m'#225'sodpercet v'#225'rjon le'#225'll'#237't'#225's el'#337'tt'
           Bevel.Mode = bmWindows
@@ -1402,26 +1383,16 @@ object Shutdown: TShutdown
             'Monitor be'
             'Ideiglenesen t'#225'rolt f'#225'jlok t'#246'rl'#233'se')
         end
-        object ITimeCB: TCheckBox
-          Left = 16
-          Top = 104
-          Width = 121
-          Height = 17
-          Hint = 'Nem "rendes id'#337't", hanem Internet Id'#337't kell megadni'
-          Caption = 'Internet id'#337' alapj'#225'n'
-          TabOrder = 4
-          OnClick = ITimeCBClick
-        end
         object auto2: TCheckBox
           Left = 16
-          Top = 136
+          Top = 112
           Width = 145
           Height = 17
           Hint = 
             'A program minden bekapcsol'#225'skor elindul, de nem kapcsol ki autom' +
             'atikusan'
           Caption = 'Automatikus ind'#237't'#225's'
-          TabOrder = 5
+          TabOrder = 4
           OnClick = auto2Click
         end
         object Save4_2: TBitBtn
@@ -1483,10 +1454,10 @@ object Shutdown: TShutdown
         object langCB: TComboBox
           Left = 16
           Top = 192
-          Width = 121
+          Width = 145
           Height = 21
           Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett nyelv'
-          ItemHeight = 13
+          ItemHeight = 0
           TabOrder = 8
           Text = 'Magyar'
           OnChange = langCBChange
@@ -1530,15 +1501,15 @@ object Shutdown: TShutdown
         end
         object minimCB: TCheckBox
           Left = 16
-          Top = 152
+          Top = 128
           Width = 145
           Height = 17
           Hint = 'A program indul'#225'skor lekicsiny'#237'ti mag'#225't'
           Caption = 'Lekicsiny'#237'tve indul'
-          TabOrder = 6
+          TabOrder = 5
         end
         object RxDice1: TRxDice
-          Left = 416
+          Left = 464
           Top = 93
           Width = 66
           Height = 66
@@ -1557,6 +1528,15 @@ object Shutdown: TShutdown
           Caption = 'Check for Updates'
           TabOrder = 15
           OnClick = Button1Click
+        end
+        object ontopCB: TCheckBox
+          Left = 16
+          Top = 144
+          Width = 145
+          Height = 17
+          Caption = 'Stay always on top'
+          TabOrder = 6
+          OnClick = ontopCBClick
         end
       end
       object Veszhelyzet: TTabSheet
@@ -2020,6 +2000,14 @@ object Shutdown: TShutdown
           TabOrder = 2
           OnButtonClick = atom_addButtonClick
         end
+        object atom_CB: TCheckBox
+          Left = 32
+          Top = 168
+          Width = 169
+          Height = 17
+          Caption = 'Check on program start'
+          TabOrder = 3
+        end
       end
       object TabSheet1: TTabSheet
         Caption = 'Plugin'
@@ -2216,23 +2204,6 @@ object Shutdown: TShutdown
     Left = 32
     Top = 424
   end
-  object Beater: TBeater
-    BeatDetail = bdMin
-    Left = 32
-    Top = 456
-  end
-  object ITimer: TTimer
-    Enabled = False
-    Interval = 86400
-    OnTimer = ITimerTimer
-    Top = 456
-  end
-  object IATimer: TTimer
-    Enabled = False
-    Interval = 86400
-    OnTimer = IATimerTimer
-    Top = 424
-  end
   object GHSS: TLMDGlobalHotKey
     HotKey = 0
     OnKeyDown = GHSSKeyDown
@@ -2316,11 +2287,16 @@ object Shutdown: TShutdown
     Top = 296
   end
   object atom_menu: TPopupMenu
-    Left = 269
-    Top = 96
+    Left = 485
+    Top = 264
     object Delet1: TMenuItem
       Caption = 'Delete'
       OnClick = Delet1Click
     end
+  end
+  object ParamOpener1: TParamOpener
+    OnParamOpen = ParamOpener1ParamOpen
+    Left = 453
+    Top = 264
   end
 end

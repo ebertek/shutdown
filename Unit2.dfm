@@ -1,6 +1,6 @@
 object about: Tabout
-  Left = 398
-  Top = 327
+  Left = 255
+  Top = 293
   Hint = 'N'#233'vjegy'
   BorderStyle = bsDialog
   ClientHeight = 200
