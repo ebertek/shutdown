@@ -871,7 +871,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 32946.657614108790000000
+          Date = 32946.895317372680000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1408,6 +1408,7 @@ object Shutdown: TShutdown
     Active = False
     ClientType = ctNonBlocking
     Port = 38100
+    OnRead = ClientRead
     OnError = ClientError
     Left = 496
     Top = 120

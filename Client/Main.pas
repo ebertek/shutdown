@@ -109,6 +109,7 @@ type
     procedure Save4Click(Sender: TObject);
     procedure ClientError(Sender: TObject; Socket: TCustomWinSocket;
       ErrorEvent: TErrorEvent; var ErrorCode: Integer);
+    procedure ClientRead(Sender: TObject; Socket: TCustomWinSocket);
   private
     INI, lini: TINIFile;
   public
@@ -368,6 +369,11 @@ procedure TShutdown.ClientError(Sender: TObject; Socket: TCustomWinSocket;
   ErrorEvent: TErrorEvent; var ErrorCode: Integer);
 begin
   Disconnect.Click;
+end;
+
+procedure TShutdown.ClientRead(Sender: TObject; Socket: TCustomWinSocket);
+begin
+  ShowMessage(socket.ReceiveText);
 end;
 
 end.

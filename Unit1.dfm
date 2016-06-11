@@ -1385,7 +1385,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 32946.832075729170000000
+          Date = 32946.902536851850000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1884,7 +1884,7 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Style = csDropDownList
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 4
           end
         end
@@ -1913,7 +1913,7 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett nyelv'
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 0
             Text = 'Magyar'
             OnChange = langCBChange

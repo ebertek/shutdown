@@ -115,7 +115,7 @@ AutoIncBuild=1
 MajorVer=1
 MinorVer=0
 Release=0
-Build=7
+Build=9
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1250
 [Version Info Keys]
 CompanyName=ebiSoft
 FileDescription=Shutdown Monster Client
-FileVersion=1.0.0.7
+FileVersion=1.0.0.9
 InternalName=Shutdown Monster Client
 LegalCopyright=ebiSoft, 2004
 LegalTrademarks=ebiSoft, 2004
@@ -137,7 +137,6 @@ Comments=Client for Shutdown Monster
 [Excluded Packages]
 C:\Program Files\Borland\Delphi7\Bin\bsPolyglotD7.bpl=Balmsoft Polyglot 1.7
 C:\Program Files\Borland\Delphi7\Bin\indy70.bpl=Internet Direct (Indy) for D7
-c:\program files\borland\delphi7\Projects\Bpl\dclrx7.bpl=RX Library Controls and Tools
 C:\Program Files\Borland\Delphi7\Bin\dclisp70.bpl=Borland Internet Solutions Pack Components
 C:\Program Files\Borland\Delphi7\Bin\dbx70.bpl=Borland SQL Explorer UI Package
 C:\Program Files\Borland\Delphi7\Bin\dclclxstd70.bpl=Borland CLX Standard Components
