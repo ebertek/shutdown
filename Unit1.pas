@@ -7,11 +7,8 @@
 Check http://shutdown.sf.net for more information.
 
 This is the full version of Shutdown Monster.
-Bundled with .beats - its source code is available on demand.
 
 Shutdown Monster is not and does not contain any spyware, adware or malware.
-.beats is bundled in most releases; it's quite useful, source code is available
-on demand, and is not a malware.
 
 The source code is c.a. 37 pages long; you can copy and redistribute it under
 the terms of the GNU General Public License.
@@ -27,29 +24,29 @@ the terms of the GNU General Public License.
     GNU General Public License for more details.
 
 Components used in this project:
-Indy 9      Delphi 2005
-LMD SE      Delphi 2005 companinon CD
-dclebi      Currently not available for Delphi 2005; e-mail me if you need it
-SUIPack     SuniSoft
-SMLPack     SuniSoft
-adCpuUsage  Freely available
-ThdTimer    Freely available
+dclebi        Attached with the source code
+Indy 10       Delphi 2006
+JVCL          Delphi 2006 companion CD
+LMD SE        Delphi 2006 companion CD
+SMLPack       SuniSoft; e-mail me if you need it
+SUIPack       SuniSoft; you have to buy it
+adCpuUsage    Attached with the source code
+cmpMidiMixer  Attached with the source code
+ThdTimer      Attached with the source code
 
-adCpuUsage, ThdTimer, ParamOpener (dclebi) are in the folder 'Components'.
-Copy those files in the directory of this file.
-
-SUIPack and SMLPack aren't free, you gotta buy them or use the trial versions.
+SUIPack and SMLPack aren't free, you should buy them or use the trial versions.
+SMLPack is not available anymore -- if it gets old enough, you might distribute
+it freely. E-mail me (david@mosolyorszag.hu) if you need it.
 Trials of it are available at http://www.sunisoft.com
 
-Indy9 and LMD SE are free, and come with Delphi9.
+Indy 10, LMD SE and JVCL are free, and come with Delphi10.
+
 If you don't have the companion CD, you can get LMD at:
 http://www.lmd.de/download/
-You need LMD-Tools SE 7.x Delphi 9 Win32.
+You need LMD-Tools SE 7.x BDS 2006 Win32.
 
-If you need the source code and don't want to install these components then
-I may make you it 3rd-party-component-free (Shutdown Monster 'Sky').
-'Sky' still uses adCpuUsage, ThdTimer and Indy, but not SUIPack and
-SMLPack, netiher LMD SE.
+JVCL is available at:
+http://sourceforge.net/projects/jvcl
 
 *)
 
@@ -70,9 +67,10 @@ uses
   LMDCustomBrowseEdit, LMDCustomFileEdit, LMDFileOpenEdit, LMDCustomMaskEdit,
   LMDCustomExtSpinEdit, LMDSpinEdit, ScktComp, IdBaseComponent, IdComponent,
   IdUDPBase, IdUDPClient, IdSNTP, ParamOpener, Mask, Graphics,
-  LMDWndProcComponent, SMLLangRes, SMLFormLangRes, RXClock,
-  RXDice, Placemnt, ToolEdit, SMLMenuLangRes, SMLMsgLangRes, AppEvnts, SUIForm,
-  RXShell, cmpMidiMixer;
+  LMDWndProcComponent, SMLLangRes, SMLFormLangRes, SMLMenuLangRes,
+  SMLMsgLangRes, AppEvnts, SUIForm, cmpMidiMixer, LMDBaseGraphicButton,
+  LMDCustomSpeedButton, LMDDockSpeedButton, LMDTrayIcon, LMDFormA, JvExExtCtrls,
+  JvComponent, JvClock, JvDice, JvExControls;
 
 type                                  //MY VERY-FIRST THREAD!! :)
  TUpdateThread = class(TThread)
@@ -100,7 +98,7 @@ type
     Mgsem1: TMenuItem;
     jraindts1: TMenuItem;
     Kijelentkezs1: TMenuItem;
-    Timer3: TTimer;
+    Timer3: TThreadedTimer;
     Start: TLMDStarter;
     Munkallomszrolsa1: TMenuItem;
     GHRB: TLMDGlobalHotKey;
@@ -125,7 +123,6 @@ type
     ServerSocket1: TServerSocket;
     GHSus: TLMDGlobalHotKey;
     sml: TsmlFormLangRes;
-    fp: TFormPlacement;
     IdSNTP1: TIdSNTP;
     sml2: TsmlMenuLangRes;
     sml3: TsmlMenuLangRes;
@@ -140,7 +137,7 @@ type
     Save1: TBitBtn;
     Calendar: TMonthCalendar;
     Idopont: TDateTimePicker;
-    RxClock1: TRxClock;
+    RxClock1: TJvClock;
     CountDown: TTabSheet;
     Most: TLMDProgressFill;
     Set2: TBitBtn;
@@ -150,7 +147,7 @@ type
     CD1: TLMDSpinEdit;
     CD2: TLMDSpinEdit;
     CD3: TLMDSpinEdit;
-    RxClock2: TRxClock;
+    RxClock2: TJvClock;
     IPing: TTabSheet;
     infoPing: TLabel;
     infoCheck: TLabel;
@@ -195,7 +192,7 @@ type
     Save4_2: TBitBtn;
     server_CB: TCheckBox;
     Button1: TBitBtn;
-    RxDice1: TRxDice;
+    RxDice1: TJvDice;
     Memo1: TMemo;
     Memo2: TMemo;
     Veszhelyzet: TTabSheet;
@@ -243,7 +240,7 @@ type
     atom_servers: TListBox;
     atom_do: TBitBtn;
     atom_CB: TCheckBox;
-    atom_add: TComboEdit;
+    atom_add: TEdit;
     volfade_CB: TCheckBox;
     volfade_E: TLMDSpinEdit;
     volfade_T: TTimer;
@@ -255,16 +252,16 @@ type
     CPUCheck: TThreadedTimer;
     Update_L: TLabel;
     updateCB: TCheckBox;
-    TrayIcon: TRxTrayIcon;
+    TrayIcon: TLMDTrayIcon;
     clearCB: TCheckBox;
     confCB: TComboBox;
     MidiMixer1: TMidiMixer;
     hideCB: TCheckBox;
+    atom_addButton: TLMDDockSpeedButton;
+    procedure TrayIconClick(Sender: TObject);
     procedure langCBSelect(Sender: TObject);
     procedure confCBKeyPress(Sender: TObject; var Key: Char);
     procedure confCBSelect(Sender: TObject);
-    procedure TrayIconClick(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
     procedure FormDestroy(Sender: TObject);
     procedure Update_LClick(Sender: TObject);
     procedure volfade_TTimer(Sender: TObject);
@@ -283,6 +280,7 @@ type
     procedure DoOpen;
     procedure DoDownload;
     procedure DoSD;
+    procedure VLog(vl: string);
     procedure DoLog(Sender: string);
     procedure ClearCommonD;
     procedure ClearRun;
@@ -314,6 +312,7 @@ type
     procedure Set3Save;
     procedure Set4Save;
     procedure Piszka;
+    procedure NapOpen;
     procedure NapCheck;
     procedure Set2Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -423,16 +422,18 @@ type
     UpThread: TUpdateThread;
     AtomThread: TAtomThread;
     Procedure WMSysCommand(Var Msg : TMessage); Message WM_SYSCOMMAND;
+    procedure WMEndSession(var Msg : TWMEndSession); message WM_ENDSESSION;
   end;
 
 var
   Vol: DWord; //for vol fading
   rvol,lvol: word; //for vol fading
+  dwStart: cardinal; //for T3i (countdown)
   Shutdown: TShutdown;
-  shutted,notready: boolean; //for vol fading
+  shutted, notready, done, verbose: boolean; //for s4s, vol fading and logging
   HookNow: boolean; //for the hook (CPUUsage)
   usage: Integer; //needed for CPUUsage
-  T3i: Extended;  //interval, substraction from this, needed for systray
+  T3i: Integer;  //needed for systray
   cmd, recv: string; //for Client-Server stuff
   Active1, Active2, Active3: boolean; //for CS
   _SetSuspendState: function
@@ -522,12 +523,12 @@ var  hwndTray:      HWND;
      rcWindow:      TRect;
      rcTray:        TRect;
 begin
-
   // Check passed window handle
   if IsWindow(Application.Handle) then
   begin
      // Get tray Application.Handle
-     hwndTray:=FindWindowEx(FindWindow('Shell_TrayWnd', nil), 0, 'TrayNotifyWnd', nil);
+     hwndTray:=
+       FindWindowEx(FindWindow('Shell_TrayWnd', nil), 0, 'TrayNotifyWnd', nil);
      // Check tray Application.Handle
      if (hwndTray = 0) then
         // Failure
@@ -541,10 +542,12 @@ begin
         // Hide the window
         ShowWindow(Application.Handle, SW_HIDE);
         Shutdown.Visible:=False;
+        if verbose then Shutdown.VLog('Tray icon: Minimized to system tray');
      end;
   end
   else
-     // Failure
+    if verbose then
+      Shutdown.VLog('Tray icon: Minimizing to system tray failed');
 
 end;
 
@@ -557,25 +560,28 @@ begin
   // Check passed window handle
   if IsWindow(Application.Handle) then
   begin
-     // Get tray Application.Handle
-     hwndTray:=FindWindowEx(FindWindow('Shell_TrayWnd', nil), 0, 'TrayNotifyWnd', nil);
-     // Check tray Application.Handle
-     if (hwndTray = 0) then
-        // Failure
-     else
-     begin
-        // Get window rect and tray rect
-        GetWindowRect(Application.Handle, rcWindow);
-        GetWindowRect(hwndTray, rcTray);
-        // Perform the animation
-        DrawAnimatedRects(Application.Handle, IDANI_CAPTION, rcTray, rcWindow);
-        // Show the window
-        ShowWindow(Application.Handle, SW_SHOW);
-        Shutdown.Visible:=True;
-     end;
+    // Get tray Application.Handle
+    hwndTray:=
+      FindWindowEx(FindWindow('Shell_TrayWnd', nil), 0, 'TrayNotifyWnd', nil);
+    // Check tray Application.Handle
+    if (hwndTray = 0) then
+      // Failure
+    else
+    begin
+       // Get window rect and tray rect
+       GetWindowRect(Application.Handle, rcWindow);
+       GetWindowRect(hwndTray, rcTray);
+       // Perform the animation
+       DrawAnimatedRects(Application.Handle, IDANI_CAPTION, rcTray, rcWindow);
+       // Show the window
+       ShowWindow(Application.Handle, SW_SHOW);
+       Shutdown.Visible:=True;
+       if verbose then Shutdown.VLog('Tray icon: Restored from system tray');
+    end;
   end
   else
-     // Failure
+    if verbose then
+      Shutdown.VLog('Tray icon: Restoring from system tray failed');
 
 end;
 
@@ -598,8 +604,8 @@ begin
     exit;
   if not b then
     exit;
- PostMessage(GetDesktopWindow, WM_SYSCOMMAND, SC_SCREENSAVE, 0);
- result := true;
+  PostMessage(GetDesktopWindow, WM_SYSCOMMAND, SC_SCREENSAVE, 0);
+  result := true;
 end;
 
 function TShutdown.GetUserFromWindows: string;  //get current user from Windows
@@ -638,7 +644,18 @@ begin
     the message removed from the system message queue.
     }
     HookNow:=False;
-    Shutdown.HookTimer.Enabled:=True;
+    if verbose then Shutdown.VLog('CPU usage: JournalProc started');
+    if not (Shutdown.HookTimer.Enabled) then Shutdown.HookTimer.Enabled:=True;
+  end;
+end;
+
+procedure TShutdown.WMEndSession(var Msg : TWMEndSession);
+begin
+  if Msg.EndSession then begin
+//    shutted:=false;
+//    done:=false;
+    shutted:=True; done:=True;
+    if verbose then VLog('Shutdown: Got shutdown command from Windows');
   end;
 end;
 
@@ -649,6 +666,7 @@ begin
     lvol := ControlValue [mtAudioVolume, mcLeft];
     rvol := ControlValue [mtAudioVolume, mcRight];
   end;
+  if verbose then VLog('Volume fading: Got current volume');
 end;
 
 function TShutdown.HexToInt(HexStr: String): Integer;
@@ -661,12 +679,13 @@ begin
   INI.Free;
   INI := TINIFile.Create(ExtractFilePath(Application.EXEName)
     + confCB.Text+'.ini');
-  fp.IniFileName:=ExtractFilePath(Application.EXEName) + confCB.Text+'.ini';
-  NapCheck;
+  NapOpen;
   UserOpen;
   WaveOpen;
   ComOpen;
   HotKeyOpen;
+  NapCheck;
+  if verbose then VLog('Load: Everything');
 end;
 
 procedure TShutdown.DoDownload;  //checks for updates
@@ -674,6 +693,7 @@ var
 s1, s2: TStringList;
 ss1, ss2: string;
 begin
+  if verbose then VLog('C4U: Looking for updates');
   ss1:='';
   ss2:='';
   with TDownloadURL.Create(self) do
@@ -701,32 +721,35 @@ lini.ReadString(langCB.Text, 'Update3', 'Get it from http://shutdown.sf.net/'));
   s1.Clear; s2.Clear;
   s1.Free; s2.Free;
   UpThread.Free;
+  if verbose then VLog('C4U: Looking for updates done');
 end;
 
-procedure TShutdown.DoSD;  //kikapcsolja a gepet
+procedure TShutdown.DoSD;  //turns off the PC
 begin
-  if not notready then begin
+  if verbose then VLog('Trying to shut down');
+  if (not notready) and (not shutted) and (not done) then begin
     case defcommand.ItemIndex of
       -1: begin PowerOff.Click; shutted:=True; end;
        0: begin PowerOff.Click; shutted:=True; end;
        1: begin ShutDown_B.Click; shutted:=True; end;
        2: begin ReBoot.Click; shutted:=True; end;
-       3: begin LogOff.Click; end;
+       3: begin LogOff.Click; done:=True; end;
        4: begin Suspend.Click; shutted:=True; end;
        5: begin Hibernate.Click; shutted:=True; end;
-       6: begin LockWS.Click; end;
-       7: begin SSOn.Click; end;
-       8: begin BitBtn1.Click; end;
-       9: begin eject.Click; end;
-      10: begin close.Click; end;
-      11: begin recbin.Click; end;
-      12: begin clipb.Click; end;
-      13: begin mon0.Click; end;
-      14: begin mon1.Click; end;
-      15: begin BitBtn2.Click; end;
-      16: begin end;  //show a message **not yet implemented**
-      17: begin end;  //do nothing **not yet implemented**
+       6: begin LockWS.Click; done:=True; end;
+       7: begin SSOn.Click; done:=True; end;
+       8: begin BitBtn1.Click; done:=True; end;
+       9: begin eject.Click; done:=True; end;
+      10: begin close.Click; done:=True; end;
+      11: begin recbin.Click; done:=True; end;
+      12: begin clipb.Click; done:=True; end;
+      13: begin mon0.Click; done:=True; end;
+      14: begin mon1.Click; done:=True; end;
+      15: begin BitBtn2.Click; done:=True; end;
+(*    16: begin ShowMessage(s); end;  //show a message
+      17: begin end;  //do nothing *)
     end;
+    if shutted then done:=True;
   end;
   if shutted then SureTimer.Enabled:=True;
   EnMax;
@@ -737,18 +760,38 @@ begin
   try Result:=(Sender as TButton).Caption; except end;
 end;
 
+procedure TShutdown.VLog(vl: string);
+var
+  f: TextFile;
+  fi: String;
+begin
+  AssignFile(f, ExtractFilePath(Application.EXEName) + 'Shutdown.log');
+  fi:=ExtractFilePath(Application.EXEName) + 'Shutdown.log';
+  if not FileExists(fi) then begin
+    ReWrite(f);
+    CloseFile(f);
+  end;
+  logMe.Clear;
+  logMe.Lines.LoadFromFile(ExtractFilePath(Application.EXEName) +
+    'Shutdown.log');
+  logMe.Lines.Add(DateTimeToStr(now)+' -- '+vl);
+  logMe.Lines.SaveToFile(ExtractFilePath(Application.EXEName) +
+    'Shutdown.log');
+end;
+
 procedure TShutdown.DoLog(Sender: string);
 var
   f: TextFile;
   fi, command: String;
 begin
-  if logCB.Checked then begin
+  if (logCB.Checked) and (verbose=False) then begin
     AssignFile(f, ExtractFilePath(Application.EXEName) + 'Shutdown.log');
     fi:=ExtractFilePath(Application.EXEName) + 'Shutdown.log';
     if not FileExists(fi) then begin
       ReWrite(f);
       CloseFile(f);
     end;
+    logMe.Clear;
     logMe.Lines.LoadFromFile(ExtractFilePath(Application.EXEName) +
       'Shutdown.log');
     if Sender <> '\DoExec/' then command:=Sender else command:=defcommand.Text;
@@ -817,12 +860,14 @@ begin
   if clearCB.Checked then begin
 
 //Clear the recycle bin
+if verbose then VLog('Shutdown: Trying to clear recycle bin');
 recbin.Click;
 
 //Clear the temporary file folder of Windows
 
 
 //Clear the temporary files of Internet Explorer
+if verbose then VLog('Shutdown: Trying to clear temporary internet files');
 BitBtn2.Click;
 
 //Clear the cookies of Internet Explorer
@@ -837,10 +882,12 @@ BitBtn2.Click;
 //Clear recent document list
 
 
-//Clear common dialogs's MRU-entries
+//Clear common dialogs' MRU-entries
+if verbose then VLog('Shutdown: Trying to clear common dialogs'' MRU list');
 ClearCommonD;
 
 //Clear run dialog's MRU-entries
+if verbose then VLog('Shutdown: Trying to clear run MRU list');
 ClearRun;
 
   end;
@@ -853,16 +900,18 @@ begin
   DoLog('\DoExec/');
 
   if volfade_CB.Checked then begin
+    if verbose then VLog('Volume fading: Start');
     notready:=True;
     CheckVol;
-    rvol:=HexToInt(copy(IntToHex(Vol,8),1,4));  //high-order része a dword-nek
-    lvol:=HexToInt(copy(IntToHex(Vol,8),5,8));  //low-order része a dword-nek
+    rvol:=HexToInt(copy(IntToHex(Vol,8),1,4));  //high-order part of dword
+    lvol:=HexToInt(copy(IntToHex(Vol,8),5,8));  //low-order part of dword
     if auto2.Checked then begin
       INI.WriteInteger('Volume', 'Right', rvol);
       INI.WriteInteger('Volume', 'Left', lvol);
       INI.WriteBool('Volume', 'WasFaded', True);
     end;
     volfade_T.Enabled:=True;
+    if verbose then VLog('Volume fading: Done');
   end;
 
   DoClear;
@@ -875,7 +924,24 @@ end;
 
 procedure TShutdown.DoStart;
 begin
+//*Pre-Checking parameters
+  if (Copy(FinalParam,0,1)='-') or
+     (Copy(FinalParam,0,1)='/')
+     then begin
+    FinalParam:=Copy(FinalParam,2,Length(FinalParam));
+  end;
+  if (Copy(FinalParam,0,2)='--')
+     then begin
+    FinalParam:=Copy(FinalParam,3,Length(FinalParam));
+  end;
 
+  if FinalParam='v' then begin
+     verbose:=True;
+     VLog('Parameter: '+FinalParam);
+  end;
+//*Pre-Checking parameters
+
+  if verbose then VLog('STARTING UP...');
   langCB.Text:=StringReplace(SML.LangFileName, '.sml', '', [rfReplaceAll]);
   langCB.Text:=lini.ReadString('Settings', 'Language', 'English');
   langCBSelect(self);
@@ -883,12 +949,13 @@ begin
   SplashForm.Label1.Caption:=lini.ReadString
     (langCB.Text, 'SF_Pos', 'Restoring position');
   SplashForm.Update;
-  fp.IniFileName:=ExtractFilePath(Application.EXEName) + 'Settings.ini';
+  Shutdown.Left:=INI.ReadInteger('Placement', 'Left', 0);
+  Shutdown.Top:=INI.ReadInteger('Placement', 'Top', 0);
 
   SplashForm.Label1.Caption:=lini.ReadString
     (langCB.Text, 'SF_Data', 'Loading data');
   SplashForm.Update;
-  NapCheck;
+  NapOpen;
   UserOpen;
   WaveOpen;
 
@@ -901,6 +968,11 @@ begin
     (langCB.Text, 'SF_HK', 'Loading hotkeys');
   SplashForm.Update;
   HotKeyOpen;
+
+  SplashForm.Label1.Caption:=lini.ReadString
+    (langCB.Text, 'SF_Re', 'Rechecking settings');
+  SplashForm.Update;
+  NapCheck;
 
   SplashForm.Label1.Caption:=lini.ReadString
     (langCB.Text, 'SF_Param', 'Checking parameters');
@@ -917,6 +989,7 @@ begin
   {SetWindowsHookEx starts the Hook}
   if JHook > 0 then
     FHookStarted := True;
+  if verbose then VLog('CPU usage: Hook started');
 end;
 
 procedure TShutdown.KillHook;
@@ -924,11 +997,13 @@ begin
   FHookStarted := False;
   UnhookWindowsHookEx(JHook);
   JHook := 0;
+  if verbose then VLog('CPU usage: Hook stopped');
 end;
 
 procedure TShutdown.Atomic_Clock;
 var i, tick: integer;
 begin
+  if verbose then VLog('Atomic clock: Syncing system time');
   tick:=GetTickCount;
   try
     for i:=0 to atom_servers.Items.Count-1 do begin
@@ -950,6 +1025,7 @@ begin
       (langCB.Text, 'Sync_fail', 'Error: synchronization failed!');
   end;
   AtomThread.Free;
+  if verbose then VLog('Atomic clock: Syncing system time done');
 end;
 
 procedure TShutdown.AutoToReg;  //adds to reg
@@ -968,6 +1044,7 @@ begin
   finally
     Reg.Free;
   end;
+  if verbose then VLog('Startup: Added startup entry to the registy');
 end;
 
 procedure TShutdown.DelReg;  //removes from reg
@@ -986,6 +1063,7 @@ begin
   finally
     Reg.Free;
   end;
+  if verbose then VLog('Startup: Removed startup entry from the registry');
 end;
 
 procedure TShutdown.DeMin;  //deactivate
@@ -1000,6 +1078,7 @@ begin
   N120percmlva1.Enabled:=False;
   Mgsem1.Enabled:=True;
   MinimizeToTray;
+  if verbose then VLog('Shutdown: Minimized');
 end;
 
 procedure TShutdown.EnMax;  //activate
@@ -1020,6 +1099,7 @@ begin
   if FHookStarted then KillHook;
   Most.UserValue:=0;
   RestoreFromTray;
+  if verbose then VLog('Shutdown: Maximized');
 end;
 
 procedure TShutdown.FullHide;
@@ -1035,21 +1115,22 @@ begin
     GetWindowLong(Application.Handle, GWL_EXSTYLE) or
     WS_EX_TOOLWINDOW and not WS_EX_APPWINDOW);
   except end;
+  if verbose then VLog('Shutdown: Fully hidden');
 end;
 
 (*
-Itt vannak a mentesek
-Set(x)Auto -> a beallitas
-ITSave, ITOpen -> elmenti/ellenorzi, hogy IT be van-e kapcsolva
-ComSave, ComOpen -> alapertelmezett parancsot es nyelvet menti/betolti
-UserSave, UserOpen -> felhasznalo-specifikus cuccokat menti/betolti
-HotKeySave, HotKeyOpen -> gyorsbilleket menti/betolti
-WaveSave, WaveOpen -> hangbeallitasokat menti/betolti
-ForceCheck -> ellenorzi, hogy be van-e kapcsolva a kenyszerites es a wake events
-DurvaCheck -> ellenorzi, hogy a hatterben kell-e futnia
-Piszka -> ellenorzi, hogy nincs-e tul sok autoshutdown bekapcsolva
-NapCheck -> minden inditaskor, betolti az adatokat
-Set(x)Save -> a mentes
+---Saving and opening---
+Set(x)Auto -> set the shutdown
+ComSave, ComOpen -> load/save defcommand, lang, etc.
+UserSave, UserOpen -> load/save 'user-specific' options
+HotKeySave, HotKeyOpen -> load/save hotkeys
+WaveSave, WaveOpen -> load/save sound options
+ForceCheck -> check if forcing and wake events are on
+DurvaCheck -> check if it should hide
+Piszka -> check if someone screwed up the settings (more autoshutdown at once)
+NapOpen -> load data
+NapCheck -> do checkbox-stuff
+Set(x)Save -> save
 *)
 
 procedure TShutdown.Set1Auto;
@@ -1072,6 +1153,7 @@ begin
     Start.StartOption:=soSW_HIDE;
   end;
   DeMin;
+  if verbose then VLog('Set: Exact time');
 end;
 
 procedure TShutdown.Set2Auto;
@@ -1089,7 +1171,10 @@ begin
     Start.Command:='.';
     Start.StartOption:=soSW_HIDE;
   end;
+  dwStart:=GetTickCount;
+  Timer3.Enabled:=True;
   DeMin;
+  if verbose then VLog('Set: Countdown');
 end;
 
 procedure TShutdown.Set3Auto;
@@ -1106,13 +1191,14 @@ begin
     Start.StartOption:=soSW_HIDE;
   end;
   DeMin;
+  if verbose then VLog('Set: File');
 end;
 
 procedure TShutdown.Set4Auto;
 begin
   CPUCheck.Enabled:=True;
   HookNow:=True;
-//  if Hook_CB.Checked then DoHook;
+  if Hook_CB.Checked then DoHook;
   if beshutCB.Checked then begin
     Start.Wait:=True;
     Start.Command:=beshutE.Filename;
@@ -1123,6 +1209,7 @@ begin
     Start.StartOption:=soSW_HIDE;
   end;
   DeMin;
+  if verbose then VLog('Set: CPU usage');
 end;
 
 procedure TShutdown.ComSave;
@@ -1147,6 +1234,7 @@ begin
   INI.WriteBool('Settings', 'C4U', updateCB.Checked);
   INI.WriteBool('Volume', 'Fade', volfade_CB.Checked);
   INI.WriteInteger('Volume', 'FadeDur', volfade_E.Value);
+  if verbose then VLog('Save: Common');
 end;
 
 procedure TShutdown.ComOpen;
@@ -1163,7 +1251,7 @@ begin
   PingTime.Value:=INI.ReadInteger('AutoPingShutdown', 'Minute', 10);
   CPU_SE.Value:=INI.ReadInteger('AutoCPUShutdown', 'Usage', 5);
   CPUMin_SE.Value:=INI.ReadInteger('AutoCPUShutdown', 'Minute', 30);
-//  Hook_CB.Checked:=INI.ReadBool('AutoCPUShutdown', 'Input', True);
+  Hook_CB.Checked:=INI.ReadBool('AutoCPUShutdown', 'Input', False);
   ontopCB.Checked:=INI.ReadBool('Settings', 'StayOnTop', False);
   defcommand.ItemIndex:=INI.ReadInteger('Command', 'Default', 0);
   if defcommand.ItemIndex=-1 then defcommand.ItemIndex:=0;
@@ -1186,6 +1274,7 @@ begin
     end;
     INI.WriteBool('Volume', 'WasFaded', False);
   end;
+  if verbose then VLog('Load: Common');
 end;
 
 procedure TShutdown.UserSave;
@@ -1196,6 +1285,7 @@ begin
   ToTime.Date:=Date;
   INI.WriteDateTime('UserSpecific', 'From', FromTime.DateTime);
   INI.WriteDateTime('UserSpecific', 'To', ToTime.DateTime);
+  if verbose then VLog('Save: User specific');
 end;
 
 procedure TShutdown.UserOpen;
@@ -1205,6 +1295,7 @@ begin
   ToTime.DateTime:=INI.ReadDateTime('UserSpecific', 'To', 0);
   FromTime.Date:=Date;
   ToTime.Date:=Date;
+  if verbose then VLog('Load: User specific');
 end;
 
 procedure TShutdown.HotKeySave;
@@ -1225,6 +1316,7 @@ begin
   INI.WriteInteger('Hotkeys', 'mon0', hkmon0.HotKey);
   INI.WriteInteger('Hotkeys', 'mon1', hkmon1.HotKey);
   INI.WriteInteger('Hotkeys', 'ctif', hkctif.HotKey);
+  if verbose then VLog('Save: HotKeys');
 end;
 
 procedure TShutdown.HotKeyOpen;
@@ -1263,6 +1355,7 @@ begin
   mon0hk.HotKey:=hkmon0.HotKey;
   mon1hk.HotKey:=hkmon1.HotKey;
   ctifhk.HotKey:=hkctif.HotKey;
+  if verbose then VLog('Load: HotKeys');
 end;
 
 procedure TShutdown.WaveSave;
@@ -1271,6 +1364,7 @@ begin
   INI.WriteInteger('AutoAlarm', 'Loop', wavSE.Value);
   INI.WriteBool('AutoAlarm', 'Voice', annCB.Checked);
   INI.WriteInteger('AutoAlarm', 'VoicePack', ann_CB.ItemIndex);
+  if verbose then VLog('Save: Wave');
 end;
 
 procedure TShutdown.WaveOpen;
@@ -1288,6 +1382,7 @@ begin
     FindClose(sr);
   end;
   ann_CB.ItemIndex:=INI.ReadInteger('AutoAlarm', 'VoicePack', 0);
+  if verbose then VLog('Load: Wave');
 end;
 
 procedure TShutdown.Set1Save;
@@ -1310,6 +1405,7 @@ begin
   ComSave;
   UserSave;
   WaveSave;
+  if verbose then VLog('Save: Exact time');
 end;
 
 procedure TShutdown.Set2Save;
@@ -1333,6 +1429,7 @@ begin
   ComSave;
   UserSave;
   WaveSave;
+  if verbose then VLog('Save: Countdown');
 end;
 
 procedure TShutdown.Set3Save;
@@ -1355,6 +1452,7 @@ begin
   ComSave;
   UserSave;
   WaveSave;
+  if verbose then VLog('Save: File');
 end;
 
 procedure TShutdown.Set4Save;
@@ -1374,12 +1472,14 @@ begin
 
   INI.WriteInteger('AutoCPUShutdown', 'Usage', CPU_SE.Value);
   INI.WriteInteger('AutoCPUShutdown', 'Minute', CPUMin_SE.Value);
-//  INI.WriteBool('AutoCPUShutdown', 'Input', Hook_CB.Checked);
+  INI.WriteBool('AutoCPUShutdown', 'Input', Hook_CB.Checked);
 
   HotKeySave;
   ComSave;
   UserSave;
   WaveSave;
+
+  if verbose then VLog('Save: CPU usage');
 end;
 
 procedure TShutdown.Piszka;
@@ -1388,10 +1488,14 @@ begin
   INI.WriteBool('AutoCountShutdown', 'Enabled', False);
   INI.WriteBool('AutoPingShutdown', 'Enabled', False);
   INI.WriteBool('AutoCPUShutdown', 'Enabled', False);
+  if verbose then VLog('Someone screwed up the settings INI file');
 end;
 
-procedure TShutdown.NapCheck;
+procedure TShutdown.NapOpen;
 var aus,aucs,aups,aucpus: boolean;
+    f: TextFile;
+    fi: String;
+label ready;
 begin
   aus:=INI.ReadBool('AutoShutdown', 'Enabled', False);
   aucs:=INI.ReadBool('AutoCountShutdown', 'Enabled', False);
@@ -1428,26 +1532,50 @@ begin
   eleres.Text:=INI.ReadString('AutoPingShutdown', 'Path', '');
   if INI.ReadBool('AutoShutdown', 'Enabled', False) then begin
     auto.Checked:=True;
+    if Calendar.Date<Date then Calendar.Date:=Date;
     Set1Auto;
     AutoToReg;
+    goto ready;
   end;
   if INI.ReadBool('AutoCountShutdown', 'Enabled', False) then begin
     auto.Checked:=True;
+    if Calendar.Date<Date then Calendar.Date:=Date;
     Set2Auto;
     AutoToReg;
+    goto ready;
   end;
   if INI.ReadBool('AutoPingShutdown', 'Enabled', False) then begin
     auto.Checked:=True;
+    if Calendar.Date<Date then Calendar.Date:=Date;
     Set3Auto;
     AutoToReg;
+    goto ready;
   end;
   if INI.ReadBool('AutoCPUShutdown', 'Enabled', False) then begin
     auto.Checked:=True;
+    if Calendar.Date<Date then Calendar.Date:=Date;
     Set4Auto;
     AutoToReg;
+    goto ready;
   end;
+  Ready:
+
+  AssignFile(f, ExtractFilePath(Application.EXEName) + 'atom.txt');
+  fi:=ExtractFilePath(Application.EXEName) + 'atom.txt';
+  if not FileExists(fi) then begin
+    ReWrite(f);
+    CloseFile(f);
+  end;
+//f.Free;
+//fi.Free;
   atom_servers.Items.LoadFromFile(ExtractFilePath(Application.EXEName) +
     'atom.txt');
+  if atom_servers.Count=0 then
+    atom_servers.Items.Add('time.nist.gov');
+end;
+
+procedure TShutdown.NapCheck;
+begin
   if atom_CB.Checked then
     atom_do.Click;
   if ontopCB.Checked then
@@ -1456,6 +1584,11 @@ begin
     MinimizeToTray;
   if hideCB.Checked then
     FullHide;
+  if not (minimCB.Checked) and not (hideCB.Checked) then begin
+    try
+      Shutdown.Visible:=True;
+    except end;
+  end;
   if server_CB.Checked then
     ServerSocket1.Active := True;
   if updateCB.Checked then
@@ -1464,58 +1597,23 @@ end;
 
 procedure TShutdown.Set2Click(Sender: TObject);
 begin
+  done:=False;
+  shutted:=False;
   Set2Auto;
   Set2Save;
-  T3i:=Timer1.Interval;
-  Timer3.Enabled:=True;
-
-  //ÓRA
-  if Round(T3i/60000) > 60 then begin
-    if Round(T3i/3600000) = 1 then begin
-      TrayIcon.Hint:=FloatToStr(RoundTo(T3i/3600000,-1))+' '+
-        lini.ReadString(langCB.Text, '1Hrem', 'hour left')
-    end else begin
-      TrayIcon.Hint:=FloatToStr(RoundTo(T3i/3600000,-1))+' '+
-        lini.ReadString(langCB.Text, 'Hrem', 'hours left')
-    end;
-  end else begin
-  //ÓRA
-
-  //MÁSODPERC
-    if Round(T3i/1000) < 60 then begin
-      if Round(T3i/1000) = 1 then begin
-        TrayIcon.Hint:=IntToStr(Round(T3i/1000))+' '+
-          lini.ReadString(langCB.Text, '1Srem', 'second left')
-      end else begin
-        TrayIcon.Hint:=IntToStr(Round(T3i/1000))+' '+
-          lini.ReadString(langCB.Text, 'Srem', 'seconds left');
-      end;
-    end else begin
-  //MÁSODPERC
-
-  //PERC
-      if Round(T3i/60000) > 1 then begin
-        if Round(T3i/1000) = 1 then begin
-          TrayIcon.Hint:=IntToStr(Round(T3i/60000))+' '+
-            lini.ReadString(langCB.Text, '1Mrem', 'minute left')
-        end else begin
-          TrayIcon.Hint:=IntToStr(Round(T3i/60000))+' '+
-            lini.ReadString(langCB.Text, 'Mrem', 'minutes left');
-        end;
-      end;
-    end;
-  end;
-  //PERC
-
+  if verbose then VLog('Click: Countdown');
 end;
 
 procedure TShutdown.Timer1Timer(Sender: TObject);
 begin
   Start.Execute;
+  if verbose then VLog('Countdown is over');
 end;
 
 procedure TShutdown.Set1Click(Sender: TObject);
 begin
+  done:=False;
+  shutted:=False;
   if Calendar.Date<Date then begin
     ShowMessage(lini.ReadString(langCB.Text,
       'BDate', 'The given date/time is before today, please correct it!'))
@@ -1539,6 +1637,7 @@ begin
     ShowMessage(lini.ReadString(langCB.Text,
       'BDate', 'The given date/time is before today, please correct it!'))
   end;
+  if verbose then VLog('Click: Exact time');
 end;
 
 procedure TShutdown.Timer2Timer(Sender: TObject);
@@ -1607,11 +1706,19 @@ end;
 procedure TShutdown.RxDice1Click(Sender: TObject);
 begin
   RxDice1.Rotate:=not RxDice1.Rotate;
+  if verbose then VLog('Dice: Switched rotation');
+end;
+
+procedure TShutdown.TrayIconClick(Sender: TObject);
+begin
+  Application.BringToFront;
+  if verbose then VLog('Tray icon: Click');
 end;
 
 procedure TShutdown.TrayIconDblClick(Sender: TObject);
 begin
-  RestoreFromTray;
+  Shutdown.Perform(wm_SysCommand,SC_RESTORE,0);
+  if verbose then VLog('Tray icon: Double click');
 end;
 
 procedure TShutdown.N15percmlva1Click(Sender: TObject);
@@ -1620,6 +1727,7 @@ begin
   CD2.Value:=15;
   CD3.Value:=0;
   Set2Auto;
+  if verbose then VLog('Countdown: 15 minutes');
 end;
 
 procedure TShutdown.N30percmlva1Click(Sender: TObject);
@@ -1628,6 +1736,7 @@ begin
   CD2.Value:=30;
   CD3.Value:=0;
   Set2Auto;
+  if verbose then VLog('Countdown: 30 minutes');
 end;
 
 procedure TShutdown.N60percmlva1Click(Sender: TObject);
@@ -1636,6 +1745,7 @@ begin
   CD2.Value:=0;
   CD3.Value:=0;
   Set2Auto;
+  if verbose then VLog('Countdown: 60 minutes');
 end;
 
 procedure TShutdown.N120percmlva1Click(Sender: TObject);
@@ -1644,6 +1754,7 @@ begin
   CD2.Value:=0;
   CD3.Value:=0;
   Set2Auto;
+  if verbose then VLog('Countdown: 120 minutes');
 end;
 
 procedure TShutdown.Mgsem1Click(Sender: TObject);
@@ -1653,6 +1764,8 @@ begin
   Timer1.Enabled:=False;
   Timer2.Enabled:=False;
   Most.UserValue:=0;
+  TrayIcon.Hint:='Shutdown Monster';
+  if verbose then VLog('Shutdown: Cancelled');
 end;
 
 procedure TShutdown.autoClick(Sender: TObject);
@@ -1671,50 +1784,52 @@ begin
 end;
 
 procedure TShutdown.Timer3Timer(Sender: TObject);
+label t3r;
 begin
-  T3i:=T3i-1;
-  //ÓRA
-  if Round(T3i/60000) > 60 then begin
-    if Round(T3i/3600000) = 1 then begin
-      TrayIcon.Hint:=FloatToStr(RoundTo(T3i/3600000,-1))+' '+
-        lini.ReadString(langCB.Text, '1Hrem', 'hour left')
-    end else begin
-      TrayIcon.Hint:=FloatToStr(RoundTo(T3i/3600000,-1))+' '+
-        lini.ReadString(langCB.Text, 'Hrem', 'hours left')
-    end;
-  end else begin
-  //ÓRA
-
-  //MÁSODPERC
-    if Round(T3i/1000) < 60 then begin
-      if Round(T3i/1000) = 1 then begin
-        TrayIcon.Hint:=IntToStr(Round(T3i/1000))+' '+
-          lini.ReadString(langCB.Text, '1Srem', 'second left')
-      end else begin
-        TrayIcon.Hint:=IntToStr(Round(T3i/1000))+' '+
-          lini.ReadString(langCB.Text, 'Srem', 'seconds left');
-      end;
-    end else begin
-  //MÁSODPERC
-
-  //PERC
-      if Round(T3i/60000) > 1 then begin
-        if Round(T3i/1000) = 1 then begin
-          TrayIcon.Hint:=IntToStr(Round(T3i/60000))+' '+
-            lini.ReadString(langCB.Text, '1Mrem', 'minute left')
-        end else begin
-          TrayIcon.Hint:=IntToStr(Round(T3i/60000))+' '+
-            lini.ReadString(langCB.Text, 'Mrem', 'minutes left');
-        end;
-      end;
-    end;
+// T3i --> seconds
+// T3i:=time remaining until next Timer1Timer
+  T3i:=Round((Timer1.Interval-(GetTickCount-dwStart))/1000);
+  if T3i > 3600 then begin
+    TrayIcon.Hint:=IntToStr(Round(T3i/3600))+' '+
+    lini.ReadString(langCB.Text, 'Hrem', 'hours left');
+    goto t3r;
   end;
-  //PERC
+
+  if T3i = 3600 then begin
+    TrayIcon.Hint:=lini.ReadString(langCB.Text, '1Hrem', '1 hour left');
+    goto t3r;
+  end;
+
+  if T3i > 60 then begin
+    TrayIcon.Hint:=IntToStr(Round(T3i/60))+' '+
+    lini.ReadString(langCB.Text, 'Mrem', 'minutes left');
+    goto t3r;
+  end;
+
+  if T3i = 60 then begin
+    TrayIcon.Hint:=lini.ReadString(langCB.Text, '1Mrem', '1 minute left');
+    goto t3r;
+  end;
+
+  if T3i = 1 then begin
+    TrayIcon.Hint:=lini.ReadString(langCB.Text, '1Srem', '1 second left');
+    goto t3r;
+  end;
+
+  if T3i < 60 then begin
+    TrayIcon.Hint:=IntToStr(Round(T3i))+' '+
+    lini.ReadString(langCB.Text, 'Srem', 'seconds left');
+    goto t3r;
+  end;
+
+  t3r:
 
 end;
 
 procedure TShutdown.Set3Click(Sender: TObject);
 begin
+  done:=False;
+  shutted:=False;
   PingTimerTimer(Self);
   Set3Auto;
   Set3Save;
@@ -1722,6 +1837,7 @@ begin
     +lini.ReadString(langCB.Text, 'SysTray3_1', 'if the file')
     +' "'+eleres.Text+'" '
     +lini.ReadString(langCB.Text, 'SysTray3_2', 'disappears');
+  if verbose then VLog('Click: File');
 end;
 
 procedure TShutdown.Save3Click(Sender: TObject);
@@ -1731,8 +1847,12 @@ end;
 
 procedure TShutdown.PingTimerTimer(Sender: TObject);
 begin
-  if FileExists(eleres.Text) = False then
+  if verbose then VLog('File: Checking...');
+  if FileExists(eleres.Text) = False then begin
     DoExec;
+    if verbose then VLog('File: File not found');
+  end;
+  if verbose then VLog('File: File found');
 end;
 
 procedure TShutdown.logoClick(Sender: TObject);
@@ -1744,46 +1864,49 @@ end;
 
 procedure TShutdown.PowerOffClick(Sender: TObject);
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
   if force.Checked then
     MyExitWindows(EWX_POWEROFF or EWX_FORCE)
   else
     MyExitWindows(EWX_POWEROFF);
+  if verbose then VLog('Shutdown: Power off');
 end;
 
 procedure TShutdown.ReBootClick(Sender: TObject);
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
   if force.Checked then
     MyExitWindows(EWX_REBOOT or EWX_FORCE)
   else
     MyExitWindows(EWX_REBOOT);
+  if verbose then VLog('Shutdown: Reboot');
 end;
 
 procedure TShutdown.LogOffClick(Sender: TObject);
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
   if force.Checked then
     MyExitWindows(EWX_LOGOFF or EWX_FORCE)
   else
     MyExitWindows(EWX_LOGOFF);
+  if verbose then VLog('Shutdown: Log off');
 end;
 
 procedure TShutdown.ShutDown_BClick(Sender: TObject);
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
   if force.Checked then
     MyExitWindows(EWX_SHUTDOWN or EWX_FORCE)
   else
     MyExitWindows(EWX_SHUTDOWN);
+  if verbose then VLog('Shutdown: Shut down');
 end;
 
 procedure TShutdown.HibernateClick(Sender: TObject);
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
   SetSuspendState(True,force.Checked,wake_CB.Checked);
-  ShellExecute(Handle, 'open', 'rundll32.exe', PChar
-  ('Powrprof.dll,SetSuspendState'), nil, SW_SHOWNORMAL);
+  if verbose then VLog('Shutdown: Hibernate');
 end;
 
 procedure TShutdown.HotKeyPOffChange(Sender: TObject);
@@ -1828,12 +1951,14 @@ begin
   Set3Save;
   Set2Save;
   Set1Save;
+  if verbose then VLog('Save: Everything');
 end;
 
 procedure TShutdown.LockWSClick(Sender: TObject);
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
   WinExec('rundll32.exe user32.dll,LockWorkStation', SW_SHOWNORMAL);
+  if verbose then VLog('Shutdown: Lock workstation');
 end;
 
 procedure TShutdown.HotKeyLWSChange(Sender: TObject);
@@ -1846,9 +1971,10 @@ procedure TShutdown.SDMenuClick(Sender: TObject);
 var
   shell: Variant;
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
   shell := CreateOleObject('Shell.Application');
   shell.ShutdownWindows;
+  if verbose then VLog('Shutdown: Shutdown menu');
 end;
 
 procedure TShutdown.FormCreate(Sender: TObject);
@@ -1885,8 +2011,9 @@ end;
 
 procedure TShutdown.SSOnClick(Sender: TObject);
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
   TurnScreenSaverOn;
+  if verbose then VLog('Shutdown: Start screensaver');
 end;
 
 procedure TShutdown.HotKeySSChange(Sender: TObject);
@@ -1945,9 +2072,10 @@ end;
 procedure TShutdown.BitBtn1Click(Sender: TObject);
 var I: integer;
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
   for I := 1 to wavSE.Value do
     PlaySound(PChar(wavE.Text), 0, SND_NODEFAULT);
+  if verbose then VLog('Shutdown: Alarm');
 end;
 
 procedure TShutdown.auto2Click(Sender: TObject);
@@ -1975,33 +2103,38 @@ end;
 
 procedure TShutdown.SpeedButton1Click(Sender: TObject);
 begin
-  force.Checked:=shutted;
+  if not force.Checked then force.Checked:=shutted;
   DoExec;
+  if verbose then VLog('Shutdown: Emergency shutdown');
 end;
 
 procedure TShutdown.ejectClick(Sender: TObject);
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
   mcisendstring('Set cdaudio door open wait',nil,0,handle);
+  if verbose then VLog('Shutdown: Eject disc');
 end;
 
 procedure TShutdown.closeClick(Sender: TObject);
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
   mcisendstring('Set cdaudio door closed wait',nil,0,handle);
+  if verbose then VLog('Shutdown: Close tray');
 end;
 
 procedure TShutdown.recbinClick(Sender: TObject);
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
  SHEmptyRecycleBin(self.handle,'',
      SHERB_NOCONFIRMATION) ;
+  if verbose then VLog('Shutdown: Clear recycle bin');
 end;
 
 procedure TShutdown.clipbClick(Sender: TObject);
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
   Clipboard.Clear;
+  if verbose then VLog('Shutdown: Clear clipboard');
 end;
 
 procedure TShutdown.LMDGlobalHotKey1KeyDown(Sender: TObject; var Key: Word;
@@ -2055,14 +2188,16 @@ end;
 
 procedure TShutdown.mon0Click(Sender: TObject);
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
   SendMessage(Application.Handle, WM_SYSCOMMAND, SC_MONITORPOWER, 2);
+  if verbose then VLog('Shutdown: Turn monitor off');
 end;
 
 procedure TShutdown.mon1Click(Sender: TObject);
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
   SendMessage(Application.Handle, WM_SYSCOMMAND, SC_MONITORPOWER, - 1);
+  if verbose then VLog('Shutdown: Turn monitor on');
 end;
 
 procedure TShutdown.mon1hkKeyDown(Sender: TObject; var Key: Word;
@@ -2127,6 +2262,7 @@ begin
   atom_servers.AddItem(atom_add.Text, nil);
   atom_servers.Items.SaveToFile(ExtractFilePath(Application.EXEName) +
     'atom.txt');
+  if verbose then VLog('Atomic clock: Added new server');
 end;
 
 procedure TShutdown.Delet1Click(Sender: TObject);
@@ -2134,6 +2270,7 @@ begin
   atom_servers.DeleteSelected;
   atom_servers.Items.SaveToFile(ExtractFilePath(Application.EXEName) +
     'atom.txt');
+  if verbose then VLog('Atomic clock: Server removed');
 end;
 
 procedure TShutdown.BitBtn2Click(Sender: TObject);
@@ -2142,7 +2279,7 @@ var
   hCacheDir: LongWord;
   dwEntrySize: LongWord;
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
   dwEntrySize := 0;
   FindFirstUrlCacheEntry(nil, TInternetCacheEntryInfo(nil^), dwEntrySize);
   GetMem(lpEntryInfo, dwEntrySize);
@@ -2162,46 +2299,49 @@ begin
   end;
   FreeMem(lpEntryInfo, dwEntrySize);
   FindCloseUrlCache(hCacheDir);
+  if verbose then VLog('Shutdown: Clear temporary internet files');
 end;
 
 procedure TShutdown.ParamOpener1ParamOpen(Sender: TObject);
+label canexit;
 begin
   if FinalParam='def' then begin Start.Execute; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='p' then begin PowerOff.Click; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='s' then begin ShutDown_B.Click; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='r' then begin ReBoot.Click; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='l' then begin LogOff.Click; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='standby' then begin Suspend.Click; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='h' then begin Hibernate.Click; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='lock' then begin LockWS.Click; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='scr' then begin SSOn.Click; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='alarm' then begin BitBtn1.Click; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='menu' then begin SDMenu.Click; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='cd0' then begin eject.Click; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='cd1' then begin close.Click; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='recbin' then begin recbin.Click; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='clipb' then begin clipb.Click; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='mon0' then begin mon0.Click; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='mon1' then begin mon1.Click; Application.Terminate;
-   end else
+  goto CanExit;   end else
   if FinalParam='temp' then begin BitBtn2.Click; Application.Terminate;
-   end;
+  goto CanExit;   end;
+   CanExit:
 end;
 
 procedure TShutdown.ontopCBClick(Sender: TObject);
@@ -2217,9 +2357,12 @@ end;
 
 procedure TShutdown.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  INI.WriteInteger('Placement', 'Left', Shutdown.Left);
+  INI.WriteInteger('Placement', 'Top', Shutdown.Top);
  if FHookStarted then
     UnhookWindowsHookEx(JHook);
   ServerSocket1.Active:=False;
+  if verbose then VLog('CLOSING...');
 end;
 
 procedure TShutdown.ServerSocket1ClientRead(Sender: TObject;
@@ -2234,7 +2377,8 @@ begin
   cmd:=StringReplace(cmd, '\RS/', ' ', [rfReplaceAll]);
   parancs := StrToIntDef(cmd, 99);
   Memo1.Lines.Add(cmd);
-//GOMBNYOMÁS BEGIN
+  if verbose then VLog('Client/Server: '+cmd+' ('+IntToStr(parancs)+')');
+//BUTTONPRESS BEGIN
   if parancs <> 99 then begin
     ParancsDo:=Save4_2;
     case parancs of
@@ -2262,7 +2406,7 @@ begin
       'Done', 'done'));
     Memo1.Clear;
   end;
-//GOMBNYOMÁS END
+//BUTTONPRESS END
   if pos('START_1',Memo1.Lines.Text)>0 then Active1:=True;
   if pos('START_2',Memo1.Lines.Text)>0 then Active2:=True;
   if pos('START_3',Memo1.Lines.Text)>0 then Active3:=True;
@@ -2308,8 +2452,9 @@ end;
 
 procedure TShutdown.SuspendClick(Sender: TObject);
 begin
-  DoLog(WhatAmI(Sender));
+  if not done then DoLog(WhatAmI(Sender));
   SetSuspendState(False,force.Checked,wake_CB.Checked);
+  if verbose then VLog('Shutdown: Suspend');
 end;
 
 procedure TShutdown.GHSusKeyDown(Sender: TObject; var Key: Word;
@@ -2331,7 +2476,10 @@ end;
 
 procedure TShutdown.SureTimerTimer(Sender: TObject);
 begin
-  SpeedButton1.Click;
+  if shutted then SpeedButton1.Click;
+  shutted:=False;
+  done:=False;
+  if verbose then VLog('Shutdown: S4S');
 end;
 
 procedure TShutdown.CPUTimer(Sender: TObject);
@@ -2348,39 +2496,49 @@ end;
 procedure TShutdown.CPUCheckTimer(Sender: TObject);
 begin
   if usage<CPU_SE.Value then begin
-    CPUOff.Interval:=CPUMin_SE.Value*60000;
-//    if Hook_CB.Checked then begin
-//      HookTimer.Interval:=CPUOff.Interval;
-//      HookTimer.Enabled:=True;
-//    end;
+    if verbose then VLog('CPU usage: Usage is less than the given value');
+    if Hook_CB.Checked then begin
+      HookTimer.Enabled:=True;
+    end;
     CPUOff.Enabled:=True
-  end else
+  end else begin
+    HookTimer.Enabled:=False;
     CPUOff.Enabled:=False;
+  end;
 end;
 
 procedure TShutdown.CPUOffTimer(Sender: TObject);
 begin
-//  if (Hook_CB.Checked) and (HookNow) then
-//    DoExec
-//  else
-//  if not (Hook_CB.Checked) then
+  if (Hook_CB.Checked) and (HookNow) then begin
+    if verbose then VLog('CPU usage: Executing default command');
     DoExec;
+  end else
+  if not (Hook_CB.Checked) then begin
+    if verbose then VLog('CPU usage: Executing default command');
+    DoExec;
+  end;
   CPUOff.Enabled:=False;
 end;
 
 procedure TShutdown.Set4Click(Sender: TObject);
 begin
+  done:=False;
+  shutted:=False;
+  CPUOff.Interval:=CPUMin_SE.Value*60000;
+  HookTimer.Interval:=CPUOff.Interval;
   Set4Auto;
   Set4Save;
   TrayIcon.Hint:=defcommand.Text+', '
     +lini.ReadString(langCB.Text, 'SysTray4_1', 'if CPU usage stays below')
     +' '+IntToStr(CPU_SE.Value)+'%'
     +lini.ReadString(langCB.Text, 'SysTray4_2', '');
+  if verbose then VLog('Click: CPU usage');
 end;
 
 procedure TShutdown.Save4Click(Sender: TObject);
 begin
   Set4Save;
+  if verbose then VLog('Save: CPU usage');
 end;
 
 procedure TShutdown.ApplicationEvents1Message(var Msg: tagMSG;
@@ -2404,8 +2562,8 @@ label next;
 begin
   CheckVol;
   if (rvol>volfade_E.Value) and (lvol>volfade_E.Value) then begin
-    rvol:=rvol-volfade_E.Value;  //high-order: jobb csati
-    lvol:=lvol-volfade_E.Value;  //low-order: bal csati
+    rvol:=rvol-volfade_E.Value;  //high-order: right chan
+    lvol:=lvol-volfade_E.Value;  //low-order: left chan
   end else begin
     if rvol>volfade_E.Value then begin
       rvol:=rvol-volfade_E.Value;
@@ -2433,6 +2591,7 @@ end;
 procedure TShutdown.Update_LClick(Sender: TObject);
 begin
   ShellExecute(handle,'open','http://shutdown.sf.net/',nil,nil,SW_SHOWNORMAL);
+  if verbose then VLog('Click: Homepage');
 end;
 
 procedure TShutdown.FormDestroy(Sender: TObject);
@@ -2441,12 +2600,6 @@ begin
     lini.Free;
     INI.Free;
   except end;
-end;
-
-procedure TShutdown.TrayIconClick(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-  Application.BringToFront;
 end;
 
 procedure TShutdown.confCBSelect(Sender: TObject);
@@ -2478,7 +2631,7 @@ begin
   sml.LangFileName := langCB.Text+'.sml';  //Captions, Hints
   sml2.LangFileName := langCB.Text+'.sml'; //SysTray menu
   sml3.LangFileName := langCB.Text+'.sml'; //Atomic clock menu
-  defcommand.ItemIndex:=i; //same as prev one
+  defcommand.ItemIndex:=i; //same as first one
 
   PingTime.Suffix:=' '+lini.ReadString(langCB.Text, 'Mins', 'minutes');
 

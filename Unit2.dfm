@@ -8,7 +8,7 @@ object about: Tabout
   ClientWidth = 301
   Color = clBtnFace
   Constraints.MinHeight = 50
-  Constraints.MinWidth = 125
+  Constraints.MinWidth = 130
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -545,7 +545,8 @@ object about: Tabout
     MenuBarColor = 15263976
     MenuBarHeight = 22
     RoundCorner = 0
-    Version = '5.7'
+    RoundCornerBottom = 0
+    Version = '5.83'
     object Panel1: TPanel
       Left = 0
       Top = 29
@@ -559,9 +560,9 @@ object about: Tabout
       object ProductName: TLabel
         Left = 8
         Top = 8
-        Width = 99
+        Width = 89
         Height = 13
-        Caption = 'Shutdown Monster X'
+        Caption = 'Shutdown Monster'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
@@ -574,13 +575,12 @@ object about: Tabout
       object Version: TLabel
         Left = 8
         Top = 32
-        Width = 260
-        Height = 104
+        Width = 214
+        Height = 91
         Caption = 
-          'The New Generation - Ocean -'#13#10'4.0.4'#13#10'Made by ebiSoft'#13#10#13#10'New vers' +
-          'ions and source code is available at'#13#10'http://sourceforge.net/pro' +
-          'jects/shutdown/'#13#10'If you like Shutdown Monster, please donate!'#13#10'D' +
-          'onation is available through SourceForge, via PayPal.'
+          'Rebirth'#13#10'4.0.5'#13#10'Made by ebiSoft'#13#10#13#10'New versions and source code ' +
+          'is available at'#13#10'http://sourceforge.net/projects/shutdown/'#13#10'If y' +
+          'ou like Shutdown Monster, please donate!'
         Transparent = False
         IsControl = True
       end

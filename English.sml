@@ -1,7 +1,4 @@
 [TShutdown]
-Shutdown_FontName=MS Sans Serif
-Shutdown_FontSize=8
-Shutdown_FontCharset=1
 suiForm1_Caption=Shutdown Monster
 Time_Caption=Exact time
 Set1_Caption=Set
@@ -208,3 +205,6 @@ Update_L_Hint=Visit the homepage of Shutdown Monster
 clearCB_Caption=Clear temporary files
 updateCB_Caption=Check for updates automatically
 hideCB_Caption=Run hidden
+Shutdown_FontName=Segoe UI
+Shutdown_FontSize=8
+Shutdown_FontCharset=1

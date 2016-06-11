@@ -1,7 +1,4 @@
 [TShutdown]
-Shutdown_FontName=MS Sans Serif
-Shutdown_FontSize=8
-Shutdown_FontCharset=1
 suiForm1_Caption=Shutdown Monster
 Time_Caption=Idõpont
 Set1_Caption=Beállítás
