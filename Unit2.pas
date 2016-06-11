@@ -16,6 +16,7 @@ type
     OKButton: TButton;
     bsT2: TbsPolyglotTranslator;
     bsM2: TbsPolyglotManager;
+    Label1: TLabel;
   private
     { Private declarations }
   public

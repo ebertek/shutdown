@@ -126,7 +126,6 @@ type
     Delet1: TMenuItem;
     atom_CB: TCheckBox;
     ParamOpener1: TParamOpener;
-    Idozito: TDateTimePicker;
     GB_Design: TGroupBox;
     auto: TCheckBox;
     parentalcontrol: TCheckBox;
@@ -160,6 +159,9 @@ type
     HotKeySus: THotKey;
     GHSus: TLMDGlobalHotKey;
     wake_CB: TCheckBox;
+    CD1: TLMDSpinEdit;
+    CD2: TLMDSpinEdit;
+    CD3: TLMDSpinEdit;
     function TurnScreenSaverOn: boolean;
     function GetUserFromWindows: string;
     procedure DoDownload;
@@ -590,14 +592,10 @@ begin
 end;
 
 procedure TShutdown.Set2Auto;
-var
-  HourB, MinB, SecB, MSecB: Word;
 begin
-  Idozito.Date:=Date;
-  DecodeTime(Idozito.Time, HourB, MinB, SecB, MSecB);
-  Timer1.Interval:=HourB*3600000+MinB*60000+SecB*1000+MSecB;
+  Timer1.Interval:=CD1.Value*3600000+CD2.Value*60000+CD3.Value*1000;
   Timer1.Enabled:=True;
-  Most.MaxValue:=HourB*3600+MinB*60+SecB+Round(MSecB/1000);
+  Most.MaxValue:=CD1.Value*3600+CD2.Value*60+CD3.Value;
   Timer2.Enabled:=True;
   DeMin;
 end;
@@ -791,7 +789,9 @@ begin
     INI.WriteBool('AutoPingShutdown', 'Enabled', False);
     INI.WriteBool('AutoStart', 'Enabled', True);
   end;
-  INI.WriteTime('AutoCountShutdown', 'Time', Idozito.Time);
+  INI.WriteTime('AutoCountShutdown', 'Hour', CD1.Value);
+  INI.WriteTime('AutoCountShutdown', 'Minute', CD2.Value);
+  INI.WriteTime('AutoCountShutdown', 'Second', CD3.Value);
   if force.Checked=True then
     INI.WriteBool('AutoShutdown', 'Force', True);
   if wake_CB.Checked=True then
@@ -926,7 +926,9 @@ begin
 
   Idopont.DateTime:=INI.ReadDateTime('AutoShutdown', 'Time', 0);
   Calendar.Date:=INI.ReadDateTime('AutoShutdown', 'Time', 0);
-  Idozito.Time:=INI.ReadTime('AutoCountShutdown', 'Time', 30);
+  CD1.Value:=INI.ReadInteger('AutoCountShutdown', 'Hour', 0);
+  CD2.Value:=INI.ReadInteger('AutoCountShutdown', 'Minute', 30);
+  CD3.Value:=INI.ReadInteger('AutoCountShutdown', 'Second', 0);
   eleres.Text:=INI.ReadString('AutoPingShutdown', 'Path', '');
   if INI.ReadBool('AutoShutdown', 'Logging', False) = True then
     logCB.Checked:=True;
@@ -1066,25 +1068,33 @@ end;
 
 procedure TShutdown.N15percmlva1Click(Sender: TObject);
 begin
-  Idozito.Time:=EncodeTime(0, 15, 0, 0);
+  CD1.Value:=0;
+  CD2.Value:=15;
+  CD3.Value:=0;
   Set2Auto;
 end;
 
 procedure TShutdown.N30percmlva1Click(Sender: TObject);
 begin
-  Idozito.Time:=EncodeTime(0, 30, 0, 0);
+  CD1.Value:=0;
+  CD2.Value:=30;
+  CD3.Value:=0;
   Set2Auto;
 end;
 
 procedure TShutdown.N60percmlva1Click(Sender: TObject);
 begin
-  Idozito.Time:=EncodeTime(0, 60, 0, 0);
+  CD1.Value:=1;
+  CD2.Value:=0;
+  CD3.Value:=0;
   Set2Auto;
 end;
 
 procedure TShutdown.N120percmlva1Click(Sender: TObject);
 begin
-  Idozito.Time:=EncodeTime(0, 120, 0, 0);
+  CD1.Value:=2;
+  CD2.Value:=0;
+  CD3.Value:=0;
   Set2Auto;
 end;
 
@@ -1651,7 +1661,9 @@ begin
     Active1:=False;
   end else
   if pos('STOP_2',Memo2.Lines.Text)>0 then begin
-    Idozito.Time:=StrToTime(Memo2.Lines[1]);
+    CD1.Value:=StrToInt(Memo2.Lines[1]);
+    CD2.Value:=StrToInt(Memo2.Lines[2]);
+    CD3.Value:=StrToInt(Memo2.Lines[3]);
     Set2.Click;
     Memo1.Clear;
     Memo2.Clear;

@@ -31,7 +31,6 @@ type
     Canc1: TBitBtn;
     Save1: TBitBtn;
     CountDown: TTabSheet;
-    Idozito: TDateTimePicker;
     Set2: TBitBtn;
     Canc2: TBitBtn;
     Save2: TBitBtn;
@@ -66,6 +65,9 @@ type
     Disconnect: TButton;
     Save4: TBitBtn;
     Suspend: TBitBtn;
+    CD1: TLMDSpinEdit;
+    CD2: TLMDSpinEdit;
+    CD3: TLMDSpinEdit;
     procedure ComSave;
     procedure ComOpen;
     procedure Set1Save;
@@ -105,6 +107,8 @@ type
     procedure Canc1Click(Sender: TObject);
     procedure DisconnectClick(Sender: TObject);
     procedure Save4Click(Sender: TObject);
+    procedure ClientError(Sender: TObject; Socket: TCustomWinSocket;
+      ErrorEvent: TErrorEvent; var ErrorCode: Integer);
   private
     INI, lini: TINIFile;
   public
@@ -142,7 +146,9 @@ end;
 
 procedure TShutdown.Set2Save;
 begin
-  INI.WriteTime('AutoCountShutdown', 'Time', Idozito.Time);
+  INI.WriteTime('AutoCountShutdown', 'Hour', CD1.Value);
+  INI.WriteTime('AutoCountShutdown', 'Minute', CD2.Value);
+  INI.WriteTime('AutoCountShutdown', 'Second', CD3.Value);
   ComSave;
 end;
 
@@ -158,7 +164,9 @@ begin
   ComOpen;
   Idopont.DateTime:=INI.ReadDateTime('AutoShutdown', 'Time', 0);
   Calendar.Date:=INI.ReadDateTime('AutoShutdown', 'Time', 0);
-  Idozito.Time:=INI.ReadTime('AutoCountShutdown', 'Time', 30);
+  CD1.Value:=INI.ReadInteger('AutoCountShutdown', 'Hour', 0);
+  CD2.Value:=INI.ReadInteger('AutoCountShutdown', 'Minute', 0);
+  CD3.Value:=INI.ReadInteger('AutoCountShutdown', 'Second', 0);
   eleres.Text:=INI.ReadString('AutoPingShutdown', 'Path', '');
   PingTime.Value:=INI.ReadInteger('AutoPingShutdown', 'Minute', 10);
 end;
@@ -273,7 +281,9 @@ end;
 procedure TShutdown.Set2Click(Sender: TObject);
 begin
   Client.Socket.SendText('START_2 ');
-  Client.Socket.SendText(TimeToStr(Idozito.Time)+' ');
+  Client.Socket.SendText(IntToStr(CD1.Value)+' ');
+  Client.Socket.SendText(IntToStr(CD2.Value)+' ');
+  Client.Socket.SendText(IntToStr(CD3.Value)+' ');
   Client.Socket.SendText('STOP_2 ');
 end;
 
@@ -352,6 +362,12 @@ end;
 procedure TShutdown.Save4Click(Sender: TObject);
 begin
   ComSave;
+end;
+
+procedure TShutdown.ClientError(Sender: TObject; Socket: TCustomWinSocket;
+  ErrorEvent: TErrorEvent; var ErrorCode: Integer);
+begin
+  Disconnect.Click;
 end;
 
 end.

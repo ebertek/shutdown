@@ -1385,7 +1385,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 32946.856723993060000000
+          Date = 32946.691442187490000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1421,7 +1421,7 @@ object Shutdown: TShutdown
           Step = 1
         end
         object Set2: TBitBtn
-          Left = 112
+          Left = 152
           Top = 16
           Width = 69
           Height = 24
@@ -1431,7 +1431,7 @@ object Shutdown: TShutdown
           OnClick = Set2Click
         end
         object Canc2: TBitBtn
-          Left = 112
+          Left = 152
           Top = 40
           Width = 69
           Height = 24
@@ -1452,7 +1452,7 @@ object Shutdown: TShutdown
           ParentColor = True
         end
         object Save2: TBitBtn
-          Left = 184
+          Left = 224
           Top = 16
           Width = 24
           Height = 24
@@ -1487,16 +1487,45 @@ object Shutdown: TShutdown
           TabOrder = 4
           Visible = False
         end
-        object Idozito: TDateTimePicker
+        object CD1: TLMDSpinEdit
           Left = 16
           Top = 16
-          Width = 89
+          Width = 41
           Height = 21
-          Hint = 'Itt adhat'#243' meg, hogy h'#225'ny perc m'#250'lva kapcsoljon ki a g'#233'p'#252'nk'
-          Date = 38024.000000000000000000
-          Time = 38024.000000000000000000
-          Kind = dtkTime
+          Bevel.Mode = bmWindows
+          Caret.BlinkRate = 530
           TabOrder = 5
+          AutoSelect = True
+          CustomButtons = <>
+          MaxValue = 23
+          DateTime = 0.000000000000000000
+        end
+        object CD2: TLMDSpinEdit
+          Left = 56
+          Top = 16
+          Width = 41
+          Height = 21
+          Bevel.Mode = bmWindows
+          Caret.BlinkRate = 530
+          TabOrder = 6
+          AutoSelect = True
+          CustomButtons = <>
+          MaxValue = 59
+          Value = 30
+          DateTime = 0.000000000000000000
+        end
+        object CD3: TLMDSpinEdit
+          Left = 96
+          Top = 16
+          Width = 41
+          Height = 21
+          Bevel.Mode = bmWindows
+          Caret.BlinkRate = 530
+          TabOrder = 7
+          AutoSelect = True
+          CustomButtons = <>
+          MaxValue = 59
+          DateTime = 0.000000000000000000
         end
       end
       object IPing: TTabSheet
@@ -1608,7 +1637,7 @@ object Shutdown: TShutdown
           Left = 8
           Top = 8
           Width = 249
-          Height = 153
+          Height = 161
           Caption = 'Design'
           TabOrder = 0
           object auto: TCheckBox
@@ -1679,7 +1708,7 @@ object Shutdown: TShutdown
           end
           object minimCB: TCheckBox
             Left = 8
-            Top = 104
+            Top = 112
             Width = 233
             Height = 17
             Hint = 'A program indul'#225'skor lekicsiny'#237'ti mag'#225't'
@@ -1688,7 +1717,7 @@ object Shutdown: TShutdown
           end
           object ontopCB: TCheckBox
             Left = 8
-            Top = 120
+            Top = 136
             Width = 233
             Height = 17
             Caption = 'Stay always on top'
@@ -1756,7 +1785,7 @@ object Shutdown: TShutdown
         end
         object GB_Alarm: TGroupBox
           Left = 376
-          Top = 88
+          Top = 96
           Width = 265
           Height = 73
           Caption = 'Alarm'
@@ -1797,7 +1826,7 @@ object Shutdown: TShutdown
         end
         object GB_Before: TGroupBox
           Left = 376
-          Top = 168
+          Top = 176
           Width = 265
           Height = 129
           Caption = 'Do before shutdown'
@@ -1859,7 +1888,7 @@ object Shutdown: TShutdown
         end
         object GB_Other: TGroupBox
           Left = 8
-          Top = 168
+          Top = 176
           Width = 249
           Height = 129
           Caption = 'Other settings'
@@ -1933,7 +1962,7 @@ object Shutdown: TShutdown
           Left = 265
           Top = 8
           Width = 103
-          Height = 153
+          Height = 161
           TabStop = False
           ReadOnly = True
           TabOrder = 5
@@ -1941,7 +1970,7 @@ object Shutdown: TShutdown
         end
         object Memo2: TMemo
           Left = 265
-          Top = 168
+          Top = 176
           Width = 103
           Height = 129
           TabStop = False
@@ -2623,7 +2652,6 @@ object Shutdown: TShutdown
   end
   object bsM: TbsPolyglotManager
     LangsDir = '.\Languages\'
-    CurrentLang = 'Deutsch'
     TranslateResourceStrings = True
     CurrentLangChanging = bsMCurrentLangChanging
     Left = 72

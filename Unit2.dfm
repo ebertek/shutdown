@@ -1,5 +1,5 @@
 object about: Tabout
-  Left = 255
+  Left = 307
   Top = 293
   Hint = 'N'#233'vjegy'
   BorderStyle = bsDialog
@@ -973,10 +973,21 @@ object about: Tabout
         Transparent = True
         IsControl = True
       end
+      object Label1: TLabel
+        Left = 80
+        Top = 88
+        Width = 129
+        Height = 39
+        Caption = 
+          'This program is freeware.'#13#10'If you like it, please donate!'#13#10'http:' +
+          '//shutdown.sf.net/'
+        Color = 8947967
+        ParentColor = False
+      end
     end
     object OKButton: TButton
-      Left = 119
-      Top = 164
+      Left = 104
+      Top = 160
       Width = 75
       Height = 25
       Hint = 'Visszat'#233'r'#233's a programhoz'

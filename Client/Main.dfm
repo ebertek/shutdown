@@ -871,7 +871,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 32946.831925092600000000
+          Date = 32946.690961504630000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -946,44 +946,33 @@ object Shutdown: TShutdown
       object CountDown: TTabSheet
         Caption = 'CountDown'
         ImageIndex = 1
-        object Idozito: TDateTimePicker
-          Left = 16
-          Top = 16
-          Width = 89
-          Height = 21
-          Hint = 'Itt adhat'#243' meg, hogy h'#225'ny perc m'#250'lva kapcsoljon ki a g'#233'p'#252'nk'
-          Date = 38024.000000000000000000
-          Time = 38024.000000000000000000
-          Kind = dtkTime
-          TabOrder = 0
-        end
         object Set2: TBitBtn
-          Left = 112
+          Left = 152
           Top = 16
           Width = 69
           Height = 24
           Hint = 'A be'#225'll'#237't'#225'sok '#233'rv'#233'nybe hozatala'
           Caption = 'Be'#225'll'#237't'#225's'
-          TabOrder = 1
+          TabOrder = 0
           OnClick = Set2Click
         end
         object Canc2: TBitBtn
-          Left = 112
+          Left = 152
           Top = 40
           Width = 69
           Height = 24
           Hint = 'A le'#225'll'#237't'#225's meg'#225'll'#237't'#225'sa'
           Caption = 'M'#233'gsem'
-          TabOrder = 2
+          TabOrder = 1
           OnClick = Canc1Click
         end
         object Save2: TBitBtn
-          Left = 184
+          Left = 224
           Top = 16
           Width = 24
           Height = 24
           Hint = 'Be'#225'll'#237't'#225'sok ment'#233'se'
-          TabOrder = 3
+          TabOrder = 2
           OnClick = Save2Click
           Glyph.Data = {
             76010000424D7601000000000000760000002800000020000000100000000100
@@ -1010,6 +999,46 @@ object Shutdown: TShutdown
           BevelOuter = bvLowered
           Align = alBottom
           ParentColor = True
+        end
+        object CD1: TLMDSpinEdit
+          Left = 16
+          Top = 16
+          Width = 41
+          Height = 21
+          Bevel.Mode = bmWindows
+          Caret.BlinkRate = 530
+          TabOrder = 4
+          AutoSelect = True
+          CustomButtons = <>
+          MaxValue = 23
+          DateTime = 0.000000000000000000
+        end
+        object CD2: TLMDSpinEdit
+          Left = 56
+          Top = 16
+          Width = 41
+          Height = 21
+          Bevel.Mode = bmWindows
+          Caret.BlinkRate = 530
+          TabOrder = 5
+          AutoSelect = True
+          CustomButtons = <>
+          MaxValue = 59
+          Value = 30
+          DateTime = 0.000000000000000000
+        end
+        object CD3: TLMDSpinEdit
+          Left = 96
+          Top = 16
+          Width = 41
+          Height = 21
+          Bevel.Mode = bmWindows
+          Caret.BlinkRate = 530
+          TabOrder = 6
+          AutoSelect = True
+          CustomButtons = <>
+          MaxValue = 59
+          DateTime = 0.000000000000000000
         end
       end
       object IPing: TTabSheet
@@ -1379,6 +1408,7 @@ object Shutdown: TShutdown
     Active = False
     ClientType = ctNonBlocking
     Port = 381
+    OnError = ClientError
     Left = 496
     Top = 120
   end
