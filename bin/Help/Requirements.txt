@@ -1,0 +1,22 @@
+An Optimal System for Shutdown Monster:
+
+1. A PC that can be turned on and works normally
+2. A 400 MHz processor
+3. 64 MiB RAM
+4. A display that works in 1024*768@16bpp
+5. Windows XP
+6. 15 MiB free disk space
+7. 128 kbps Internet connection
+
+
+
+Egy optimális rendszer a Shutdown Monster részére:
+
+1. Egy számítógép, amit be lehet kapcsolni és mûködik is
+2. Egy 400 MHz-s processzor
+3. 64 MiB RAM
+4. Egy kijelzõ, ami 1024*768-ban és 16 bites színmélységben mûködik
+5. Windows XP
+6. 15 MiB szabad hely
+7. 128 kbps-os internetkapcsolat
+

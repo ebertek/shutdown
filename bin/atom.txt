@@ -1,0 +1,16 @@
+time.nist.gov
+time.windows.com
+time-a.nist.gov
+time-b.nist.gov
+time-a.timefreq.bldrdoc.gov
+time-b.timefreq.bldrdoc.gov
+time-c.timefreq.bldrdoc.gov
+utcnist.colorado.edu
+time-nw.nist.gov
+nist1.symmetricom.com
+nist1-dc.glassey.com
+nist1-ny.glassey.com
+nist1-sj.glassey.com
+nist1.aol-ca.truetime.com
+nist1.aol-va.truetime.com
+nist1.datum.com

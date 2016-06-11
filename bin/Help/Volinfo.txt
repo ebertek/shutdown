@@ -1,0 +1,16 @@
+Product Name:   Shutdown Monster
+Codename:       Rebirth
+Platform:       Windows 98 and up
+Language:       English, German, French, Hungarian
+Media No:       CD 1
+Build No:       4.0.5.2
+MF No:          001
+Date Mastered:  May 23, 2006
+
+
+Shutdown Monster Server
+Build No: 4.0.5.2 (\\ebiSoft\Shutdown Monster\Shutd.exe)
+
+Shutdown Monster Client
+Build No: 1.0.0.13 (\\ebiSoft\Shutdown Monster\ShutdC.exe)
+

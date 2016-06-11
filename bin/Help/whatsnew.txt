@@ -1,0 +1,216 @@
+Shutdown Monster "Rebirth" - 4.0.5.2                        GPL 2.0 open source
+by ebiSoft                                                           05/23/2006
+===============================================================================
+
+  ----------
+  What's new
+  ----------
+
+  Legend:
+
+    - = Deleted
+    ! = Bug fixed
+    * = Updated
+    + = New
+
+Version Rebirth - 4.1.0		Not yet started		'Process' and 'Scheduling'
+Released [xx/xx/2006]
+-*-Localization: If there are no language files installed, the captions will be in English, not in Hungarian **NOT YET FINISHED**
+-+-Process: New mode -- 'Shutdown if a process has stopped' **NOT YET IMPLEMENTED**
+-+-Scheduling: Scheduling service added **NOT EVEN STARTED**
+
+Version Rebirth - 4.0.5.2	Official		Bugfixes
+Released [05/23/2006]
+ ! Parameters: Using '-', '--' or '/' prefix really works now
+ ! Accessibility: A normal menu is shown when you click in the upper left corner
+ ! Accessibility: The default window position is not the upper left corner of the screen anymore
+ ! Interface: The Monster logo won't get hidden if the 'Always on top' function is enabled
+ ! Accessibility: The systray icon is not showed if Shutdown Monster should be completely hidden... (thanks to an unknown man for finding this bug)
+ * Localization: Languages.ini uses UTF-8 coding
+ * Interface: Some labels are repositioned to make the French texts fit in
+ * Saving: Everything is saved upon exit **WILL ADD A CHECKBOX IN THE NEXT VERSION**
+ * Interface: The icon looks better
+ + Localization: French language file added; translated by Nico220 -- thank you! **NOT COMPLETE**
+
+Version Rebirth - 4.0.5		Official		Bugfixes
+Released [05/09/2006]
+ - Bundling: .beats is not included anymore
+ ! Localization: 'Clear temporary files' -> 'Clear temporary stuff'
+ ! Logging: logs those things only that really happened (more or less)
+ ! Accessibility: The window is visible when it should be and is minimized when it should be (hopefully; fourth try)
+ ! Atomic clock: Deleting atom.txt doesn't generate exception
+ ! Countdown: The SysTray icon shows remaining time normally
+ ! Shutdown: The program won't get into an infinite loop if the default command doesn't require any power-saving functions (i.e., if default command is Alarm, Screensaver, Eject CD, CTIF, etc.)
+ ! Automatic shutdown: 'Shutdown Every Day' should work now (thanks go to Stephen Richards for finding this bug)
+ ! Shutdown: Hibernation works normally (thanks go to Arne (pi82) for finding the bug)
+ * Interface: Uses Segoe UI (Vista's default font); some items are repositioned to make it look more 'symmetrical'
+ * Source: Ported to Delphi 2006 -> uses Indy 10, JVCL, doesn't use RXLib anymore. 'Sky' is no longer available
+ * Shutdown: Shutdown for Sure enhanced
+ * Parameters: Parameters can have a '-', '/' or '--' prefix
+ + Logging: Verbose logging added. Launch Shutdown Monster with the parameter 'v' to use it
+ + CPU usage: 'Shutdown only if there is no data input' should work now (but it is off by default, for stability and security purposes)
+
+Version Ocean - 4.0.4		Official		Bugfixes
+Released [10/02/2005]
+ - 'Parental control' removed
+ - 'Shutdown only if there is no data input' currently not working
+ ! 'Shutdown only if there is no data input' bugfixing started (currently not working - but it will in next version!)
+ ! Application really gets minimized when checkbox is checked
+ ! A space (' ') was missing from the SysTray icon's hint (when using CPU-usage-based shutdown)
+ ! Changing the language won't screw up the default command
+ ! Master volume is faded down, not only the Wave
+ ! Saving bugfixes (for 'Countdown')
+ ! Icon on the taskbar isn't showed when the program minimizes itself.... (third try)
+ ! Loading bugfixes (default command and some other stuffs are now loaded for sure, finally)
+ ! Volume was always turned down - no matter if the checkbox was checked or not
+ * More things show up at the splash screen
+ * 'Clear temporary files' clears more stuff (i.e.: Recycle Bin, IE's Temporary Internet Files, Common Dialog's MRUs, Run Dialog's MRUs)
+ + Application can be fully hidden on launch
+ + You can select between different configurations
+
+Version Ocean - 4.0.3		Official		Splash screen
+Released [09/09/2005]
+ ! Missing translations fixed
+ ! The 'About' and the countdown forms are created only when they're needed - hopefully the program uses less memory
+ ! 'Launch before shutdown' works normally
+ ! Icon on the tray isn't showed when the program minimizes itself; ergh! I can't believe I'm so lame that I have to fix everything twice to make it work properly! Dammit.
+ * .beats updated
+ + Splash screen
+
+Version Ocean - 4.0.2		Official		Some parts of the program were in Hungarian only
+Released [08/30/2005]
+ ! Missing translations fixed
+ ! Everything uses Settings.ini; Shutdown.ini isn't created anymore
+ ! Installer overwrites language files - I don't know whether it's good or not; e.g. if you have your own translations, they won't work perfectly, since Languages.ini is overwritten
+ + Check for updates automagically
+ + Includes .beats, which is a clock that can show the: Internet Time, Dime (Decimal Time) and of course the 'normal' Time. You can choose which time zone to use: your own (Local), UT (GMT) or CET
+
+Version Ocean - 4.0.1		Official		SysTray-specific bugfixes
+Released [08/27/2005]
+ ! Icon on the tray isn't showed when you minimize the program
+ ! Clicking on the SysTray icon brings the application window to the front; when minimized, double-click is needed
+ ! Time remaining shown in the SysTray (when using Countdown) works properly (hopefully)
+ * Settings.ini is used instead of Shutdown.ini
+ * The SysTray icon's hints work always, not only when using Countdown
+
+Version Ocean - 4.0		Official		More precise timing
+Released [08/01/2005]
+ ! Volume is set back after next launch (if 'Start on system launch' and 'Fade out volume before shutdown' are checked)
+ ! The SysTray icon's hint displays the remaining time correctly (hours, minutes or seconds), this time not only for the first second :P
+ ! 'Check for Updates' (C4U) and 'Synchronize time' functions work in low priority --> won't make the program freeze down
+ * "Shutdown for Sure" changed (checking 36 times in 180 seconds (5 seconds intervals) became checking once, after 2 minutes :]). The 'second try' is forced in any case, ensuring that your PC will really shut down
+ * Timing (Countdown, CPU usage) works in high priority --> they're more precise
+
+Version Ocean - 4.0		Beta (RC1)		Shutdown if CPU usage is low!
+Released [07/20/2005]
+ !* About box bugfixed and updated (sorry, Monsty is removed from the about box :P)
+ * The tray icon is always visible
+ * New Monster! The New Generation!
+ + Fade out volume before shutdown
+ + Shutdown if CPU usage is low
+
+Version Ocean - 3.2.32.32	Official		Languages working again :)
+Released [05/30/2005]
+ ! Language-loading bugfix
+ * Translation finished
+
+Version X - 3.2.0.14		Never released		SysTray icon shows the remaining time properly
+ ! Atomic Clock bugfix. Maybe it will really time out after 7 seconds
+ * The SysTray icon's hint displays the remaining time correctly (hours, minutes or seconds)
+ * Command-line parameters shortened
+ * German language available again (but the languages are still not completely finished)
+
+Version X - 3.2.0.13		fix.tv release		Had to re-release, because I deleted the previous file :-/
+Released [01/21/2005]
+ * Just a re-release
+
+Version X - 3.2.0.12		fix.tv release		Uses "Shutdown for Sure" technology. Now it "Shuts Down for Sure"!
+Released [01/20/2005]
+ ! Atomic Clock times out after 7 seconds
+ ! The tab key works well again
+ ! Added a "Shutdown for Sure" timer. If the PC should be already off, but it isn't, it'll shutdown it again. Checks every 5 seconds, for 180 seconds (36 times).
+ ! Lot of major and minor bugfixes
+ * Ported to Delphi 2005
+
+Version Halloween - 3.2.0.11	Official		Face-up: Halloween Monsta, new images on the buttons
+Released [10/31/2004]
+ ! Announcer-checkbox loading/saving bugfix
+ * Changed some glyphs on the buttons :P
+ * Halloween Monster
+ * Version number is shown in the about box
+
+Version X - 3.2.0.10		Official		Windows-hints :)
+Released [10/23/2004]
+ ! Saving bugfix, again
+ * Hints are the ones used by Windows
+
+Version X - 3.2.0.9		Never released	Talkback to Client
+ ! Saving bugfix
+ ! Logging updated, logs commands given on 'Fast Access' tab
+ + Feedback when Server gets a command (experimental)
+
+Version X - 3.2.0.8		Official		Size drop (.BPLs not included)
+Released [10/15/2004]
+ ! Uses port 38100 -> port not used by any other applications
+ ! You can download necessary files in a separate package -> huge size drop (486 KB -> 132 KB)
+   You have to download the package only once (1.76 MB)!
+   http://shutdown.sf.net/shutdown/bpl.exe
+
+Version 3.2.0.7			Official		C/S fixes
+Released [10/12/2004]
+ ! Client/Server fixes
+
+Version 3.2.0.6		Never released		Now it works everywhere in the World :)
+ ! 'Countdown' didn't work in countries using AM/PM (in England, in the USA, etc.)
+
+Version 3.2.0.5			Official		Standby
+Released [10/08/2004]
+ - Plug-in part removed
+ ! 'Standby' finished
+ ! Some improvements in the German language file
+
+Version 3.2.0.4			Never released	Standby
+ - Some things are deleted from the SysTray icon's menu
+ + 'Standby' added
+
+Version 3.2.0.3			Never released	C4U works :)
+ ! 'Check for Updates' bugfix
+
+Version 3.2.0.2			Never released	C4U works better
+ * 'Check for updates' enhanced
+
+Version 3.2.0.1			Hotfix		Client/Server Works with spaces
+Released [10/05/2004]
+ ! Minor Client/Server bugfix
+
+Version 3.2.0.0			Official		German language updates
+Released [10/04/2004]
+ ! Some GUI improvements for the German language file
+ !* Official release, German language file updated
+
+Version 3.1.0.53		Beta		Face-up to the Client
+Released [10/02/2004]
+ ! Eject CD/Close Tray improved
+ * The client looks like the server now
+ !* A lot of bug fixes and enhancements in the client/server part
+
+Version 3.1.0.45		Beta		Remote control
+Released [10/01/2004]
+ + Shutdown Monster is Client/Server now
+
+Version 3.1.0.5			Official		Clearer options, much easier to use
+Released [09/10/2004]
+ ! Some improvements in the German language file
+ * Redesigned the 'Other' tab, it's named 'Advanced' now. It's much easier to use!
+
+Version 3.1.0.3			Official		Enhanced countdown, selectable sound packs
+Released [09/03/2004]
+ - Doesn't use Internet Time anymore
+ ! Some major bugs fixed
+ ! 'Clear Temporary Internet Files' now really clears them
+ ! Doesn't check automatically for update anymore (could freeze computers without active internet connection)
+ * Countdown enhanced (you can type in hours and seconds as well, not only minutes)
+ * You can set the program to synchronize system time automatically
+ + 'Stay always on top' function
+ + Countdown timer (starts 9 seconds before shutdown) with selectable sound packs
+

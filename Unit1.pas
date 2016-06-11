@@ -416,7 +416,7 @@ type
     procedure HotKeySusChange(Sender: TObject);
     procedure annCBClick(Sender: TObject);
   private
-    INI, lini: TINIFile;
+    lini, cini, INI: TINIFile;
     FHookStarted : Boolean;
   public
     UpThread: TUpdateThread;
@@ -924,33 +924,16 @@ end;
 
 procedure TShutdown.DoStart;
 begin
-//*Pre-Checking parameters
-  if (Copy(FinalParam,0,1)='-') or
-     (Copy(FinalParam,0,1)='/')
-     then begin
-    FinalParam:=Copy(FinalParam,2,Length(FinalParam));
-  end;
-  if (Copy(FinalParam,0,2)='--')
-     then begin
-    FinalParam:=Copy(FinalParam,3,Length(FinalParam));
-  end;
-
-  if FinalParam='v' then begin
-     verbose:=True;
-     VLog('Parameter: '+FinalParam);
-  end;
-//*Pre-Checking parameters
-
   if verbose then VLog('STARTING UP...');
   langCB.Text:=StringReplace(SML.LangFileName, '.sml', '', [rfReplaceAll]);
-  langCB.Text:=lini.ReadString('Settings', 'Language', 'English');
+  langCB.Text:=cini.ReadString('Settings', 'Language', 'English');
   langCBSelect(self);
 
   SplashForm.Label1.Caption:=lini.ReadString
     (langCB.Text, 'SF_Pos', 'Restoring position');
   SplashForm.Update;
-  Shutdown.Left:=INI.ReadInteger('Placement', 'Left', 0);
-  Shutdown.Top:=INI.ReadInteger('Placement', 'Top', 0);
+  Shutdown.Left:=INI.ReadInteger('Placement', 'Left', Round(Screen.Width/5));
+  Shutdown.Top:=INI.ReadInteger('Placement', 'Top', Round(Screen.Height/5));
 
   SplashForm.Label1.Caption:=lini.ReadString
     (langCB.Text, 'SF_Data', 'Loading data');
@@ -1104,6 +1087,7 @@ end;
 
 procedure TShutdown.FullHide;
 begin
+  TrayIcon.Active:=False;
   Shutdown.Left:=99999;
   Shutdown.Top:=99999;
   Shutdown.Visible:=False;
@@ -1216,7 +1200,7 @@ procedure TShutdown.ComSave;
 begin
   INI.WriteBool('Settings', 'Force', force.Checked);
   INI.WriteBool('Settings', 'NoWakeEvents', wake_CB.Checked);
-  lini.WriteString('Settings', 'INI', confCB.Text+'.ini');
+  cini.WriteString('Settings', 'INI', confCB.Text+'.ini');
   if defcommand.ItemIndex<>-1 then
     INI.WriteInteger('Command', 'Default', defcommand.ItemIndex) else begin
     defcommand.ItemIndex:=0;
@@ -1240,7 +1224,7 @@ end;
 procedure TShutdown.ComOpen;
 var values: TChannelValues;
 begin
-  confCB.Text:=lini.ReadString('Settings', 'INI', 'Settings.ini');
+  confCB.Text:=cini.ReadString('Settings', 'INI', 'Settings.ini');
   confCB.Text:=StringReplace(confCB.Text, '.ini', '', [rfReplaceAll]);
   force.Checked:=INI.ReadBool('Settings', 'Force', False);
   wake_CB.Checked:=INI.ReadBool('Settings', 'NoWakeEvents', False);
@@ -1981,8 +1965,9 @@ procedure TShutdown.FormCreate(Sender: TObject);
 var sr: TSearchRec;
 begin
   lini := TINIFile.Create(ExtractFilePath(Application.EXEName)+'Languages.ini');
+  cini := TINIFile.Create(ExtractFilePath(Application.EXEName)+'Shutd.ini');
   INI := TINIFile.Create(ExtractFilePath(Application.EXEName)
-    + lini.ReadString('Settings', 'INI', 'Settings.ini'));
+    + cini.ReadString('Settings', 'INI', 'Settings.ini'));
 
   if (FindFirst(ExtractFilePath(Application.EXEName)+'*.sml', faAnyFile, sr)=0)
   then begin
@@ -1999,7 +1984,7 @@ begin
   then begin
     repeat
       if (sr.Name <> '.') and (sr.Name <> '..')
-        and (sr.Name <> 'Languages.ini') then begin
+        and (sr.Name <> 'Languages.ini') and (sr.Name <> 'Shutd.ini') then begin
         sr.Name:=StringReplace(sr.Name, '.ini', '', [rfReplaceAll]);
         confCB.Items.Add(sr.Name);
       end;
@@ -2305,6 +2290,17 @@ end;
 procedure TShutdown.ParamOpener1ParamOpen(Sender: TObject);
 label canexit;
 begin
+
+  if (Copy(FinalParam,0,1)='-') or
+     (Copy(FinalParam,0,1)='/')
+     then begin
+    FinalParam:=Copy(FinalParam,2,Length(FinalParam));
+  end;
+  if (Copy(FinalParam,0,2)='--')
+     then begin
+    FinalParam:=Copy(FinalParam,3,Length(FinalParam));
+  end;
+
   if FinalParam='def' then begin Start.Execute; Application.Terminate;
   goto CanExit;   end else
   if FinalParam='p' then begin PowerOff.Click; Application.Terminate;
@@ -2340,28 +2336,30 @@ begin
   if FinalParam='mon1' then begin mon1.Click; Application.Terminate;
   goto CanExit;   end else
   if FinalParam='temp' then begin BitBtn2.Click; Application.Terminate;
-  goto CanExit;   end;
+  goto CanExit;   end else
+  if FinalParam='v' then begin verbose:=True; VLog('Parameter: '+FinalParam);
+  goto CanExit;   end else
    CanExit:
+
 end;
 
 procedure TShutdown.ontopCBClick(Sender: TObject);
 begin
   if ontopCB.Checked then begin
     FormStyle := fsStayOnTop;
-    logo.Hide;
   end else begin
     FormStyle := fsNormal;
-    logo.Show;
   end
 end;
 
 procedure TShutdown.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  Save4_2.Click;  //saves everything
   INI.WriteInteger('Placement', 'Left', Shutdown.Left);
   INI.WriteInteger('Placement', 'Top', Shutdown.Top);
  if FHookStarted then
     UnhookWindowsHookEx(JHook);
-  ServerSocket1.Active:=False;
+  if ServerSocket1.Active then ServerSocket1.Close;
   if verbose then VLog('CLOSING...');
 end;
 
@@ -2598,6 +2596,7 @@ procedure TShutdown.FormDestroy(Sender: TObject);
 begin
   try
     lini.Free;
+    cini.Free;
     INI.Free;
   except end;
 end;
@@ -2613,7 +2612,7 @@ begin
     ReWrite(f);
     CloseFile(f);
   end;
-  lini.WriteString('Settings', 'INI', confCB.Text+'.ini');
+  cini.WriteString('Settings', 'INI', confCB.Text+'.ini');
   DoOpen;
 end;
 
@@ -2635,7 +2634,7 @@ begin
 
   PingTime.Suffix:=' '+lini.ReadString(langCB.Text, 'Mins', 'minutes');
 
-  lini.WriteString('Settings', 'Language', langCB.Text);
+  cini.WriteString('Settings', 'Language', langCB.Text);
 end;
 
 end.
