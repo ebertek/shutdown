@@ -1247,7 +1247,6 @@ end;
 procedure TShutdown.PowerOffClick(Sender: TObject);
 begin
   DoLog(WhatAmI(Sender));
-  ShowMessage('hi');
   if force.Checked=True then
     MyExitWindows(EWX_POWEROFF or EWX_FORCE)
   else

@@ -1373,7 +1373,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 32946.749137812500000000
+          Date = 32946.805826724540000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1746,7 +1746,7 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett parancs'
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 1
             Text = 'Kikapcsol'#225's'
             Items.Strings = (
@@ -1887,7 +1887,7 @@ object Shutdown: TShutdown
               'Itt v'#225'laszthatod ki, hogy melyik hangcsomagot haszn'#225'lja a progra' +
               'm a visszasz'#225'ml'#225'l'#225'shoz'
             Style = csDropDownList
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 4
           end
         end
@@ -1904,7 +1904,7 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett nyelv'
-            ItemHeight = 13
+            ItemHeight = 0
             TabOrder = 0
             OnChange = langCBChange
           end
