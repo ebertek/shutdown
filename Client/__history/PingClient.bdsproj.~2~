@@ -148,7 +148,7 @@
 			<VersionInfo Name="MajorVer">1</VersionInfo>
 			<VersionInfo Name="MinorVer">0</VersionInfo>
 			<VersionInfo Name="Release">0</VersionInfo>
-			<VersionInfo Name="Build">14</VersionInfo>
+			<VersionInfo Name="Build">12</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">False</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
@@ -160,7 +160,7 @@
 		<VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName">ebiSoft</VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription">Shutdown Monster Client</VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">1.0.0.14</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">1.0.0.12</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName">Shutdown Monster Client</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalCopyright">ebiSoft, 2004</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks">ebiSoft, 2004</VersionInfoKeys>

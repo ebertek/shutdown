@@ -871,7 +871,7 @@ object Shutdown: TShutdown
           Width = 201
           Height = 153
           AutoSize = True
-          Date = 32946.958996388890000000
+          Date = 32946.955992557880000000
           TabOrder = 0
           WeekNumbers = True
         end

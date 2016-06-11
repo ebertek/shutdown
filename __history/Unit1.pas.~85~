@@ -740,6 +740,7 @@ procedure TShutdown.Set4Auto;
 begin
   CPUCheck.Enabled:=True;
   HookNow:=True;
+  HookTimer.Enabled:=True;
   DeMin;
 end;
 
@@ -771,7 +772,6 @@ begin
   PingTime.Value:=INI.ReadInteger('AutoPingShutdown', 'Minute', 10);
   CPU_SE.Value:=INI.ReadInteger('AutoCPUShutdown', 'Usage', 20);
   CPUMin_SE.Value:=INI.ReadInteger('AutoCPUShutdown', 'Minute', 30);
-  Hook_CB.Checked:=INI.ReadBool('AutoCPUShutdown', 'Input', True);
   ontopCB.Checked:=INI.ReadBool('AutoShutdown', 'StayOnTop', False);
   defcommand.ItemIndex:=INI.ReadInteger('Command', 'Default', 0);
   if defcommand.ItemIndex=-1 then defcommand.ItemIndex:=0;
@@ -1486,20 +1486,16 @@ begin
   GHH.HotKey:=HotKeyHib.HotKey;
 end;
 
-procedure TShutdown.SaveHKClick(Sender: TObject);  //this saves all the things
+procedure TShutdown.SaveHKClick(Sender: TObject);
 begin
   if auto2.Checked=True then begin
     AutoToReg;
     INI.WriteBool('AutoStart', 'Enabled', True);
   end;
+  HotKeySave;
   ComSave;
   UserSave;
-  HotKeySave;
   WaveSave;
-  Set4Save;
-  Set3Save;
-  Set2Save;
-  Set1Save;
 end;
 
 procedure TShutdown.LockWSClick(Sender: TObject);
@@ -2033,11 +2029,6 @@ procedure TShutdown.CPUCheckTimer(Sender: TObject);
 begin
   if usage<CPU_SE.Value then begin
     CPUOff.Interval:=CPUMin_SE.Value*60000;
-    if Hook_CB.Checked then begin
-      HookTimer.Interval:=CPUOff.Interval;
-      BitBtn3Click(self);
-      HookTimer.Enabled:=True;
-    end;
     CPUOff.Enabled:=True
   end else
     CPUOff.Enabled:=False;

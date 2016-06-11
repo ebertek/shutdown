@@ -871,7 +871,7 @@ object Shutdown: TShutdown
           Width = 201
           Height = 153
           AutoSize = True
-          Date = 32946.958996388890000000
+          Date = 32946.954918877320000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1463,30 +1463,5 @@ object Shutdown: TShutdown
     OnTimer = OnStartTimer
     Left = 528
     Top = 120
-  end
-  object sml: TsmlFormLangRes
-    LangFileName = 'Magyar.sml'
-    IgnoreEmptyString = True
-    AutoCreateMode = True
-    AddBracket = False
-    Version = '1.6'
-    StringProperties.Strings = (
-      'Caption'
-      'Hint'
-      'Filter')
-    StringsProperties.Strings = (
-      'Tabs'
-      'Items')
-    IgnoreControls.Strings = (
-      'ann_CB'
-      'langCB'
-      'atom_servers')
-    IgnoreFormCaption = True
-    IncludeListViewItems = True
-    IncludeListViewHead = True
-    IncludeTreeViewItems = True
-    Active = True
-    Left = 352
-    Top = 264
   end
 end

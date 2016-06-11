@@ -740,6 +740,7 @@ procedure TShutdown.Set4Auto;
 begin
   CPUCheck.Enabled:=True;
   HookNow:=True;
+  HookTimer.Enabled:=True;
   DeMin;
 end;
 
@@ -2033,11 +2034,6 @@ procedure TShutdown.CPUCheckTimer(Sender: TObject);
 begin
   if usage<CPU_SE.Value then begin
     CPUOff.Interval:=CPUMin_SE.Value*60000;
-    if Hook_CB.Checked then begin
-      HookTimer.Interval:=CPUOff.Interval;
-      BitBtn3Click(self);
-      HookTimer.Enabled:=True;
-    end;
     CPUOff.Enabled:=True
   end else
     CPUOff.Enabled:=False;

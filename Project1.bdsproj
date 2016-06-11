@@ -120,7 +120,7 @@
 			<Directories Name="PackageDLLOutputDir"></Directories>
 			<Directories Name="PackageDCPOutputDir"></Directories>
 			<Directories Name="SearchPath"></Directories>
-			<Directories Name="Packages">rtl;vclx;vcl;dclebi;ABCC;dbrtl;vcldbx;vcldb;bdertl;IndySystem;IndyCore;IndyProtocols;SUIPackD9;xmlrtl;vclie;inet;inetdbbde;inetdbxpress;SMLPackD9;VclSmp</Directories>
+			<Directories Name="Packages">rtl;vclx;vcl;indy;CoolTrayIcon_D6plus;dclebi;dbrtl;SMLPackD9;vcldb;SUIPackD9;VclSmp</Directories>
 			<Directories Name="Conditionals"></Directories>
 			<Directories Name="DebugSourceDirs"></Directories>
 			<Directories Name="UsePackages">False</Directories>
@@ -146,20 +146,20 @@
 			<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
 			<VersionInfo Name="AutoIncBuild">False</VersionInfo>
 			<VersionInfo Name="MajorVer">3</VersionInfo>
-			<VersionInfo Name="MinorVer">2</VersionInfo>
+			<VersionInfo Name="MinorVer">3</VersionInfo>
 			<VersionInfo Name="Release">0</VersionInfo>
-			<VersionInfo Name="Build">12</VersionInfo>
+			<VersionInfo Name="Build">0</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">False</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
 			<VersionInfo Name="Private">False</VersionInfo>
 			<VersionInfo Name="DLL">False</VersionInfo>
-			<VersionInfo Name="Locale">1038</VersionInfo>
-			<VersionInfo Name="CodePage">1250</VersionInfo>
+			<VersionInfo Name="Locale">1033</VersionInfo>
+			<VersionInfo Name="CodePage">1252</VersionInfo>
 		</VersionInfo>
 		<VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">3.2.0.12</VersionInfoKeys>
-			<VersionInfoKeys Name="ProductVersion">X - 2005</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">3.3.0.0</VersionInfoKeys>
+			<VersionInfoKeys Name="ProductVersion">Ocean - 2005</VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName">ebiSoft</VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription">Shutdown Monster Server</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName">Shutdown Monster</VersionInfoKeys>
@@ -168,17 +168,17 @@
 			<VersionInfoKeys Name="OriginalFilename">Shutd.exe</VersionInfoKeys>
 			<VersionInfoKeys Name="ProductName">Shutdown Monster</VersionInfoKeys>
 		</VersionInfoKeys>  <Excluded_Packages>
-      <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dcldbx90.bpl">Borland dbExpress Components</Excluded_Packages>
-      <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclwbm90.bpl">Borland InternetExpress Components</Excluded_Packages>
-      <Excluded_Packages Name="C:\Program Files\Borland\BDS\3.0\Bin\dclmid90.bpl">Borland MyBase DataAccess Components</Excluded_Packages>
+      <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dcl31w90.bpl">Delphi 1.0 Compatibility Components</Excluded_Packages>
+      <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclsmpedit90.bpl">Borland Editor Script Enhancements</Excluded_Packages>
+      <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclemacsedit90.bpl">Borland Editor Emacs Enhancements</Excluded_Packages>
+      <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclmlwiz90.bpl">Borland Markup Language Wizards</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dcltee90.bpl">TeeChart Components</Excluded_Packages>
+      <Excluded_Packages Name="C:\Program Files\Borland\Components\RX\Units\dclrxdb2005.bpl">RX Library Database Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\bin\dclado90.bpl">Borland ADO DB Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclib90.bpl">Borland InterBase Express Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclIntraweb_72_90.bpl">Intraweb 7.2 Design Package for Delphi Win32</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclofficexp90.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
-      <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclsmp90.bpl">Borland Sample Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclsoap90.bpl">Borland SOAP Components</Excluded_Packages>
-      <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dcl31w90.bpl">Delphi 1.0 Compatibility Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dbwebxprt.bpl">Borland Web Wizard Package</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclie90.bpl">Internet Explorer Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclwebsnap90.bpl">Borland WebSnap Components</Excluded_Packages>
@@ -187,20 +187,7 @@
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclmcn90.bpl">Borland DataSnap Connection Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dcldbxcds90.bpl">Borland SimpleDataset Component (DBX)</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclact90.bpl">Borland ActionBar Components</Excluded_Packages>
-      <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclsmpedit90.bpl">Borland Editor Script Enhancements</Excluded_Packages>
-      <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclemacsedit90.bpl">Borland Editor Emacs Enhancements</Excluded_Packages>
-      <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclmlwiz90.bpl">Borland Markup Language Wizards</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\applet90.bpl">Borland Control Panel Applet Package</Excluded_Packages>
-      <Excluded_Packages Name="c:\program files\borland\bds\3.0\RaveReports\Lib\dclRave.bpl">Rave Reports 6.0 BE Package</Excluded_Packages>
-      <Excluded_Packages Name="C:\Program Files\Borland\BDS\3.0\Bin\dcldss90.bpl">Borland Decision Cube Components</Excluded_Packages>
-      <Excluded_Packages Name="C:\Program Files\Borland\BDS\3.0\Bin\dclisp90.bpl">Borland Internet Solutions Pack Components</Excluded_Packages>
-      <Excluded_Packages Name="C:\Program Files\Borland\BDS\3.0\Bin\dclocx90.bpl">Borland Sample Imported ActiveX Controls</Excluded_Packages>
-      <Excluded_Packages Name="C:\Program Files\Borland\BDS\3.0\Bin\deployftptarget90.bpl">Borland Deployment Manager FTP Target Package</Excluded_Packages>
-      <Excluded_Packages Name="C:\Program Files\Borland\BDS\3.0\Bin\designdgm90.bpl">Borland Module Diagram Editview</Excluded_Packages>
-      <Excluded_Packages Name="C:\Program Files\Borland\BDS\3.0\Bin\direct90.bpl">Borland Direct IDE Package</Excluded_Packages>
-      <Excluded_Packages Name="C:\Program Files\Borland\BDS\3.0\Bin\exceptiondiag90.bpl">Borland IDE Exception Diagnostics - with JEDI Code Library</Excluded_Packages>
-      <Excluded_Packages Name="C:\Program Files\Borland\BDS\3.0\Bin\itectrls90.bpl">ITE Controls</Excluded_Packages>
-      <Excluded_Packages Name="C:\Program Files\Borland\BDS\3.0\Bin\stride90.bpl">String Resource Editor IDE Package</Excluded_Packages>
     </Excluded_Packages>
   </Delphi.Personality>
 </BorlandProject>

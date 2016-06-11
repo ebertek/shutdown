@@ -5,12 +5,12 @@
 			<Option Name="Personality">Delphi.Personality</Option>
 			<Option Name="ProjectType"></Option>
 			<Option Name="Version">1.0</Option>
-			<Option Name="GUID">{1EF36036-8CF8-433B-BE94-7DFB8445A73A}</Option>
+			<Option Name="GUID">{5DFE87C9-68B5-431A-B214-F16CE6C79BDE}</Option>
 		</Option>
 	</PersonalityInfo>
 	<Delphi.Personality>
 		<Source>
-			<Source Name="MainSource">PingClient.dpr</Source>
+			<Source Name="MainSource">Project1.dpr</Source>
 		</Source>
 		<FileVersion>
 			<FileVersion Name="Version">7.0</FileVersion>
@@ -112,7 +112,7 @@
 			<Linker Name="MinStackSize">16384</Linker>
 			<Linker Name="MaxStackSize">1048576</Linker>
 			<Linker Name="ImageBase">4194304</Linker>
-			<Linker Name="ExeDescription"></Linker>
+			<Linker Name="ExeDescription">Shutdown Monster</Linker>
 		</Linker>
 		<Directories>
 			<Directories Name="OutputDir"></Directories>
@@ -120,7 +120,7 @@
 			<Directories Name="PackageDLLOutputDir"></Directories>
 			<Directories Name="PackageDCPOutputDir"></Directories>
 			<Directories Name="SearchPath"></Directories>
-			<Directories Name="Packages">rtl;vclx;vcl;dclebi;ABCC;dbrtl;vcldbx;vcldb;bdertl;IndySystem;IndyCore;IndyProtocols;SUIPackD9;xmlrtl;vclie;inet;inetdbbde;inetdbxpress;SMLPackD9;VclSmp;dbexpress;dbxcds;webdsnap;dsnap;teeui;teedb;tee;adortl;vclib;ibxpress;IntrawebDB_72_90;Intraweb_72_90;dclOfficeXP;soaprtl;websnap;vclactnband;vclshlctrls;dsnapcon;Rave60VCL;dss</Directories>
+			<Directories Name="Packages">rtl;vclx;vcl;indy;CoolTrayIcon_D6plus;dclebi;dbrtl;SMLPackD9;vcldb;SUIPackD9;VclSmp</Directories>
 			<Directories Name="Conditionals"></Directories>
 			<Directories Name="DebugSourceDirs"></Directories>
 			<Directories Name="UsePackages">False</Directories>
@@ -140,15 +140,15 @@
 		<Language>
 			<Language Name="ActiveLang"></Language>
 			<Language Name="ProjectLang">$00000000</Language>
-			<Language Name="RootDir">C:\Program Files\Borland\Delphi7\Bin\</Language>
+			<Language Name="RootDir"></Language>
 		</Language>
 		<VersionInfo>
 			<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
-			<VersionInfo Name="AutoIncBuild">True</VersionInfo>
-			<VersionInfo Name="MajorVer">1</VersionInfo>
-			<VersionInfo Name="MinorVer">0</VersionInfo>
-			<VersionInfo Name="Release">0</VersionInfo>
-			<VersionInfo Name="Build">14</VersionInfo>
+			<VersionInfo Name="AutoIncBuild">False</VersionInfo>
+			<VersionInfo Name="MajorVer">3</VersionInfo>
+			<VersionInfo Name="MinorVer">2</VersionInfo>
+			<VersionInfo Name="Release">32</VersionInfo>
+			<VersionInfo Name="Build">32</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">False</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
@@ -158,16 +158,15 @@
 			<VersionInfo Name="CodePage">1250</VersionInfo>
 		</VersionInfo>
 		<VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">3.2.32.32</VersionInfoKeys>
+			<VersionInfoKeys Name="ProductVersion">Ocean - 2005</VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName">ebiSoft</VersionInfoKeys>
-			<VersionInfoKeys Name="FileDescription">Shutdown Monster Client</VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">1.0.0.14</VersionInfoKeys>
-			<VersionInfoKeys Name="InternalName">Shutdown Monster Client</VersionInfoKeys>
-			<VersionInfoKeys Name="LegalCopyright">ebiSoft, 2004</VersionInfoKeys>
-			<VersionInfoKeys Name="LegalTrademarks">ebiSoft, 2004</VersionInfoKeys>
-			<VersionInfoKeys Name="OriginalFilename">ShutdC.exe</VersionInfoKeys>
-			<VersionInfoKeys Name="ProductName">Shutdown Monster Client</VersionInfoKeys>
-			<VersionInfoKeys Name="ProductVersion">X - 2004</VersionInfoKeys>
-			<VersionInfoKeys Name="Comments">Client for Shutdown Monster</VersionInfoKeys>
+			<VersionInfoKeys Name="FileDescription">Shutdown Monster Server</VersionInfoKeys>
+			<VersionInfoKeys Name="InternalName">Shutdown Monster</VersionInfoKeys>
+			<VersionInfoKeys Name="LegalCopyright">ebiSoft, 2003-2005</VersionInfoKeys>
+			<VersionInfoKeys Name="LegalTrademarks">ebiSoft, 2003-2005</VersionInfoKeys>
+			<VersionInfoKeys Name="OriginalFilename">Shutd.exe</VersionInfoKeys>
+			<VersionInfoKeys Name="ProductName">Shutdown Monster</VersionInfoKeys>
 		</VersionInfoKeys>  <Excluded_Packages>
       <Excluded_Packages Name="C:\Program Files\Borland\BDS\3.0\Bin\dcldb90.bpl">Borland Database Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclnet90.bpl">Borland Internet Components</Excluded_Packages>
@@ -179,6 +178,10 @@
       <Excluded_Packages Name="C:\Program Files\Borland\BDS\3.0\Bin\dclmid90.bpl">Borland MyBase DataAccess Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dcltee90.bpl">TeeChart Components</Excluded_Packages>
       <Excluded_Packages Name="C:\Program Files\Borland\Components\RX\Units\dclrxdb2005.bpl">RX Library Database Components</Excluded_Packages>
+      <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dcl31w90.bpl">Delphi 1.0 Compatibility Components</Excluded_Packages>
+      <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclsmpedit90.bpl">Borland Editor Script Enhancements</Excluded_Packages>
+      <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclemacsedit90.bpl">Borland Editor Emacs Enhancements</Excluded_Packages>
+      <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclmlwiz90.bpl">Borland Markup Language Wizards</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\bin\dclado90.bpl">Borland ADO DB Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclib90.bpl">Borland InterBase Express Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclIntraweb_72_90.bpl">Intraweb 7.2 Design Package for Delphi Win32</Excluded_Packages>

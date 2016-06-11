@@ -123,14 +123,17 @@ implementation
 
 procedure TShutdown.ComSave;
 begin
-  lini.WriteString('Settings', 'Language', langCB.Text);
-  INI.WriteString('AutoShutdown', 'IP', IP_Edit.Text);
+//  lini.WriteString('Settings', 'Language', bsM.CurrentLang);
+//  INI.WriteString('AutoShutdown', 'IP', IP_Edit.Text);
 end;
 
 procedure TShutdown.ComOpen;
+//var
+//  i: integer;
 begin
-  langCB.Text:=lini.ReadString('Settings', 'Language', 'English');
-  langCBChange(self);
+//  for i:=0 to bsM.LangCount-1 do
+//   langCB.Items.Add(bsM.Langs[i]);
+//  bsM.CurrentLang:=lini.ReadString('Settings', 'Language', 'English');
   IP_Edit.Text:=INI.ReadString('AutoShutdown', 'IP', '127.0.0.1');
 end;
 
@@ -295,10 +298,7 @@ end;
 
 procedure TShutdown.langCBChange(Sender: TObject);
 begin
-  sml.LangFileName := langCB.Text+'.sml';
-
-  PingTime.Suffix:=' '+lini.ReadString(langCB.Text, 'Mins', 'minutes');
-
+//  bsM.CurrentLang:=langCB.Text;
   ComSave;
 end;
 
@@ -318,19 +318,9 @@ begin
 end;
 
 procedure TShutdown.FormCreate(Sender: TObject);
-var sr: TSearchRec;
 begin
   INI := TINIFile.Create(ExtractFilePath(Application.EXEName) + 'ShutdC.ini');
   lini:= TINIFile.Create(ExtractFilePath(Application.EXEName) + 'Languages.ini');
-  if (FindFirst(ExtractFilePath(Application.EXEName)+'*.sml', faAnyFile, sr) = 0) then begin
-    repeat
-      if (sr.Name <> '.') and (sr.Name <> '..') then begin
-        sr.Name:=StringReplace(sr.Name, '.sml', '', [rfReplaceAll]);
-        langCB.Items.Add(sr.Name);
-      end;
-    until (FindNext(sr)<>0);
-    FindClose(sr);
-  end;
 end;
 
 procedure TShutdown.bsMCurrentLangChanging(Sender: TObject; OldLanguage,

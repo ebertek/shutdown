@@ -740,6 +740,7 @@ procedure TShutdown.Set4Auto;
 begin
   CPUCheck.Enabled:=True;
   HookNow:=True;
+  HookTimer.Enabled:=True;
   DeMin;
 end;
 
@@ -1486,7 +1487,7 @@ begin
   GHH.HotKey:=HotKeyHib.HotKey;
 end;
 
-procedure TShutdown.SaveHKClick(Sender: TObject);  //this saves all the things
+procedure TShutdown.SaveHKClick(Sender: TObject);
 begin
   if auto2.Checked=True then begin
     AutoToReg;
@@ -1496,10 +1497,10 @@ begin
   UserSave;
   HotKeySave;
   WaveSave;
-  Set4Save;
-  Set3Save;
-  Set2Save;
   Set1Save;
+  Set2Save;
+  Set3Save;
+  Set4Save;
 end;
 
 procedure TShutdown.LockWSClick(Sender: TObject);
@@ -2033,11 +2034,6 @@ procedure TShutdown.CPUCheckTimer(Sender: TObject);
 begin
   if usage<CPU_SE.Value then begin
     CPUOff.Interval:=CPUMin_SE.Value*60000;
-    if Hook_CB.Checked then begin
-      HookTimer.Interval:=CPUOff.Interval;
-      BitBtn3Click(self);
-      HookTimer.Enabled:=True;
-    end;
     CPUOff.Enabled:=True
   end else
     CPUOff.Enabled:=False;

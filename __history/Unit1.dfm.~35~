@@ -867,7 +867,7 @@ object Shutdown: TShutdown
       Width = 656
       Height = 349
       Hint = 'V'#225'lassz ki egy f'#252'let!'
-      ActivePage = Time
+      ActivePage = TabSheet1
       Align = alClient
       MultiLine = True
       TabOrder = 1
@@ -1373,7 +1373,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 32946.735876215280000000
+          Date = 32946.614070810190000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1624,7 +1624,7 @@ object Shutdown: TShutdown
         end
       end
       object TabSheet1: TTabSheet
-        Caption = 'CPU haszn'#225'lts'#225'g'
+        Caption = 'TabSheet1'
         ImageIndex = 7
         object Label1: TLabel
           Left = 16
@@ -1696,7 +1696,7 @@ object Shutdown: TShutdown
           Width = 24
           Height = 24
           Hint = 'Be'#225'll'#237't'#225'sok ment'#233'se'
-          TabOrder = 4
+          TabOrder = 2
           OnClick = Save4Click
           Glyph.Data = {
             76010000424D7601000000000000760000002800000020000000100000000100
@@ -1730,18 +1730,8 @@ object Shutdown: TShutdown
           Height = 24
           Hint = 'A be'#225'll'#237't'#225'sok '#233'rv'#233'nybe hozatala'
           Caption = 'Be'#225'll'#237't'#225's'
-          TabOrder = 2
+          TabOrder = 4
           OnClick = Set4Click
-        end
-        object Hook_CB: TCheckBox
-          Left = 16
-          Top = 128
-          Width = 313
-          Height = 17
-          Caption = 'Kikapcsol'#225's csak akkor, ha nincs adatbevitel'
-          Checked = True
-          State = cbChecked
-          TabOrder = 5
         end
       end
       object AltOptions: TTabSheet
@@ -1867,7 +1857,7 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett parancs'
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 1
             Text = 'Kikapcsol'#225's'
             Items.Strings = (
@@ -2008,7 +1998,7 @@ object Shutdown: TShutdown
               'Itt v'#225'laszthatod ki, hogy melyik hangcsomagot haszn'#225'lja a progra' +
               'm a visszasz'#225'ml'#225'l'#225'shoz'
             Style = csDropDownList
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 4
           end
         end
@@ -2025,7 +2015,7 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett nyelv'
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 0
             OnChange = langCBChange
           end
@@ -3089,17 +3079,6 @@ object Shutdown: TShutdown
     Enabled = False
     OnTimer = CPUCheckTimer
     Left = 96
-    Top = 264
-  end
-  object ApplicationEvents1: TApplicationEvents
-    OnMessage = ApplicationEvents1Message
-    Left = 64
-    Top = 264
-  end
-  object HookTimer: TTimer
-    Enabled = False
-    OnTimer = HookTimerTimer
-    Left = 32
     Top = 264
   end
 end

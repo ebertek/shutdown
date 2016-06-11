@@ -867,7 +867,7 @@ object Shutdown: TShutdown
       Width = 656
       Height = 349
       Hint = 'V'#225'lassz ki egy f'#252'let!'
-      ActivePage = Time
+      ActivePage = TabSheet1
       Align = alClient
       MultiLine = True
       TabOrder = 1
@@ -1373,7 +1373,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 32946.735876215280000000
+          Date = 32946.690292083330000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1867,7 +1867,7 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett parancs'
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 1
             Text = 'Kikapcsol'#225's'
             Items.Strings = (
@@ -2008,7 +2008,7 @@ object Shutdown: TShutdown
               'Itt v'#225'laszthatod ki, hogy melyik hangcsomagot haszn'#225'lja a progra' +
               'm a visszasz'#225'ml'#225'l'#225'shoz'
             Style = csDropDownList
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 4
           end
         end
@@ -2025,7 +2025,7 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett nyelv'
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 0
             OnChange = langCBChange
           end

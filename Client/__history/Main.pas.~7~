@@ -296,9 +296,7 @@ end;
 procedure TShutdown.langCBChange(Sender: TObject);
 begin
   sml.LangFileName := langCB.Text+'.sml';
-
   PingTime.Suffix:=' '+lini.ReadString(langCB.Text, 'Mins', 'minutes');
-
   ComSave;
 end;
 

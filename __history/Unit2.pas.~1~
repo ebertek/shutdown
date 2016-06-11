@@ -13,8 +13,8 @@ type
     ProductName: TLabel;
     Version: TLabel;
     Copyright: TLabel;
-    SpeedButton1: TSpeedButton;
-    procedure SpeedButton1Click(Sender: TObject);
+    OKButton: TButton;
+    Label1: TLabel;
     procedure Label1MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
   private
@@ -34,11 +34,6 @@ procedure Tabout.Label1MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   ProgramIcon.Visible:=not ProgramIcon.Visible;
-end;
-
-procedure Tabout.SpeedButton1Click(Sender: TObject);
-begin
-  Close;
 end;
 
 end.

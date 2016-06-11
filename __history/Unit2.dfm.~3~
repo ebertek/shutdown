@@ -962,9 +962,9 @@ object about: Tabout
       object Version: TLabel
         Left = 8
         Top = 32
-        Width = 38
+        Width = 45
         Height = 39
-        Caption = 'Ocean -'#13#10'3.3.0.0'#13#10'2005'
+        Caption = 'X -'#13#10'3.2.32.32'#13#10'2005'
         Transparent = True
         IsControl = True
       end
@@ -1025,7 +1025,6 @@ object about: Tabout
           C9CEE1EFF0F0F1F5FAFE15F2D8DFEAE9DBC9C5E7F0F1F3F4FB1515F2E1D2DFE9
           E9DBD8E9EDEFF0F4FB151515F2DFD0DAE1E5E6E6E6E9F0FC1515151515F2F2DA
           D3D8DBDDE1EDED1515151515151515EEF2F2F2F2F11515151515}
-        OnClick = SpeedButton1Click
       end
     end
   end

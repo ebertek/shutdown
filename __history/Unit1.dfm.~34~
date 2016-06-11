@@ -867,7 +867,7 @@ object Shutdown: TShutdown
       Width = 656
       Height = 349
       Hint = 'V'#225'lassz ki egy f'#252'let!'
-      ActivePage = Time
+      ActivePage = TabSheet1
       Align = alClient
       MultiLine = True
       TabOrder = 1
@@ -1373,7 +1373,7 @@ object Shutdown: TShutdown
           Height = 153
           Hint = 'Itt adhat'#243' meg a d'#225'tum'
           AutoSize = True
-          Date = 32946.735876215280000000
+          Date = 32946.614070810190000000
           TabOrder = 0
           WeekNumbers = True
         end
@@ -1623,127 +1623,6 @@ object Shutdown: TShutdown
           FilenameOnly = False
         end
       end
-      object TabSheet1: TTabSheet
-        Caption = 'CPU haszn'#225'lts'#225'g'
-        ImageIndex = 7
-        object Label1: TLabel
-          Left = 16
-          Top = 16
-          Width = 128
-          Height = 13
-          Caption = 'Jelenlegi CPU haszn'#225'lts'#225'g:'
-        end
-        object CPU_L: TLabel
-          Left = 152
-          Top = 16
-          Width = 26
-          Height = 13
-          Caption = '100%'
-        end
-        object If_below: TLabel
-          Left = 16
-          Top = 64
-          Width = 294
-          Height = 13
-          Caption = 'Alap'#233'rtelmezett parancs v'#233'grehajt'#225'sa, ha a CPU haszn'#225'lts'#225'ga'
-        end
-        object If_stays: TLabel
-          Left = 64
-          Top = 80
-          Width = 63
-          Height = 13
-          Caption = '% alatt marad'
-        end
-        object If_then: TLabel
-          Left = 64
-          Top = 104
-          Width = 78
-          Height = 13
-          Caption = 'percen kereszt'#252'l'
-        end
-        object CPU_SE: TLMDSpinEdit
-          Left = 16
-          Top = 80
-          Width = 41
-          Height = 21
-          Hint = '%'
-          Bevel.Mode = bmWindows
-          Caret.BlinkRate = 530
-          TabOrder = 0
-          AutoSelect = True
-          CustomButtons = <>
-          MaxValue = 59
-          Value = 20
-          DateTime = 0.000000000000000000
-        end
-        object CPUMin_SE: TLMDSpinEdit
-          Left = 16
-          Top = 104
-          Width = 41
-          Height = 21
-          Bevel.Mode = bmWindows
-          Caret.BlinkRate = 530
-          TabOrder = 1
-          AutoSelect = True
-          CustomButtons = <>
-          MaxValue = 59
-          Value = 30
-          DateTime = 0.000000000000000000
-        end
-        object Save4: TBitBtn
-          Left = 400
-          Top = 64
-          Width = 24
-          Height = 24
-          Hint = 'Be'#225'll'#237't'#225'sok ment'#233'se'
-          TabOrder = 4
-          OnClick = Save4Click
-          Glyph.Data = {
-            76010000424D7601000000000000760000002800000020000000100000000100
-            04000000000000010000120B0000120B00001000000000000000000000000000
-            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
-            333333FFFFFFFFFFFFF33000077777770033377777777777773F000007888888
-            00037F3337F3FF37F37F00000780088800037F3337F77F37F37F000007800888
-            00037F3337F77FF7F37F00000788888800037F3337777777337F000000000000
-            00037F3FFFFFFFFFFF7F00000000000000037F77777777777F7F000FFFFFFFFF
-            00037F7F333333337F7F000FFFFFFFFF00037F7F333333337F7F000FFFFFFFFF
-            00037F7F333333337F7F000FFFFFFFFF00037F7F333333337F7F000FFFFFFFFF
-            00037F7F333333337F7F000FFFFFFFFF07037F7F33333333777F000FFFFFFFFF
-            0003737FFFFFFFFF7F7330099999999900333777777777777733}
-          NumGlyphs = 2
-        end
-        object Canc4: TBitBtn
-          Left = 328
-          Top = 88
-          Width = 69
-          Height = 24
-          Hint = 'A le'#225'll'#237't'#225's meg'#225'll'#237't'#225'sa'
-          Caption = 'M'#233'gsem'
-          TabOrder = 3
-          OnClick = Mgsem1Click
-        end
-        object Set4: TBitBtn
-          Left = 328
-          Top = 64
-          Width = 69
-          Height = 24
-          Hint = 'A be'#225'll'#237't'#225'sok '#233'rv'#233'nybe hozatala'
-          Caption = 'Be'#225'll'#237't'#225's'
-          TabOrder = 2
-          OnClick = Set4Click
-        end
-        object Hook_CB: TCheckBox
-          Left = 16
-          Top = 128
-          Width = 313
-          Height = 17
-          Caption = 'Kikapcsol'#225's csak akkor, ha nincs adatbevitel'
-          Checked = True
-          State = cbChecked
-          TabOrder = 5
-        end
-      end
       object AltOptions: TTabSheet
         Hint = 'Itt egy'#233'b, a program m'#369'k'#246'd'#233's'#233't befoly'#225'sol'#243' opci'#243'k adhat'#243'k meg'
         Caption = 'Egy'#233'b'
@@ -1867,7 +1746,7 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett parancs'
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 1
             Text = 'Kikapcsol'#225's'
             Items.Strings = (
@@ -2008,7 +1887,7 @@ object Shutdown: TShutdown
               'Itt v'#225'laszthatod ki, hogy melyik hangcsomagot haszn'#225'lja a progra' +
               'm a visszasz'#225'ml'#225'l'#225'shoz'
             Style = csDropDownList
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 4
           end
         end
@@ -2025,7 +1904,7 @@ object Shutdown: TShutdown
             Width = 145
             Height = 21
             Hint = 'Itt adhat'#243' meg az alap'#233'rtelmezett nyelv'
-            ItemHeight = 0
+            ItemHeight = 13
             TabOrder = 0
             OnChange = langCBChange
           end
@@ -2675,6 +2554,115 @@ object Shutdown: TShutdown
           TabOrder = 3
         end
       end
+      object TabSheet1: TTabSheet
+        Caption = 'TabSheet1'
+        ImageIndex = 7
+        object Label1: TLabel
+          Left = 16
+          Top = 16
+          Width = 128
+          Height = 13
+          Caption = 'Jelenlegi CPU haszn'#225'lts'#225'g:'
+        end
+        object CPU_L: TLabel
+          Left = 152
+          Top = 16
+          Width = 26
+          Height = 13
+          Caption = '100%'
+        end
+        object If_below: TLabel
+          Left = 16
+          Top = 64
+          Width = 294
+          Height = 13
+          Caption = 'Alap'#233'rtelmezett parancs v'#233'grehajt'#225'sa, ha a CPU haszn'#225'lts'#225'ga'
+        end
+        object If_stays: TLabel
+          Left = 64
+          Top = 80
+          Width = 63
+          Height = 13
+          Caption = '% alatt marad'
+        end
+        object If_then: TLabel
+          Left = 64
+          Top = 104
+          Width = 78
+          Height = 13
+          Caption = 'percen kereszt'#252'l'
+        end
+        object CPU_SE: TLMDSpinEdit
+          Left = 16
+          Top = 80
+          Width = 41
+          Height = 21
+          Hint = '%'
+          Bevel.Mode = bmWindows
+          Caret.BlinkRate = 530
+          TabOrder = 0
+          AutoSelect = True
+          CustomButtons = <>
+          MaxValue = 59
+          Value = 20
+          DateTime = 0.000000000000000000
+        end
+        object CPUMin_SE: TLMDSpinEdit
+          Left = 16
+          Top = 104
+          Width = 41
+          Height = 21
+          Bevel.Mode = bmWindows
+          Caret.BlinkRate = 530
+          TabOrder = 1
+          AutoSelect = True
+          CustomButtons = <>
+          MaxValue = 59
+          Value = 30
+          DateTime = 0.000000000000000000
+        end
+        object Save4: TBitBtn
+          Left = 400
+          Top = 64
+          Width = 24
+          Height = 24
+          Hint = 'Be'#225'll'#237't'#225'sok ment'#233'se'
+          TabOrder = 2
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+            333333FFFFFFFFFFFFF33000077777770033377777777777773F000007888888
+            00037F3337F3FF37F37F00000780088800037F3337F77F37F37F000007800888
+            00037F3337F77FF7F37F00000788888800037F3337777777337F000000000000
+            00037F3FFFFFFFFFFF7F00000000000000037F77777777777F7F000FFFFFFFFF
+            00037F7F333333337F7F000FFFFFFFFF00037F7F333333337F7F000FFFFFFFFF
+            00037F7F333333337F7F000FFFFFFFFF00037F7F333333337F7F000FFFFFFFFF
+            00037F7F333333337F7F000FFFFFFFFF07037F7F33333333777F000FFFFFFFFF
+            0003737FFFFFFFFF7F7330099999999900333777777777777733}
+          NumGlyphs = 2
+        end
+        object Canc4: TBitBtn
+          Left = 328
+          Top = 88
+          Width = 69
+          Height = 24
+          Hint = 'A le'#225'll'#237't'#225's meg'#225'll'#237't'#225'sa'
+          Caption = 'M'#233'gsem'
+          TabOrder = 3
+        end
+        object Set4: TBitBtn
+          Left = 328
+          Top = 64
+          Width = 69
+          Height = 24
+          Hint = 'A be'#225'll'#237't'#225'sok '#233'rv'#233'nybe hozatala'
+          Caption = 'Be'#225'll'#237't'#225's'
+          TabOrder = 4
+          OnClick = Set4Click
+        end
+      end
     end
   end
   object OnStart: TTimer
@@ -3089,17 +3077,6 @@ object Shutdown: TShutdown
     Enabled = False
     OnTimer = CPUCheckTimer
     Left = 96
-    Top = 264
-  end
-  object ApplicationEvents1: TApplicationEvents
-    OnMessage = ApplicationEvents1Message
-    Left = 64
-    Top = 264
-  end
-  object HookTimer: TTimer
-    Enabled = False
-    OnTimer = HookTimerTimer
-    Left = 32
     Top = 264
   end
 end

@@ -2034,7 +2034,7 @@ begin
   if usage<CPU_SE.Value then begin
     CPUOff.Interval:=CPUMin_SE.Value*60000;
     if Hook_CB.Checked then begin
-      HookTimer.Interval:=CPUOff.Interval;
+      HookTimer.Interval:=CPUOff.Interval-500;
       BitBtn3Click(self);
       HookTimer.Enabled:=True;
     end;

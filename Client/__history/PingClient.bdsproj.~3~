@@ -148,7 +148,7 @@
 			<VersionInfo Name="MajorVer">1</VersionInfo>
 			<VersionInfo Name="MinorVer">0</VersionInfo>
 			<VersionInfo Name="Release">0</VersionInfo>
-			<VersionInfo Name="Build">14</VersionInfo>
+			<VersionInfo Name="Build">13</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">False</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
@@ -160,7 +160,7 @@
 		<VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName">ebiSoft</VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription">Shutdown Monster Client</VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">1.0.0.14</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">1.0.0.13</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName">Shutdown Monster Client</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalCopyright">ebiSoft, 2004</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks">ebiSoft, 2004</VersionInfoKeys>
@@ -168,7 +168,8 @@
 			<VersionInfoKeys Name="ProductName">Shutdown Monster Client</VersionInfoKeys>
 			<VersionInfoKeys Name="ProductVersion">X - 2004</VersionInfoKeys>
 			<VersionInfoKeys Name="Comments">Client for Shutdown Monster</VersionInfoKeys>
-		</VersionInfoKeys>  <Excluded_Packages>
+		</VersionInfoKeys>  
+    <Excluded_Packages>
       <Excluded_Packages Name="C:\Program Files\Borland\BDS\3.0\Bin\dcldb90.bpl">Borland Database Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\3.0\Bin\dclnet90.bpl">Borland Internet Components</Excluded_Packages>
       <Excluded_Packages Name="C:\Program Files\Borland\BDS\3.0\Bin\dclbde90.bpl">Borland BDE DB Components</Excluded_Packages>
